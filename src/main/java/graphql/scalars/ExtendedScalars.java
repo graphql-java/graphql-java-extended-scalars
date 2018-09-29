@@ -6,6 +6,7 @@ import graphql.scalars.datetime.FullDateScalar;
 import graphql.scalars.datetime.FullTimeScalar;
 import graphql.scalars.object.JsonScalar;
 import graphql.scalars.object.ObjectScalar;
+import graphql.scalars.url.UrlScalar;
 import graphql.schema.GraphQLScalarType;
 
 @PublicApi
@@ -55,4 +56,6 @@ public class ExtendedScalars {
      * </pre>
      */
     public static GraphQLScalarType Json = new JsonScalar();
+
+    public static GraphQLScalarType Url = new UrlScalar();
 }

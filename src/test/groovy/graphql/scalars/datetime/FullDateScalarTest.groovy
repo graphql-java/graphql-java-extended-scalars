@@ -1,25 +1,55 @@
 package graphql.scalars.datetime
 
+import graphql.language.StringValue
 import spock.lang.Specification
 import spock.lang.Unroll
 
-import java.time.format.DateTimeFormatter
+import static graphql.scalars.util.TestKit.mkLocalDate
+import static graphql.scalars.util.TestKit.mkOffsetDT
+import static graphql.scalars.util.TestKit.mkZonedDT
 
 class FullDateScalarTest extends Specification {
 
-    def coercing = FullDateScalar.RFC3339_DATE_COERCING
+    def coercing = new FullDateScalar().getCoercing()
 
     @Unroll
-    def "full date parsing"() {
+    def "full date parseValue"() {
 
         when:
         def result = coercing.parseValue(input)
         then:
-        DateTimeFormatter.ISO_DATE.format(result) == expectedValue
+        result == expectedValue
         where:
-        input        | expectedValue
-        "1985-04-12" | "1985-04-12"
-        "1996-12-19" | "1996-12-19"
+        input                           | expectedValue
+        "1937-01-01"                    | mkLocalDate("1937-01-01")
+        mkOffsetDT(year: 1980, hour: 3) | mkLocalDate("1980-08-08")
+        mkZonedDT(year: 1980, hour: 3)  | mkLocalDate("1980-08-08")
+    }
+
+    @Unroll
+    def "full date parseLiteral"() {
+
+        when:
+        def result = coercing.parseLiteral(input)
+        then:
+        result == expectedValue
+        where:
+        input                         | expectedValue
+        new StringValue("1937-01-01") | mkLocalDate("1937-01-01")
+    }
+
+    @Unroll
+    def "full date serialize"() {
+
+        when:
+        def result = coercing.serialize(input)
+        then:
+        result == expectedValue
+        where:
+        input                           | expectedValue
+        "1937-01-01"                    | "1937-01-01"
+        mkOffsetDT(year: 1980, hour: 3) | "1980-08-08"
+        mkZonedDT(year: 1980, hour: 3)  | "1980-08-08"
     }
 
 }

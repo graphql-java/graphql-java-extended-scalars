@@ -20,9 +20,10 @@ class ObjectScalarTest extends Specification {
             "varRef1": "value1"
     ]
 
+    def coercing = new ObjectScalar().getCoercing()
+
     @Unroll
     def "test AST parsing"() {
-        def coercing = ObjectScalar.OBJECT_COERCING
 
         when:
         def result = coercing.parseLiteral(input, variables)
@@ -44,7 +45,6 @@ class ObjectScalarTest extends Specification {
 
     @Unroll
     def "test AST object parsing"() {
-        def coercing = ObjectScalar.OBJECT_COERCING
 
         when:
         def result = coercing.parseLiteral(input, variables)
@@ -60,6 +60,30 @@ class ObjectScalarTest extends Specification {
                         childFl2 : mkVarRef("varRef1")
                 ])
         ])    | [fld1: "s", fld2: 99, fld3: [childFld1: "child1", childFl2: "value1"]]
+    }
+
+    @Unroll
+    def "test serialize is always in and out"() {
+        when:
+        def result = coercing.serialize(input)
+        then:
+        result == expectedResult
+        where:
+        input  | expectedResult
+        666    | 666
+        "same" | "same"
+    }
+
+    @Unroll
+    def "test parseValue is always in and out"() {
+        when:
+        def result = coercing.parseValue(input)
+        then:
+        result == expectedResult
+        where:
+        input  | expectedResult
+        666    | 666
+        "same" | "same"
     }
 
     ObjectValue mkObjectValue(Map<String, Value> fields) {
