@@ -4,6 +4,14 @@ import graphql.PublicApi;
 import graphql.scalars.datetime.DateTimeScalar;
 import graphql.scalars.datetime.FullDateScalar;
 import graphql.scalars.datetime.FullTimeScalar;
+import graphql.scalars.numbers.NegativeFloatScalar;
+import graphql.scalars.numbers.NegativeIntScalar;
+import graphql.scalars.numbers.NonNegativeFloatScalar;
+import graphql.scalars.numbers.NonNegativeIntScalar;
+import graphql.scalars.numbers.NonPositiveFloatScalar;
+import graphql.scalars.numbers.NonPositiveIntScalar;
+import graphql.scalars.numbers.PositiveFloatScalar;
+import graphql.scalars.numbers.PositiveIntScalar;
 import graphql.scalars.object.JsonScalar;
 import graphql.scalars.object.ObjectScalar;
 import graphql.scalars.url.UrlScalar;
@@ -58,4 +66,16 @@ public class ExtendedScalars {
     public static GraphQLScalarType Json = new JsonScalar();
 
     public static GraphQLScalarType Url = new UrlScalar();
+
+    public static GraphQLScalarType PositiveInt = new PositiveIntScalar();
+    public static GraphQLScalarType NegativeInt = new NegativeIntScalar();
+    public static GraphQLScalarType NonPositiveInt = new NonPositiveIntScalar();
+    public static GraphQLScalarType NonNegativeInt = new NonNegativeIntScalar();
+
+    public static GraphQLScalarType PositiveFloat = new PositiveFloatScalar();
+    public static GraphQLScalarType NegativeFloat = new NegativeFloatScalar();
+    public static GraphQLScalarType NonPositiveFloat = new NonPositiveFloatScalar();
+    public static GraphQLScalarType NonNegativeFloat = new NonNegativeFloatScalar();
+
+
 }

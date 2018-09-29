@@ -1,5 +1,9 @@
 package graphql.scalars.util
 
+import graphql.GraphQLException
+import graphql.language.FloatValue
+import graphql.language.IntValue
+
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.OffsetDateTime
@@ -34,6 +38,37 @@ class TestKit {
     static ZonedDateTime mkZonedDT(args) {
         ZonedDateTime.of(args.year ?: 1969, args.month ?: 8, args.day ?: 8, args.hour ?: 11,
                 args.min ?: 10, args.secs ?: 9, args.nanos ?: 0, ZoneId.ofOffset("", ZoneOffset.ofHours(10)))
+    }
+
+
+    static assertValueOrException(result, expectedResult) {
+        if (result instanceof GraphQLException) {
+            assert result.class == expectedResult, "was " + result + " but expected " + expectedResult
+        } else {
+            assert result == expectedResult, "was " + result + " but expected " + expectedResult
+        }
+        true
+    }
+
+
+    static IntValue mkIntValue(int i) {
+        return new IntValue(new BigInteger(String.valueOf(i)))
+    }
+
+    static IntValue mkIntValue(String s) {
+        return new IntValue(new BigInteger(String.valueOf(s)))
+    }
+
+    static FloatValue mkFloatValue(int i) {
+        return new FloatValue(new BigDecimal(String.valueOf(i)))
+    }
+
+    static FloatValue mkFloatValue(String s) {
+        return new FloatValue(new BigDecimal(String.valueOf(s)))
+    }
+
+    static FloatValue mkFloatValue(double d) {
+        return new FloatValue(new BigDecimal(d))
     }
 
 }
