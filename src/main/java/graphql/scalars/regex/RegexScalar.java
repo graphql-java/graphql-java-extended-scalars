@@ -1,6 +1,7 @@
 package graphql.scalars.regex;
 
 import graphql.Assert;
+import graphql.PublicApi;
 import graphql.language.StringValue;
 import graphql.schema.Coercing;
 import graphql.schema.CoercingParseLiteralException;
@@ -8,6 +9,9 @@ import graphql.schema.CoercingParseValueException;
 import graphql.schema.CoercingSerializeException;
 import graphql.schema.GraphQLScalarType;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -18,67 +22,79 @@ import static graphql.scalars.util.Kit.typeName;
  * This is really a scalar factory for creating new scalar String types that are based on a value matching
  * a regular expression.
  */
+@PublicApi
 public class RegexScalar extends GraphQLScalarType {
+
+    /**
+     * A builder for {@link graphql.scalars.regex.RegexScalar}
+     */
+    public static class Builder {
+        private String name;
+        private String description;
+        private List<Pattern> patterns = new ArrayList<>();
+
+        /**
+         * Sets the name of the regex scalar
+         *
+         * @param name the name of the regex scalar
+         *
+         * @return this builder
+         */
+        public Builder name(String name) {
+            this.name = name;
+            return this;
+        }
+
+        /**
+         * Sets the name of the regex scalar
+         *
+         * @param description the description of the regex scalar
+         *
+         * @return this builder
+         */
+        public Builder description(String description) {
+            this.description = description;
+            return this;
+        }
+
+        /**
+         * Adds a {@link java.util.regex.Pattern} that controls the acceptable value for this scalar
+         *
+         * @param pattern the regex pattern
+         *
+         * @return this builder
+         */
+        public Builder addPattern(Pattern pattern) {
+            this.patterns.add(pattern);
+            return this;
+        }
+
+        /**
+         * Adds a {@link java.util.regex.Pattern} that controls the acceptable value for this scalar
+         *
+         * @param patterns one of more regex patterns
+         *
+         * @return this builder
+         */
+        public Builder addPatterns(Pattern... patterns) {
+            Collections.addAll(this.patterns, patterns);
+            return this;
+        }
+
+        /**
+         * @return the built {@link graphql.scalars.regex.RegexScalar}
+         */
+        public RegexScalar build() {
+            Assert.assertNotNull(name);
+            return regexScalarImpl(name, description, patterns);
+        }
+    }
 
     private RegexScalar(String name, String description, Coercing coercing) {
         super(name, description, coercing);
     }
 
-    /**
-     * Creates a new scalar that uses the specified {@link java.util.regex.Pattern} to control
-     * the values that are allowed.
-     *
-     * @param name    the name of the scalar
-     * @param pattern the allowable values pattern
-     *
-     * @return a new regex scalar
-     */
-    public static RegexScalar regexScalar(String name, Pattern pattern) {
-        return regexScalarImpl(name, null, pattern);
-    }
-
-    /**
-     * Creates a new scalar that uses the specified {@link java.util.regex.Pattern} to control
-     * the values that are allowed.
-     *
-     * @param name        the name of the scalar
-     * @param description the description of the scalar
-     * @param pattern     the allowable values pattern
-     *
-     * @return a new regex scalar
-     */
-    public static RegexScalar regexScalar(String name, String description, Pattern pattern) {
-        return regexScalarImpl(name, description, pattern);
-    }
-
-    /**
-     * Creates a new scalar that uses the specified {@link java.util.regex.Pattern}s to control
-     * the values that are allowed.
-     *
-     * @param name     the name of the scalar
-     * @param patterns the allowable values patterns
-     *
-     * @return a new regex scalar
-     */
-    public static RegexScalar regexScalar(String name, Pattern... patterns) {
-        return regexScalarImpl(name, null, patterns);
-    }
-
-    /**
-     * Creates a new scalar that uses the specified {@link java.util.regex.Pattern}s to control
-     * the values that are allowed.
-     *
-     * @param name        the name of the scalar
-     * @param description the description of the scalar
-     * @param patterns    the allowable values patterns
-     *
-     * @return a new regex scalar
-     */
-    public static RegexScalar regexScalar(String name, String description, Pattern... patterns) {
-        return regexScalarImpl(name, description, patterns);
-    }
-
-    private static RegexScalar regexScalarImpl(String name, String description, Pattern... patterns) {
+    private static RegexScalar regexScalarImpl(String name, String description, List<Pattern> patterns) {
         Assert.assertNotNull(patterns);
         return new RegexScalar(name, description, new Coercing<String, String>() {
             @Override

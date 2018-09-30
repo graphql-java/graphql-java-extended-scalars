@@ -27,6 +27,7 @@ class UrlScalarTest extends Specification {
         "http://www.graphql-java.com/"          | new URL("http://www.graphql-java.com/")
     }
 
+    @Unroll
     def "test serialize bad inputs"() {
         when:
         coercing.serialize(input)
@@ -38,6 +39,7 @@ class UrlScalarTest extends Specification {
         "not/a/url" || CoercingSerializeException
     }
 
+    @Unroll
     def "test parseValue"() {
         when:
         def result = coercing.parseValue(input)
@@ -51,6 +53,7 @@ class UrlScalarTest extends Specification {
         "http://www.graphql-java.com/"          | new URL("http://www.graphql-java.com/")
     }
 
+    @Unroll
     def "test parseValue bad inputs"() {
         when:
         coercing.parseValue(input)

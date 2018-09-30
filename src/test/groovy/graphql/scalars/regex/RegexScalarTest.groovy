@@ -1,6 +1,7 @@
 package graphql.scalars.regex
 
 import graphql.language.StringValue
+import graphql.scalars.ExtendedScalars
 import graphql.schema.CoercingParseLiteralException
 import graphql.schema.CoercingParseValueException
 import graphql.schema.CoercingSerializeException
@@ -11,7 +12,9 @@ import java.util.regex.Pattern
 
 class RegexScalarTest extends Specification {
 
-    def phoneNumberScalar = RegexScalar.regexScalar("phoneNumber", Pattern.compile("\\([0-9]*\\)[0-9]*"))
+    RegexScalar phoneNumberScalar = ExtendedScalars.newRegexScalar("phoneNumber")
+            .addPattern(Pattern.compile("\\([0-9]*\\)[0-9]*"))
+            .build()
 
     @Unroll
     def "basic regex parseValue"() {

@@ -27,6 +27,9 @@ import java.util.stream.Collectors;
 
 import static graphql.scalars.util.Kit.typeName;
 
+/**
+ * Access this via {@link graphql.scalars.ExtendedScalars#Object}
+ */
 @Internal
 public class ObjectScalar extends GraphQLScalarType {
 

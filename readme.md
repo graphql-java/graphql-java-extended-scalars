@@ -162,8 +162,28 @@ And example query might look like:
 ``` 
 
 
+## Regex Scalars
+
+The RegexScalar has a builder where you provide one or more regex patterns that control the acceptable values
+for a new scalar.
+
+You name the scalar and it provides an implementation.
+
+For example, imagine a `phoneNumber` scalar like this :
+
+```java
+
+    RegexScalar phoneNumberScalar = ExtendedScalars.newRegexScalar("phoneNumber")
+            .addPattern(Pattern.compile("\\([0-9]*\\)[0-9]*"))
+            .build()
+
+```
+
+
 ## Other Scalars
 
 * `Url`
   * An url scalar that accepts string values like `https://www.w3.org/Addressing/URL/url-spec.txt` and produces 
   `java.net.URL` objects at runtime  
+  
+

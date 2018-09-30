@@ -14,6 +14,7 @@ import graphql.scalars.numeric.PositiveFloatScalar;
 import graphql.scalars.numeric.PositiveIntScalar;
 import graphql.scalars.object.JsonScalar;
 import graphql.scalars.object.ObjectScalar;
+import graphql.scalars.regex.RegexScalar;
 import graphql.scalars.url.UrlScalar;
 import graphql.schema.GraphQLScalarType;
 
@@ -158,4 +159,18 @@ public class ExtendedScalars {
      * @see graphql.Scalars#GraphQLFloat
      */
     public static GraphQLScalarType NonNegativeFloat = new NonNegativeFloatScalar();
+
+
+    /**
+     * A builder of a scalar that uses one or more regular expression {@link java.util.regex.Pattern}s to control
+     * the acceptable values for that scalar.
+     * <p>
+     * The scalar converts any passed in objects to Strings first and them matches it against the provided
+     * scalars to ensure its an acceptable value.
+     *
+     * @return a builder of a regex scalar
+     */
+    public static RegexScalar.Builder newRegexScalar(String name) {
+        return new RegexScalar.Builder().name(name);
+    }
 }
