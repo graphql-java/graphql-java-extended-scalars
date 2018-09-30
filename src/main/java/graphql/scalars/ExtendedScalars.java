@@ -1,6 +1,7 @@
 package graphql.scalars;
 
 import graphql.PublicApi;
+import graphql.scalars.alias.AliasedScalar;
 import graphql.scalars.datetime.DateScalar;
 import graphql.scalars.datetime.DateTimeScalar;
 import graphql.scalars.datetime.TimeScalar;
@@ -172,5 +173,29 @@ public class ExtendedScalars {
      */
     public static RegexScalar.Builder newRegexScalar(String name) {
         return new RegexScalar.Builder().name(name);
+    }
+
+    /**
+     * This allows an existing scalar to be wrapped and aliased with a new name.
+     * <p>
+     * For example you may take a `String` scalar and alias it as `SocialMediaLink` if that helps introduce
+     * more semantic meaning to your type system.
+     * <p>
+     * <pre>
+     * {@code
+     *
+     * type Customer {
+     *      name : String
+     *      socialMediaLink : SocialMediaLink
+     * }
+     * }
+     * </pre>
+     * <p>
+     * A future version of the graphql specification may add this capability but in the meantime you can use this facility.
+     *
+     * @return a builder of a aliased scalar
+     */
+    public static AliasedScalar.Builder newAliasedScalar(String name) {
+        return new AliasedScalar.Builder().name(name);
     }
 }

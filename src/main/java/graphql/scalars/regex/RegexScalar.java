@@ -46,7 +46,7 @@ public class RegexScalar extends GraphQLScalarType {
         }
 
         /**
-         * Sets the name of the regex scalar
+         * Sets the description of the regex scalar
          *
          * @param description the description of the regex scalar
          *

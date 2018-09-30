@@ -180,6 +180,36 @@ For example, imagine a `phoneNumber` scalar like this :
 ```
 
 
+## Alias Scalars
+
+You can create aliases for existing scalars to add more semantic meaning to them.
+
+For example a link to a social media post could be representing by a `String` but the name `SocialMediaLink` is a 
+more semantically meaningful name for that scalar type.
+
+For example, you would build it like this:
+
+```java
+
+    AliasedScalar socialMediaLink = ExtendedScalars.newAliasedScalar("SocialMediaLink")
+            .aliasedScalar(Scalars.GraphQLString)
+            .build()
+
+```
+
+And use it in a SDL schema like this :
+
+```graphql
+
+     type Customer {
+           name : String
+           socialMediaLink : SocialMediaLink
+     }
+
+```
+
+Note: A future version of the graphql specification may add this capability but in the meantime you can use this facility.
+
 ## Other Scalars
 
 * `Url`
