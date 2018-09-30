@@ -112,21 +112,21 @@ adds more semantic readers to your schema consumers.
 
 
 * `PositiveInt`
-  * An `Int` scalar that MUST be a greater than zero   
+  * An `Int` scalar that MUST be greater than zero   
 * `NegativeInt`
-  * An `Int` scalar that MUST be a less than zero   
+  * An `Int` scalar that MUST be less than zero   
 * `NonPositiveInt`
-  * An `Int` scalar that MUST be a less than or equal to zero   
+  * An `Int` scalar that MUST be less than or equal to zero   
 * `NonNegativeInt`
-  * An `Int` scalar that MUST be a greater than or equal to zero   
+  * An `Int` scalar that MUST be greater than or equal to zero   
 * `PositiveFloat`
-  * An `Float` scalar that MUST be a greater than zero   
+  * An `Float` scalar that MUST be greater than zero   
 * `NegativeFloat`
-  * An `Float` scalar that MUST be a less than zero   
+  * An `Float` scalar that MUST be less than zero   
 * `NonPositiveFloat`
-  * An `Float` scalar that MUST be a less than or equal to zero   
+  * An `Float` scalar that MUST be less than or equal to zero   
 * `NonNegativeFloat`
-  * An `Float` scalar that MUST be a greater than or equal to zero   
+  * An `Float` scalar that MUST be greater than or equal to zero   
 
 The numeric scalars are derivations of the standard graphql `Int` and `Float` scalars that enforce range limits.
 
