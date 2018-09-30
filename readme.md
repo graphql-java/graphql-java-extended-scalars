@@ -4,7 +4,7 @@ This library provides extended scalars for [graphql-java](https://github.com/gra
 
 Scalars in graphql are the leaf nodes of a query, the non compound values that cant be queried further via sub field selections.
 
-The graphql standard specifies `String`, `Int`, `Float`, `Boolean` and `ID` must be present in a graphql type 
+The graphql standard specifies that the `String`, `Int`, `Float`, `Boolean` and `ID` scalars must be present in a graphql type 
 system but after that it is up to an implementation about what custom scalars are present.
 
 You would use custom scalars when you want to describe more meaningful behavior or ranges of values.
