@@ -2,16 +2,16 @@ package graphql.scalars;
 
 import graphql.PublicApi;
 import graphql.scalars.datetime.DateTimeScalar;
-import graphql.scalars.datetime.FullDateScalar;
-import graphql.scalars.datetime.FullTimeScalar;
-import graphql.scalars.numbers.NegativeFloatScalar;
-import graphql.scalars.numbers.NegativeIntScalar;
-import graphql.scalars.numbers.NonNegativeFloatScalar;
-import graphql.scalars.numbers.NonNegativeIntScalar;
-import graphql.scalars.numbers.NonPositiveFloatScalar;
-import graphql.scalars.numbers.NonPositiveIntScalar;
-import graphql.scalars.numbers.PositiveFloatScalar;
-import graphql.scalars.numbers.PositiveIntScalar;
+import graphql.scalars.datetime.DateScalar;
+import graphql.scalars.datetime.TimeScalar;
+import graphql.scalars.numeric.NegativeFloatScalar;
+import graphql.scalars.numeric.NegativeIntScalar;
+import graphql.scalars.numeric.NonNegativeFloatScalar;
+import graphql.scalars.numeric.NonNegativeIntScalar;
+import graphql.scalars.numeric.NonPositiveFloatScalar;
+import graphql.scalars.numeric.NonPositiveIntScalar;
+import graphql.scalars.numeric.PositiveFloatScalar;
+import graphql.scalars.numeric.PositiveIntScalar;
 import graphql.scalars.object.JsonScalar;
 import graphql.scalars.object.ObjectScalar;
 import graphql.scalars.url.UrlScalar;
@@ -22,8 +22,8 @@ public class ExtendedScalars {
 
 
     public static GraphQLScalarType DateTime = new DateTimeScalar();
-    public static GraphQLScalarType Date = new FullDateScalar();
-    public static GraphQLScalarType Time = new FullTimeScalar();
+    public static GraphQLScalarType Date = new DateScalar();
+    public static GraphQLScalarType Time = new TimeScalar();
 
     /**
      * An object scalar allows you to have a multi level data value without defining it in the graphql schema.

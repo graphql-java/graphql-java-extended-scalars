@@ -1,4 +1,4 @@
-package graphql.scalars.numbers
+package graphql.scalars.numeric
 
 import graphql.language.StringValue
 import graphql.schema.CoercingParseLiteralException
@@ -8,10 +8,11 @@ import spock.lang.Specification
 import spock.lang.Unroll
 
 import static graphql.scalars.util.TestKit.assertValueOrException
+import static graphql.scalars.util.TestKit.mkFloatValue
 import static graphql.scalars.util.TestKit.mkIntValue
 
-class NegativeIntScalarTest extends Specification {
-    def coercing = new NegativeIntScalar().getCoercing()
+class NonPositiveFloatScalarTest extends Specification {
+    def coercing = new NonPositiveFloatScalar().getCoercing()
 
     @Unroll
     def "serialize"() {
@@ -28,9 +29,10 @@ class NegativeIntScalarTest extends Specification {
         input || expectedResult
         "NaN" || CoercingSerializeException
         1     || CoercingSerializeException
-        0     || CoercingSerializeException
 
+        0     || 0
         -666  || -666
+        -66.6 || -66.6
     }
 
     @Unroll
@@ -48,9 +50,10 @@ class NegativeIntScalarTest extends Specification {
         input || expectedResult
         "NaN" || CoercingParseValueException
         1     || CoercingParseValueException
-        0     || CoercingParseValueException
 
+        0     || 0
         -666  || -666
+        -66.6 || -66.6
     }
 
     @Unroll
@@ -68,8 +71,11 @@ class NegativeIntScalarTest extends Specification {
         input                  || expectedResult
         new StringValue("NaN") || CoercingParseLiteralException
         mkIntValue(1)          || CoercingParseLiteralException
-        mkIntValue(0)          || CoercingParseLiteralException
+        mkFloatValue(66.6)     || CoercingParseLiteralException
 
+        mkIntValue(0)          || 0
         mkIntValue(-666)       || -666
+        mkFloatValue(-66.6)    || -66.6
     }
+
 }

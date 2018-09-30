@@ -1,6 +1,5 @@
 package graphql.scalars.util
 
-import graphql.GraphQLException
 import graphql.language.FloatValue
 import graphql.language.IntValue
 
@@ -42,8 +41,8 @@ class TestKit {
 
 
     static assertValueOrException(result, expectedResult) {
-        if (result instanceof GraphQLException) {
-            assert result.class == expectedResult, "was " + result + " but expected " + expectedResult
+        if (result instanceof Exception) {
+            assert result.class == expectedResult, "was " + result + " but expected exception " + expectedResult
         } else {
             assert result == expectedResult, "was " + result + " but expected " + expectedResult
         }

@@ -17,13 +17,15 @@ import java.util.function.Function;
 
 import static graphql.scalars.util.Kit.typeName;
 
+/**
+ * Access this via {@link graphql.scalars.ExtendedScalars#Date}
+ */
 @Internal
-public class FullDateScalar extends GraphQLScalarType {
+public class DateScalar extends GraphQLScalarType {
 
     private final static DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-    ;
 
-    public FullDateScalar() {
+    public DateScalar() {
         super("Date", "An RFC-3339 compliant Full Date Scalar", new Coercing<LocalDate, String>() {
             @Override
             public String serialize(Object input) throws CoercingSerializeException {

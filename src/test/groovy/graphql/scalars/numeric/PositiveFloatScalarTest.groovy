@@ -1,4 +1,4 @@
-package graphql.scalars.numbers
+package graphql.scalars.numeric
 
 import graphql.language.StringValue
 import graphql.schema.CoercingParseLiteralException
@@ -11,8 +11,8 @@ import static graphql.scalars.util.TestKit.assertValueOrException
 import static graphql.scalars.util.TestKit.mkFloatValue
 import static graphql.scalars.util.TestKit.mkIntValue
 
-class NegativeFloatScalarTest extends Specification {
-    def coercing = new NegativeFloatScalar().getCoercing()
+class PositiveFloatScalarTest extends Specification {
+    def coercing = new PositiveFloatScalar().getCoercing()
 
     @Unroll
     def "serialize"() {
@@ -28,12 +28,12 @@ class NegativeFloatScalarTest extends Specification {
         where:
         input || expectedResult
         "NaN" || CoercingSerializeException
-        1     || CoercingSerializeException
+        -1    || CoercingSerializeException
         0     || CoercingSerializeException
-        66.6  || CoercingSerializeException
+        -66.6 || CoercingSerializeException
 
-        -666  || -666
-        -66.6 || -66.6
+        666   || 666
+        66.6  || 66.6
     }
 
     @Unroll
@@ -50,12 +50,12 @@ class NegativeFloatScalarTest extends Specification {
         where:
         input || expectedResult
         "NaN" || CoercingParseValueException
-        1     || CoercingParseValueException
+        -1    || CoercingParseValueException
         0     || CoercingParseValueException
-        66.6  || CoercingParseValueException
+        -66.6 || CoercingParseValueException
 
-        -666  || -666
-        -66.6 || -66.6
+        666   || 666
+        66.6  || 66.6
     }
 
     @Unroll
@@ -72,12 +72,12 @@ class NegativeFloatScalarTest extends Specification {
         where:
         input                  || expectedResult
         new StringValue("NaN") || CoercingParseLiteralException
-        mkIntValue(1)          || CoercingParseLiteralException
+        mkIntValue(-1)         || CoercingParseLiteralException
         mkIntValue(0)          || CoercingParseLiteralException
-        mkFloatValue(66.6)     || CoercingParseLiteralException
+        mkFloatValue(-66.6)    || CoercingParseLiteralException
 
-        mkIntValue(-666)       || -666
-        mkFloatValue(-66.6)    || -66.6
+        mkIntValue(666)        || 666
+        mkFloatValue(66.6)     || 66.6
     }
 
 }

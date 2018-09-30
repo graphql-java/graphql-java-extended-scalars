@@ -17,12 +17,15 @@ import java.util.function.Function;
 
 import static graphql.scalars.util.Kit.typeName;
 
+/**
+ * Access this via {@link graphql.scalars.ExtendedScalars#Time}
+ */
 @Internal
-public class FullTimeScalar extends GraphQLScalarType {
+public class TimeScalar extends GraphQLScalarType {
 
     private final static DateTimeFormatter dateFormatter = DateTimeFormatter.ISO_OFFSET_TIME;
 
-    public FullTimeScalar() {
+    public TimeScalar() {
         super("Time", "An RFC-3339 compliant Full Time Scalar", new Coercing<OffsetTime, String>() {
             @Override
             public String serialize(Object input) throws CoercingSerializeException {

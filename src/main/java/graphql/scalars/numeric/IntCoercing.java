@@ -1,5 +1,6 @@
-package graphql.scalars.numbers;
+package graphql.scalars.numeric;
 
+import graphql.Internal;
 import graphql.schema.Coercing;
 import graphql.schema.CoercingParseLiteralException;
 import graphql.schema.CoercingParseValueException;
@@ -9,6 +10,7 @@ import java.util.function.Function;
 
 import static graphql.Scalars.GraphQLInt;
 
+@Internal
 abstract class IntCoercing implements Coercing<Integer, Integer> {
 
     abstract protected Integer check(Integer i, Function<String, RuntimeException> exceptionMaker);

@@ -1,5 +1,6 @@
-package graphql.scalars.numbers;
+package graphql.scalars.numeric;
 
+import graphql.Internal;
 import graphql.schema.Coercing;
 import graphql.schema.CoercingParseLiteralException;
 import graphql.schema.CoercingParseValueException;
@@ -9,6 +10,7 @@ import java.util.function.Function;
 
 import static graphql.Scalars.GraphQLFloat;
 
+@Internal
 abstract class FloatCoercing implements Coercing<Double, Double> {
 
     abstract protected Double check(Double d, Function<String, RuntimeException> exceptionMaker);

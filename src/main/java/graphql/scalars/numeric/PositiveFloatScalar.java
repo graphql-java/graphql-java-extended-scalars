@@ -1,9 +1,14 @@
-package graphql.scalars.numbers;
+package graphql.scalars.numeric;
 
+import graphql.Internal;
 import graphql.schema.GraphQLScalarType;
 
 import java.util.function.Function;
 
+/**
+ * Access this via {@link graphql.scalars.ExtendedScalars#PositiveFloat}
+ */
+@Internal
 public class PositiveFloatScalar extends GraphQLScalarType {
     public PositiveFloatScalar() {
         super("PositiveFloat", "An Float scalar that must be a positive value", new FloatCoercing() {

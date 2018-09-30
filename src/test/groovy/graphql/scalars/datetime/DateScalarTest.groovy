@@ -8,9 +8,9 @@ import static graphql.scalars.util.TestKit.mkLocalDate
 import static graphql.scalars.util.TestKit.mkOffsetDT
 import static graphql.scalars.util.TestKit.mkZonedDT
 
-class FullDateScalarTest extends Specification {
+class DateScalarTest extends Specification {
 
-    def coercing = new FullDateScalar().getCoercing()
+    def coercing = new DateScalar().getCoercing()
 
     @Unroll
     def "full date parseValue"() {

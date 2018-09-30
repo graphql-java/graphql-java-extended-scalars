@@ -11,9 +11,9 @@ import static graphql.scalars.util.TestKit.mkOffsetDT
 import static graphql.scalars.util.TestKit.mkOffsetT
 import static graphql.scalars.util.TestKit.mkZonedDT
 
-class FullTimeScalarTest extends Specification {
+class TimeScalarTest extends Specification {
 
-    def coercing = new FullTimeScalar().getCoercing()
+    def coercing = new TimeScalar().getCoercing()
 
     @Unroll
     def "datetime parseValue"() {

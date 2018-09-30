@@ -17,6 +17,9 @@ import java.util.function.Function;
 
 import static graphql.scalars.util.Kit.typeName;
 
+/**
+ * Access this via {@link graphql.scalars.ExtendedScalars#DateTime}
+ */
 @Internal
 public class DateTimeScalar extends GraphQLScalarType {
 

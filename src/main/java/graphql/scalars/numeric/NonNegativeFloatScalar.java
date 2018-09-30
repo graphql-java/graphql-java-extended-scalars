@@ -1,9 +1,14 @@
-package graphql.scalars.numbers;
+package graphql.scalars.numeric;
 
+import graphql.Internal;
 import graphql.schema.GraphQLScalarType;
 
 import java.util.function.Function;
 
+/**
+ * Access this via {@link graphql.scalars.ExtendedScalars#NonNegativeFloat}
+ */
+@Internal
 public class NonNegativeFloatScalar extends GraphQLScalarType {
     public NonNegativeFloatScalar() {
         super("NonNegativeFloat", "An Float scalar that must be greater than or equal to zero", new FloatCoercing() {
