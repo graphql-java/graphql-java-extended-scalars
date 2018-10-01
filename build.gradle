@@ -4,8 +4,14 @@ buildscript {
     }
 }
 
+plugins {
+    id "com.jfrog.bintray" version "1.2"
+}
+
 apply plugin: 'java'
 apply plugin: 'groovy'
+apply plugin: 'maven-publish'
+apply plugin: 'com.jfrog.bintray'
 
 group = 'com.graphql-java'
 version = '0.0.1-SNAPSHOT'
@@ -23,4 +29,87 @@ dependencies {
 
     testCompile 'org.spockframework:spock-core:1.1-groovy-2.4'
     testCompile 'org.codehaus.groovy:groovy-all:2.4.13'
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+            groupId 'com.graphql-java'
+            artifactId 'graphql-java-extended-scalars'
+            version project.version
+
+            artifact sourcesJar
+            artifact javadocJar
+
+            pom.withXml {
+                asNode().children().last() + {
+                    resolveStrategy = Closure.DELEGATE_FIRST
+                    name 'graphql-java-extended-scalars'
+                    description 'A library fo extended scalars for graphql-java'
+                    url 'https://github.com/graphql-java/graphql-java-extended-scalars'
+                    inceptionYear '2018'
+
+                    scm {
+                        url 'https://github.com/graphql-java/graphql-java-extended-scalars'
+                        connection 'scm:git@github.com:graphql-java/graphql-java-extended-scalars.git'
+                        developerConnection 'scm:git@github.com:graphql-java/graphql-java-extended-scalars.git'
+                    }
+
+                    licenses {
+                        license {
+                            name 'MIT'
+                            url 'https://github.com/graphql-java/graphql-java/blob/master/LICENSE.md'
+                            distribution 'repo'
+                        }
+                    }
+
+                    developers {
+                        developer {
+                            id 'bbakerman'
+                            name 'Brad Baker'
+                            email 'bbakerman@gmail.com'
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+bintray {
+    user = System.getenv('BINTRAY_USER')
+    key = System.getenv('BINTRAY_KEY')
+    publications = ['maven']
+    publish = true
+    pkg {
+        userOrg = 'graphql-java'
+        repo = 'graphql-java'
+        name = "graphql-java-extended-scalars"
+        desc = 'A library fo extended scalars for graphql-java'
+        licenses = ['MIT']
+        vcsUrl = 'https://github.com/graphql-java/graphql-java-extended-scalars.git'
+        version {
+            released = new Date()
+            vcsTag = project.version
+            gpg {
+                sign = true
+            }
+        }
+    }
 }
