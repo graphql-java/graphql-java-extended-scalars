@@ -1,3 +1,5 @@
+import java.text.SimpleDateFormat
+
 buildscript {
     repositories {
         mavenCentral()
@@ -13,9 +15,26 @@ apply plugin: 'groovy'
 apply plugin: 'maven-publish'
 apply plugin: 'com.jfrog.bintray'
 
+def getDevelopmentVersion() {
+    def output = new StringBuilder()
+    def error = new StringBuilder()
+    def gitShortHash = "git -C ${projectDir} rev-parse --short HEAD".execute()
+    gitShortHash.waitForProcessOutput(output, error)
+    def gitHash = output.toString().trim()
+    if (gitHash.isEmpty()) {
+        println "git hash is empty: error: ${error.toString()}"
+        throw new IllegalStateException("git hash could not be determined")
+    }
+    new SimpleDateFormat('yyyy-MM-dd\'T\'HH-mm-ss').format(new Date()) + "-" + gitHash
+}
+
+
+def releaseVersion = System.env.RELEASE_VERSION
+version = releaseVersion ? releaseVersion : getDevelopmentVersion()
 group = 'com.graphql-java'
-version = '0.0.1-SNAPSHOT'
+
 sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 repositories {
     mavenCentral()
@@ -50,9 +69,9 @@ publishing {
     publications {
         maven(MavenPublication) {
             from components.java
-            groupId 'com.graphql-java'
+            groupId group
             artifactId 'graphql-java-extended-scalars'
-            version project.version
+            version version
 
             artifact sourcesJar
             artifact javadocJar
