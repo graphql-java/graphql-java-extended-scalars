@@ -20,6 +20,17 @@ or the following into your Maven config
       <artifactId>graphql-java-extended-scalars</artifactId>
       <version>1.0</version>
     </dependency>
+    
+Then register the scalar with graphql-java
+
+    RuntimeWiring.newRuntimeWiring().scalar(ExtendedScalars.DateTime)
+    
+And use it in your schema
+    
+    scalar DateTime
+    type Something {
+        someDateTime: DateTime
+    }
 
 ## DateTime Scalars
 
