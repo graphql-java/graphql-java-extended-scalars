@@ -74,19 +74,19 @@ And example query might look like:
     
 ``` 
 
-## Object / Json Scalars
+## Object / JSON Scalars
 
 * `Object`
   * An object scalar that accepts any object as a scalar value
 
-* `Json`
+* `JSON`
   * A synonym for the `Object` scalar, it will accept any object as a scalar value
   
 One of the design goals of graphql, is that the type system describes the shape of the data returned.
 
-The `Object` / `Json` scalars work against this some what because they can return compound values outside the type system.  As such 
+The `Object` / `JSON` scalars work against this some what because they can return compound values outside the type system.  As such 
 they should be used sparingly.  In general your should aim to describe the data via the graphql type system where you can and only
-resort to the `Object` / `Json` scalars in very rare circumstances. 
+resort to the `Object` / `JSON` scalars in very rare circumstances. 
 
 An example might be an extensible graphql system where systems can input custom metadata objects that cant be known at 
 schema type design time.
@@ -97,11 +97,11 @@ An example declaration in SDL might be:
 
     type Customer {
         name : String
-        associatedMetaData : Json
+        associatedMetaData : JSON
     }
     
     type Query {
-        customers(filterSyntax : Json) : [Customers]
+        customers(filterSyntax : JSON) : [Customers]
     }
     
 ``` 
@@ -126,7 +126,7 @@ And example query might look like:
     
 ``` 
    
-Note : The `Json` scalar is a simple alias type to the `Object` scalar because often the returned data is a blob of JSON.  They are 
+Note : The `JSON` scalar is a simple alias type to the `Object` scalar because often the returned data is a blob of JSON.  They are 
 all just objects at runtime in graphql-java terms and what network serialisation protocol is up to you.  Choose whichever name you think
 adds more semantic readers to your schema consumers. 
 
