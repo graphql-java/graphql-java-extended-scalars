@@ -12,6 +12,11 @@ import java.time.ZoneOffset
 import java.time.ZonedDateTime
 
 class TestKit {
+
+    static Locale mkLocale(String s) {
+        Locale.forLanguageTag(s)
+    }
+
     static LocalDate mkLocalDate(String s) {
         LocalDate.parse(s)
     }
