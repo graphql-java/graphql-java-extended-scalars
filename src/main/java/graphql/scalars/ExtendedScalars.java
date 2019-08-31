@@ -17,6 +17,7 @@ import graphql.scalars.object.JsonScalar;
 import graphql.scalars.object.ObjectScalar;
 import graphql.scalars.regex.RegexScalar;
 import graphql.scalars.url.UrlScalar;
+import graphql.scalars.locale.LocaleScalar;
 import graphql.schema.GraphQLScalarType;
 
 /**
@@ -110,6 +111,12 @@ public class ExtendedScalars {
      * A URL scalar that accepts URL strings and produces {@link java.net.URL} objects at runtime
      */
     public static GraphQLScalarType Url = new UrlScalar();
+
+    /**
+     * A Locale scalar that accepts a IETF BCP 47 language tag string and produces {@link
+     * java.util.Locale} objects at runtime.
+     */
+    public static GraphQLScalarType Locale = new LocaleScalar();
 
     /**
      * An `Int` scalar that MUST be greater than zero
