@@ -29,7 +29,7 @@ def getDevelopmentVersion() {
 }
 
 
-def releaseVersion = System.env.RELEASE_VERSION
+def releaseVersion = System.getProperty("RELEASE_VERSION")
 version = releaseVersion ? releaseVersion : getDevelopmentVersion()
 group = 'com.graphql-java'
 

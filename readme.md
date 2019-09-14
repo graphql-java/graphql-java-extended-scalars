@@ -202,6 +202,34 @@ For example, imagine a `phoneNumber` scalar like this :
 
 ```
 
+## Locale Scalar
+
+The Locale scalar handles [IETF BCP 47](https://tools.ietf.org/html/bcp47) language tags via the JDK method [Locale.forLanguageTag](https://docs.oracle.com/javase/7/docs/api/java/util/Locale.html#forLanguageTag(java.lang.String)
+
+```graphql
+
+    type Customer {
+        name : String
+        locale : Locale
+    }
+    
+    type Query {
+        customers(inLocale : Locale) : [Customers]
+    }
+``` 
+
+An example query to look for customers in the Romanian locale might look like:
+
+```graphql
+    
+    query {
+        customers(inLocale : "ro-RO") {
+            name
+            locale
+        }
+    }
+    
+``` 
 
 ## Alias Scalars
 
