@@ -5,6 +5,7 @@ import graphql.scalars.alias.AliasedScalar;
 import graphql.scalars.datetime.DateScalar;
 import graphql.scalars.datetime.DateTimeScalar;
 import graphql.scalars.datetime.TimeScalar;
+import graphql.scalars.id.UUIDScalar;
 import graphql.scalars.numeric.NegativeFloatScalar;
 import graphql.scalars.numeric.NegativeIntScalar;
 import graphql.scalars.numeric.NonNegativeFloatScalar;
@@ -19,6 +20,8 @@ import graphql.scalars.regex.RegexScalar;
 import graphql.scalars.url.UrlScalar;
 import graphql.scalars.locale.LocaleScalar;
 import graphql.schema.GraphQLScalarType;
+
+import java.util.UUID;
 
 /**
  * This is the API entry point for all the extended scalars
@@ -117,6 +120,12 @@ public class ExtendedScalars {
      * java.util.Locale} objects at runtime.
      */
     public static GraphQLScalarType Locale = new LocaleScalar();
+
+    /**
+     * A UUID scalar that accepts a universally unique identifier and produces {@link
+     * java.util.UUID} objects at runtime.
+     */
+    public static GraphQLScalarType UUID = new UUIDScalar();
 
     /**
      * An `Int` scalar that MUST be greater than zero
