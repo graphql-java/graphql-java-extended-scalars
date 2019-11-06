@@ -75,4 +75,8 @@ class TestKit {
         return new FloatValue(new BigDecimal(d))
     }
 
+    static UUID mkUUIDValue(String s) {
+        return UUID.fromString(s)
+    }
+
 }
