@@ -1,4 +1,4 @@
-package graphql.scalars
+package graphql.scalars.java
 
 import graphql.Scalars
 import graphql.language.FloatValue
@@ -17,7 +17,7 @@ class ScalarsByteTest extends Specification {
     @Unroll
     def "Byte parse literal #literal.value as #result"() {
         expect:
-        Scalars.GraphQLByte.getCoercing().parseLiteral(literal) == result
+        JavaPrimitives.GraphQLByte.getCoercing().parseLiteral(literal) == result
 
         where:
         literal                                    | result
@@ -30,7 +30,7 @@ class ScalarsByteTest extends Specification {
     @Unroll
     def "Byte returns null for invalid #literal"() {
         when:
-        Scalars.GraphQLByte.getCoercing().parseLiteral(literal)
+        JavaPrimitives.GraphQLByte.getCoercing().parseLiteral(literal)
         then:
         thrown(CoercingParseLiteralException)
 
@@ -49,8 +49,8 @@ class ScalarsByteTest extends Specification {
     @Unroll
     def "Byte serialize #value into #result (#result.class)"() {
         expect:
-        Scalars.GraphQLByte.getCoercing().serialize(value) == result
-        Scalars.GraphQLByte.getCoercing().parseValue(value) == result
+        JavaPrimitives.GraphQLByte.getCoercing().serialize(value) == result
+        JavaPrimitives.GraphQLByte.getCoercing().parseValue(value) == result
 
         where:
         value                 | result
@@ -74,7 +74,7 @@ class ScalarsByteTest extends Specification {
     @Unroll
     def "serialize throws exception for invalid input #value"() {
         when:
-        Scalars.GraphQLByte.getCoercing().serialize(value)
+        JavaPrimitives.GraphQLByte.getCoercing().serialize(value)
         then:
         thrown(CoercingSerializeException)
 
@@ -95,7 +95,7 @@ class ScalarsByteTest extends Specification {
     @Unroll
     def "parseValue throws exception for invalid input #value"() {
         when:
-        Scalars.GraphQLByte.getCoercing().parseValue(value)
+        JavaPrimitives.GraphQLByte.getCoercing().parseValue(value)
         then:
         thrown(CoercingParseValueException)
 

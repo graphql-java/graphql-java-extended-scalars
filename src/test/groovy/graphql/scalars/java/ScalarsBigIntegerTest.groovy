@@ -1,10 +1,11 @@
-package graphql.scalars
+package graphql.scalars.java
 
 import graphql.Scalars
 import graphql.language.BooleanValue
 import graphql.language.FloatValue
 import graphql.language.IntValue
 import graphql.language.StringValue
+import graphql.scalars.ExtendedScalars
 import graphql.schema.CoercingParseLiteralException
 import graphql.schema.CoercingParseValueException
 import graphql.schema.CoercingSerializeException
@@ -18,7 +19,7 @@ class ScalarsBigIntegerTest extends Specification {
     @Unroll
     def "BigInteger parse literal #literal.value as #result"() {
         expect:
-        Scalars.GraphQLBigInteger.getCoercing().parseLiteral(literal) == result
+        ExtendedScalars.GraphQLBigInteger.getCoercing().parseLiteral(literal) == result
 
         where:
         literal                                 | result
@@ -30,7 +31,7 @@ class ScalarsBigIntegerTest extends Specification {
     @Unroll
     def "BigInteger returns null for invalid #literal"() {
         when:
-        Scalars.GraphQLBigInteger.getCoercing().parseLiteral(literal)
+        ExtendedScalars.GraphQLBigInteger.getCoercing().parseLiteral(literal)
         then:
         thrown(CoercingParseLiteralException)
 
@@ -45,8 +46,8 @@ class ScalarsBigIntegerTest extends Specification {
     @Unroll
     def "BigInteger serialize #value into #result (#result.class)"() {
         expect:
-        Scalars.GraphQLBigInteger.getCoercing().serialize(value) == result
-        Scalars.GraphQLBigInteger.getCoercing().parseValue(value) == result
+        ExtendedScalars.GraphQLBigInteger.getCoercing().serialize(value) == result
+        ExtendedScalars.GraphQLBigInteger.getCoercing().parseValue(value) == result
 
         where:
         value                 | result
@@ -64,7 +65,7 @@ class ScalarsBigIntegerTest extends Specification {
     @Unroll
     def "serialize throws exception for invalid input #value"() {
         when:
-        Scalars.GraphQLBigInteger.getCoercing().serialize(value)
+        ExtendedScalars.GraphQLBigInteger.getCoercing().serialize(value)
         then:
         thrown(CoercingSerializeException)
 
@@ -80,7 +81,7 @@ class ScalarsBigIntegerTest extends Specification {
     @Unroll
     def "parseValue throws exception for invalid input #value"() {
         when:
-        Scalars.GraphQLBigInteger.getCoercing().parseValue(value)
+        ExtendedScalars.GraphQLBigInteger.getCoercing().parseValue(value)
         then:
         thrown(CoercingParseValueException)
 

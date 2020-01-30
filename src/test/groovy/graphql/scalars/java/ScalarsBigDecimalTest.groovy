@@ -1,4 +1,4 @@
-package graphql.scalars
+package graphql.scalars.java
 
 import graphql.Scalars
 import graphql.language.BooleanValue
@@ -18,7 +18,7 @@ class ScalarsBigDecimalTest extends Specification {
     @Unroll
     def "BigDecimal parse literal #literal.value as #result"() {
         expect:
-        Scalars.GraphQLBigDecimal.getCoercing().parseLiteral(literal) == result
+        JavaPrimitives.GraphQLBigDecimal.getCoercing().parseLiteral(literal) == result
 
         where:
         literal                                 | result
@@ -31,7 +31,7 @@ class ScalarsBigDecimalTest extends Specification {
     @Unroll
     def "BigDecimal returns null for invalid #literal"() {
         when:
-        Scalars.GraphQLBigDecimal.getCoercing().parseLiteral(literal)
+        JavaPrimitives.GraphQLBigDecimal.getCoercing().parseLiteral(literal)
         then:
         thrown(CoercingParseLiteralException)
 
@@ -44,8 +44,8 @@ class ScalarsBigDecimalTest extends Specification {
     @Unroll
     def "BigDecimal serialize #value into #result (#result.class)"() {
         expect:
-        Scalars.GraphQLBigDecimal.getCoercing().serialize(value) == result
-        Scalars.GraphQLBigDecimal.getCoercing().parseValue(value) == result
+        JavaPrimitives.GraphQLBigDecimal.getCoercing().serialize(value) == result
+        JavaPrimitives.GraphQLBigDecimal.getCoercing().parseValue(value) == result
 
         where:
         value                 | result
@@ -67,7 +67,7 @@ class ScalarsBigDecimalTest extends Specification {
     @Unroll
     def "serialize throws exception for invalid input #value"() {
         when:
-        Scalars.GraphQLBigDecimal.getCoercing().serialize(value)
+        JavaPrimitives.GraphQLBigDecimal.getCoercing().serialize(value)
         then:
         thrown(CoercingSerializeException)
 
@@ -81,7 +81,7 @@ class ScalarsBigDecimalTest extends Specification {
     @Unroll
     def "parseValue throws exception for invalid input #value"() {
         when:
-        Scalars.GraphQLBigDecimal.getCoercing().parseValue(value)
+        JavaPrimitives.GraphQLBigDecimal.getCoercing().parseValue(value)
         then:
         thrown(CoercingParseValueException)
 

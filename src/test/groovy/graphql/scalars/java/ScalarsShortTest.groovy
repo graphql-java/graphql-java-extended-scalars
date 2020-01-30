@@ -1,4 +1,4 @@
-package graphql.scalars
+package graphql.scalars.java
 
 import graphql.Scalars
 import graphql.language.FloatValue
@@ -17,7 +17,7 @@ class ScalarsShortTest extends Specification {
     @Unroll
     def "Short parse literal #literal.value as #result"() {
         expect:
-        Scalars.GraphQLShort.getCoercing().parseLiteral(literal) == result
+        JavaPrimitives.GraphQLShort.getCoercing().parseLiteral(literal) == result
 
         where:
         literal                                     | result
@@ -30,7 +30,7 @@ class ScalarsShortTest extends Specification {
     @Unroll
     def "Short returns null for invalid #literal"() {
         when:
-        Scalars.GraphQLShort.getCoercing().parseLiteral(literal)
+        JavaPrimitives.GraphQLShort.getCoercing().parseLiteral(literal)
         then:
         thrown(CoercingParseLiteralException)
 
@@ -48,8 +48,8 @@ class ScalarsShortTest extends Specification {
     @Unroll
     def "Short serialize #value into #result (#result.class)"() {
         expect:
-        Scalars.GraphQLShort.getCoercing().serialize(value) == result
-        Scalars.GraphQLShort.getCoercing().parseValue(value) == result
+        JavaPrimitives.GraphQLShort.getCoercing().serialize(value) == result
+        JavaPrimitives.GraphQLShort.getCoercing().parseValue(value) == result
 
         where:
         value                 | result
@@ -73,7 +73,7 @@ class ScalarsShortTest extends Specification {
     @Unroll
     def "serialize throws exception for invalid input #value"() {
         when:
-        Scalars.GraphQLShort.getCoercing().serialize(value)
+        JavaPrimitives.GraphQLShort.getCoercing().serialize(value)
         then:
         thrown(CoercingSerializeException)
 
@@ -94,7 +94,7 @@ class ScalarsShortTest extends Specification {
     @Unroll
     def "parseValue throws exception for invalid input #value"() {
         when:
-        Scalars.GraphQLShort.getCoercing().parseValue(value)
+        JavaPrimitives.GraphQLShort.getCoercing().parseValue(value)
         then:
         thrown(CoercingParseValueException)
 
