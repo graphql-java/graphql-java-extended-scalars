@@ -1,6 +1,6 @@
 package graphql.scalars.java
 
-import graphql.Scalars
+import graphql.scalars.ExtendedScalars
 import graphql.language.FloatValue
 import graphql.language.IntValue
 import graphql.language.StringValue
@@ -17,7 +17,7 @@ class ScalarsByteTest extends Specification {
     @Unroll
     def "Byte parse literal #literal.value as #result"() {
         expect:
-        JavaPrimitives.GraphQLByte.getCoercing().parseLiteral(literal) == result
+        ExtendedScalars.GraphQLByte.getCoercing().parseLiteral(literal) == result
 
         where:
         literal                                    | result
@@ -30,7 +30,7 @@ class ScalarsByteTest extends Specification {
     @Unroll
     def "Byte returns null for invalid #literal"() {
         when:
-        JavaPrimitives.GraphQLByte.getCoercing().parseLiteral(literal)
+        ExtendedScalars.GraphQLByte.getCoercing().parseLiteral(literal)
         then:
         thrown(CoercingParseLiteralException)
 
@@ -49,8 +49,8 @@ class ScalarsByteTest extends Specification {
     @Unroll
     def "Byte serialize #value into #result (#result.class)"() {
         expect:
-        JavaPrimitives.GraphQLByte.getCoercing().serialize(value) == result
-        JavaPrimitives.GraphQLByte.getCoercing().parseValue(value) == result
+        ExtendedScalars.GraphQLByte.getCoercing().serialize(value) == result
+        ExtendedScalars.GraphQLByte.getCoercing().parseValue(value) == result
 
         where:
         value                 | result
@@ -74,7 +74,7 @@ class ScalarsByteTest extends Specification {
     @Unroll
     def "serialize throws exception for invalid input #value"() {
         when:
-        JavaPrimitives.GraphQLByte.getCoercing().serialize(value)
+        ExtendedScalars.GraphQLByte.getCoercing().serialize(value)
         then:
         thrown(CoercingSerializeException)
 
@@ -95,7 +95,7 @@ class ScalarsByteTest extends Specification {
     @Unroll
     def "parseValue throws exception for invalid input #value"() {
         when:
-        JavaPrimitives.GraphQLByte.getCoercing().parseValue(value)
+        ExtendedScalars.GraphQLByte.getCoercing().parseValue(value)
         then:
         thrown(CoercingParseValueException)
 

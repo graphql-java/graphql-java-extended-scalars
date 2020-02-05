@@ -1,10 +1,10 @@
 package graphql.scalars.java
 
-import graphql.Scalars
 import graphql.language.BooleanValue
 import graphql.language.FloatValue
 import graphql.language.IntValue
 import graphql.language.StringValue
+import graphql.scalars.ExtendedScalars
 import graphql.schema.CoercingParseLiteralException
 import graphql.schema.CoercingParseValueException
 import graphql.schema.CoercingSerializeException
@@ -18,7 +18,7 @@ class ScalarsBigDecimalTest extends Specification {
     @Unroll
     def "BigDecimal parse literal #literal.value as #result"() {
         expect:
-        JavaPrimitives.GraphQLBigDecimal.getCoercing().parseLiteral(literal) == result
+        ExtendedScalars.GraphQLBigDecimal.getCoercing().parseLiteral(literal) == result
 
         where:
         literal                                 | result
@@ -31,7 +31,7 @@ class ScalarsBigDecimalTest extends Specification {
     @Unroll
     def "BigDecimal returns null for invalid #literal"() {
         when:
-        JavaPrimitives.GraphQLBigDecimal.getCoercing().parseLiteral(literal)
+        ExtendedScalars.GraphQLBigDecimal.getCoercing().parseLiteral(literal)
         then:
         thrown(CoercingParseLiteralException)
 
@@ -44,8 +44,8 @@ class ScalarsBigDecimalTest extends Specification {
     @Unroll
     def "BigDecimal serialize #value into #result (#result.class)"() {
         expect:
-        JavaPrimitives.GraphQLBigDecimal.getCoercing().serialize(value) == result
-        JavaPrimitives.GraphQLBigDecimal.getCoercing().parseValue(value) == result
+        ExtendedScalars.GraphQLBigDecimal.getCoercing().serialize(value) == result
+        ExtendedScalars.GraphQLBigDecimal.getCoercing().parseValue(value) == result
 
         where:
         value                 | result
@@ -67,7 +67,7 @@ class ScalarsBigDecimalTest extends Specification {
     @Unroll
     def "serialize throws exception for invalid input #value"() {
         when:
-        JavaPrimitives.GraphQLBigDecimal.getCoercing().serialize(value)
+        ExtendedScalars.GraphQLBigDecimal.getCoercing().serialize(value)
         then:
         thrown(CoercingSerializeException)
 
@@ -81,7 +81,7 @@ class ScalarsBigDecimalTest extends Specification {
     @Unroll
     def "parseValue throws exception for invalid input #value"() {
         when:
-        JavaPrimitives.GraphQLBigDecimal.getCoercing().parseValue(value)
+        ExtendedScalars.GraphQLBigDecimal.getCoercing().parseValue(value)
         then:
         thrown(CoercingParseValueException)
 

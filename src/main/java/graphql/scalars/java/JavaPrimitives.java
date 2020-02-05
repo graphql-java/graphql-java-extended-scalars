@@ -116,7 +116,7 @@ public class JavaPrimitives {
     /**
      * This represents the "Short" type which is a representation of java.lang.Short
      */
-    public static final GraphQLScalarType GraphQLShort = new GraphQLScalarType("Short", "Built-in Short as Int", new Coercing<Short, Short>() {
+    public static final GraphQLScalarType GraphQLShort = new GraphQLScalarType("Short", "Short as Int", new Coercing<Short, Short>() {
 
         private Short convertImpl(Object input) {
             if (input instanceof Short) {
@@ -181,7 +181,7 @@ public class JavaPrimitives {
     /**
      * This represents the "Byte" type which is a representation of java.lang.Byte
      */
-    public static final GraphQLScalarType GraphQLByte = new GraphQLScalarType("Byte", "Built-in Byte as Int", new Coercing<Byte, Byte>() {
+    public static final GraphQLScalarType GraphQLByte = new GraphQLScalarType("Byte", "Byte as Int", new Coercing<Byte, Byte>() {
 
         private Byte convertImpl(Object input) {
             if (input instanceof Byte) {
@@ -247,7 +247,7 @@ public class JavaPrimitives {
     /**
      * This represents the "BigInteger" type which is a representation of java.math.BigInteger
      */
-    public static final GraphQLScalarType GraphQLBigInteger = new GraphQLScalarType("BigInteger", "Built-in java.math.BigInteger", new Coercing<BigInteger, BigInteger>() {
+    public static final GraphQLScalarType GraphQLBigInteger = new GraphQLScalarType("BigInteger", "java.math.BigInteger", new Coercing<BigInteger, BigInteger>() {
 
         private BigInteger convertImpl(Object input) {
             if (isNumberIsh(input)) {
@@ -319,7 +319,7 @@ public class JavaPrimitives {
     /**
      * This represents the "BigDecimal" type which is a representation of java.math.BigDecimal
      */
-    public static final GraphQLScalarType GraphQLBigDecimal = new GraphQLScalarType("BigDecimal", "Built-in java.math.BigDecimal", new Coercing<BigDecimal, BigDecimal>() {
+    public static final GraphQLScalarType GraphQLBigDecimal = new GraphQLScalarType("BigDecimal", "java.math.BigDecimal", new Coercing<BigDecimal, BigDecimal>() {
 
         private BigDecimal convertImpl(Object input) {
             if (isNumberIsh(input)) {
@@ -380,7 +380,7 @@ public class JavaPrimitives {
     /**
      * This represents the "Char" type which is a representation of java.lang.Character
      */
-    public static final GraphQLScalarType GraphQLChar = new GraphQLScalarType("Char", "Built-in Char as Character", new Coercing<Character, Character>() {
+    public static final GraphQLScalarType GraphQLChar = new GraphQLScalarType("Char", "Char as Character", new Coercing<Character, Character>() {
 
         private Character convertImpl(Object input) {
             if (input instanceof String && ((String) input).length() == 1) {

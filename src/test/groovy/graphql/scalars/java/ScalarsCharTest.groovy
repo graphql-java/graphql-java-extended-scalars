@@ -1,6 +1,6 @@
 package graphql.scalars.java
 
-import graphql.Scalars
+import graphql.scalars.ExtendedScalars
 import graphql.language.IntValue
 import graphql.language.StringValue
 import graphql.schema.CoercingParseLiteralException
@@ -14,7 +14,7 @@ class ScalarsCharTest extends Specification {
     @Unroll
     def "Char parse literal #literal.value as #result"() {
         expect:
-        JavaPrimitives.GraphQLChar.getCoercing().parseLiteral(literal) == result
+        ExtendedScalars.GraphQLChar.getCoercing().parseLiteral(literal) == result
 
         where:
         literal              | result
@@ -26,7 +26,7 @@ class ScalarsCharTest extends Specification {
     @Unroll
     def "Short returns null for invalid #literal"() {
         when:
-        JavaPrimitives.GraphQLChar.getCoercing().parseLiteral(literal)
+        ExtendedScalars.GraphQLChar.getCoercing().parseLiteral(literal)
         then:
         thrown(CoercingParseLiteralException)
 
@@ -39,8 +39,8 @@ class ScalarsCharTest extends Specification {
     @Unroll
     def "Short serialize #value into #result (#result.class)"() {
         expect:
-        JavaPrimitives.GraphQLChar.getCoercing().serialize(value) == result
-        JavaPrimitives.GraphQLChar.getCoercing().parseValue(value) == result
+        ExtendedScalars.GraphQLChar.getCoercing().serialize(value) == result
+        ExtendedScalars.GraphQLChar.getCoercing().parseValue(value) == result
 
         where:
         value | result
@@ -51,7 +51,7 @@ class ScalarsCharTest extends Specification {
     @Unroll
     def "serialize throws exception for invalid input #value"() {
         when:
-        JavaPrimitives.GraphQLChar.getCoercing().serialize(value)
+        ExtendedScalars.GraphQLChar.getCoercing().serialize(value)
         then:
         thrown(CoercingSerializeException)
 
@@ -66,7 +66,7 @@ class ScalarsCharTest extends Specification {
     @Unroll
     def "parseValue throws exception for invalid input #value"() {
         when:
-        JavaPrimitives.GraphQLChar.getCoercing().parseValue(value)
+        ExtendedScalars.GraphQLChar.getCoercing().parseValue(value)
         then:
         thrown(CoercingParseValueException)
 

@@ -1,9 +1,9 @@
 package graphql.scalars.java
 
-import graphql.Scalars
 import graphql.language.FloatValue
 import graphql.language.IntValue
 import graphql.language.StringValue
+import graphql.scalars.ExtendedScalars
 import graphql.schema.CoercingParseLiteralException
 import graphql.schema.CoercingParseValueException
 import graphql.schema.CoercingSerializeException
@@ -17,7 +17,7 @@ class ScalarsShortTest extends Specification {
     @Unroll
     def "Short parse literal #literal.value as #result"() {
         expect:
-        JavaPrimitives.GraphQLShort.getCoercing().parseLiteral(literal) == result
+        ExtendedScalars.GraphQLShort.getCoercing().parseLiteral(literal) == result
 
         where:
         literal                                     | result
@@ -30,7 +30,7 @@ class ScalarsShortTest extends Specification {
     @Unroll
     def "Short returns null for invalid #literal"() {
         when:
-        JavaPrimitives.GraphQLShort.getCoercing().parseLiteral(literal)
+        ExtendedScalars.GraphQLShort.getCoercing().parseLiteral(literal)
         then:
         thrown(CoercingParseLiteralException)
 
@@ -48,8 +48,8 @@ class ScalarsShortTest extends Specification {
     @Unroll
     def "Short serialize #value into #result (#result.class)"() {
         expect:
-        JavaPrimitives.GraphQLShort.getCoercing().serialize(value) == result
-        JavaPrimitives.GraphQLShort.getCoercing().parseValue(value) == result
+        ExtendedScalars.GraphQLShort.getCoercing().serialize(value) == result
+        ExtendedScalars.GraphQLShort.getCoercing().parseValue(value) == result
 
         where:
         value                 | result
@@ -73,7 +73,7 @@ class ScalarsShortTest extends Specification {
     @Unroll
     def "serialize throws exception for invalid input #value"() {
         when:
-        JavaPrimitives.GraphQLShort.getCoercing().serialize(value)
+        ExtendedScalars.GraphQLShort.getCoercing().serialize(value)
         then:
         thrown(CoercingSerializeException)
 
@@ -94,7 +94,7 @@ class ScalarsShortTest extends Specification {
     @Unroll
     def "parseValue throws exception for invalid input #value"() {
         when:
-        JavaPrimitives.GraphQLShort.getCoercing().parseValue(value)
+        ExtendedScalars.GraphQLShort.getCoercing().parseValue(value)
         then:
         thrown(CoercingParseValueException)
 
