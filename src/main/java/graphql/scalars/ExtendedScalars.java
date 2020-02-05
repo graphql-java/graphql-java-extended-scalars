@@ -5,6 +5,8 @@ import graphql.scalars.alias.AliasedScalar;
 import graphql.scalars.datetime.DateScalar;
 import graphql.scalars.datetime.DateTimeScalar;
 import graphql.scalars.datetime.TimeScalar;
+import graphql.scalars.java.JavaPrimitives;
+import graphql.scalars.locale.LocaleScalar;
 import graphql.scalars.numeric.NegativeFloatScalar;
 import graphql.scalars.numeric.NegativeIntScalar;
 import graphql.scalars.numeric.NonNegativeFloatScalar;
@@ -17,7 +19,6 @@ import graphql.scalars.object.JsonScalar;
 import graphql.scalars.object.ObjectScalar;
 import graphql.scalars.regex.RegexScalar;
 import graphql.scalars.url.UrlScalar;
-import graphql.scalars.locale.LocaleScalar;
 import graphql.schema.GraphQLScalarType;
 
 /**
@@ -205,4 +206,35 @@ public class ExtendedScalars {
     public static AliasedScalar.Builder newAliasedScalar(String name) {
         return new AliasedScalar.Builder().name(name);
     }
+
+    /**
+     * This represents the "Long" type which is a representation of java.lang.Long
+     */
+    public static final GraphQLScalarType GraphQLLong = JavaPrimitives.GraphQLLong;
+
+    /**
+     * This represents the "Short" type which is a representation of java.lang.Short
+     */
+    public static final GraphQLScalarType GraphQLShort = JavaPrimitives.GraphQLShort;
+
+    /**
+     * This represents the "Byte" type which is a representation of java.lang.Byte
+     */
+    public static final GraphQLScalarType GraphQLByte = JavaPrimitives.GraphQLByte;
+
+    /**
+     * This represents the "BigDecimal" type which is a representation of java.math.BigDecimal
+     */
+    public static final GraphQLScalarType GraphQLBigDecimal = JavaPrimitives.GraphQLBigDecimal;
+
+    /**
+     * This represents the "BigInteger" type which is a representation of java.math.BigInteger
+     */
+    public static final GraphQLScalarType GraphQLBigInteger = JavaPrimitives.GraphQLBigInteger;
+
+    /**
+     * This represents the "Char" type which is a representation of java.lang.Character
+     */
+    public static final GraphQLScalarType GraphQLChar = JavaPrimitives.GraphQLChar;
+
 }
