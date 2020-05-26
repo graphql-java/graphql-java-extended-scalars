@@ -8,12 +8,12 @@ import graphql.schema.CoercingParseValueException;
 import graphql.schema.CoercingSerializeException;
 import graphql.schema.GraphQLScalarType;
 
+import java.time.DateTimeException;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.DateTimeParseException;
 import java.time.format.ResolverStyle;
-import java.time.temporal.TemporalAccessor;
 import java.util.function.Function;
 
 import static graphql.scalars.util.Kit.typeName;
@@ -22,6 +22,7 @@ import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE;
 import static java.time.temporal.ChronoField.HOUR_OF_DAY;
 import static java.time.temporal.ChronoField.MILLI_OF_SECOND;
 import static java.time.temporal.ChronoField.MINUTE_OF_HOUR;
+import static java.time.temporal.ChronoField.NANO_OF_SECOND;
 import static java.time.temporal.ChronoField.OFFSET_SECONDS;
 import static java.time.temporal.ChronoField.SECOND_OF_MINUTE;
 
@@ -50,15 +51,39 @@ public class OffsetDateTimeScalar {
 
         @Override
         public String serialize(Object dataFetcherResult) throws CoercingSerializeException {
+            OffsetDateTime offsetDateTime;
             if (dataFetcherResult instanceof OffsetDateTime) {
-                return formatter.format((TemporalAccessor) dataFetcherResult);
+                offsetDateTime = (OffsetDateTime) dataFetcherResult;
+                if (offsetDateTime.get(NANO_OF_SECOND) % 1000000 != 0) {
+                    throw new CoercingSerializeException("To specific nano of second: only milliseconds accuracy supported");
+                }
+            } else if (dataFetcherResult instanceof String) {
+                offsetDateTime = parseOffsetDateTime((String) dataFetcherResult, CoercingSerializeException::new);
+            } else {
+                throw new CoercingSerializeException("Unsupported value:" + dataFetcherResult);
             }
-            throw new CoercingSerializeException("Not accepted value " + dataFetcherResult);
+            try {
+                return formatter.format(offsetDateTime);
+            } catch (DateTimeException e) {
+                throw new CoercingSerializeException("Unsupported value because of : '" + e.getMessage() + "'.");
+            }
         }
+
 
         @Override
         public OffsetDateTime parseValue(Object input) throws CoercingParseValueException {
-            return null;
+            OffsetDateTime offsetDateTime;
+            if (input instanceof OffsetDateTime) {
+                offsetDateTime = (OffsetDateTime) input;
+                if (offsetDateTime.get(NANO_OF_SECOND) % 1000000 != 0) {
+                    throw new CoercingParseValueException("To specific nano of second: only milliseconds accuracy supported");
+                }
+            } else if (input instanceof String) {
+                offsetDateTime = parseOffsetDateTime((String) input, CoercingParseValueException::new);
+            } else {
+                throw new CoercingParseValueException("Unsupported value:" + input);
+            }
+            return offsetDateTime;
         }
 
         @Override

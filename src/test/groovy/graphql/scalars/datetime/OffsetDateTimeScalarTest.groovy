@@ -2,8 +2,12 @@ package graphql.scalars.datetime
 
 import graphql.language.StringValue
 import graphql.schema.CoercingParseLiteralException
+import graphql.schema.CoercingParseValueException
+import graphql.schema.CoercingSerializeException
 import spock.lang.Specification
 import spock.lang.Unroll
+
+import java.time.ZonedDateTime
 
 import static graphql.scalars.util.TestKit.mkOffsetDT
 
@@ -57,6 +61,42 @@ class OffsetDateTimeScalarTest extends Specification {
         input                                       | expectedResult
         mkOffsetDT("2011-08-30T13:22:53.108Z")      | "2011-08-30T13:22:53.108Z"
         mkOffsetDT("2011-08-30T13:22:53.108+00:00") | "2011-08-30T13:22:53.108Z"
+    }
+
+    @Unroll
+    def "result coercion (serialize) rejects #input because #reason"() {
+        when:
+        OffsetDateTimeScalar.coercing.serialize(input)
+        then:
+        thrown(CoercingSerializeException)
+        where:
+        input                                   | reason
+        mkOffsetDT("2011-08-30T13:22:53.1234Z") | "too specific fractions of second"
+        ZonedDateTime.now()                     | "zoned date time can't be converted without loss of information"
+    }
+
+    @Unroll
+    def "value coercion successful for #input"() {
+        when:
+        def result = OffsetDateTimeScalar.coercing.parseValue(input)
+        then:
+        result == expectedValue
+        where:
+        input                                  | expectedValue
+        "2011-08-30T13:22:53.108Z"             | mkOffsetDT("2011-08-30T13:22:53.108Z")
+        mkOffsetDT("2011-08-30T13:22:53.108Z") | mkOffsetDT("2011-08-30T13:22:53.108Z")
+    }
+
+    @Unroll
+    def "value coercion failed for #input because #reason"() {
+        when:
+        OffsetDateTimeScalar.coercing.parseValue(input)
+        then:
+        thrown(CoercingParseValueException)
+        where:
+        input                                   | reason
+        mkOffsetDT("2011-08-30T13:22:53.1234Z") | "too specific fractions of second"
+        ZonedDateTime.now()                     | "zoned date time can't be converted without loss of information"
     }
 
 
