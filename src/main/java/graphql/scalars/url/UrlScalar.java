@@ -7,7 +7,6 @@ import graphql.schema.CoercingParseLiteralException;
 import graphql.schema.CoercingParseValueException;
 import graphql.schema.CoercingSerializeException;
 import graphql.schema.GraphQLScalarType;
-import okhttp3.HttpUrl;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -67,11 +66,11 @@ public class UrlScalar extends GraphQLScalarType {
             }
 
             private URL parseURL(String input, Function<String, RuntimeException> exceptionMaker) {
-                HttpUrl httpUrl = HttpUrl.parse(input);
-                if (httpUrl == null) {
+                try {
+                    return new URL(input);
+                } catch (MalformedURLException e) {
                     throw exceptionMaker.apply("Invalid URL value : '" + input + "'.");
                 }
-                return httpUrl.url();
             }
         });
     }
