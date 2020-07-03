@@ -8,11 +8,10 @@ import graphql.schema.CoercingParseValueException;
 import graphql.schema.CoercingSerializeException;
 import graphql.schema.GraphQLScalarType;
 
-import java.time.DateTimeException;
-import java.time.OffsetDateTime;
-import java.time.ZonedDateTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Date;
 import java.util.function.Function;
 
 import static graphql.scalars.util.Kit.typeName;
@@ -32,6 +31,10 @@ public class DateTimeScalar extends GraphQLScalarType {
                     offsetDateTime = (OffsetDateTime) input;
                 } else if (input instanceof ZonedDateTime) {
                     offsetDateTime = ((ZonedDateTime) input).toOffsetDateTime();
+                } else if (input instanceof Instant) {
+                    offsetDateTime = ((Instant) input).atOffset(ZoneOffset.UTC);
+                } else if (input instanceof Date) {
+                    offsetDateTime = ((Date) input).toInstant().atOffset(ZoneOffset.UTC);
                 } else if (input instanceof String) {
                     offsetDateTime = parseOffsetDateTime(input.toString(), CoercingSerializeException::new);
                 } else {

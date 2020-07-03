@@ -5,6 +5,8 @@ import graphql.schema.CoercingParseValueException
 import graphql.schema.CoercingSerializeException
 import spock.lang.Specification
 import spock.lang.Unroll
+import java.util.Date
+import java.time.Instant
 
 import static graphql.scalars.util.TestKit.mkLocalDT
 import static graphql.scalars.util.TestKit.mkOffsetDT
@@ -68,6 +70,8 @@ class DateTimeScalarTest extends Specification {
         "1937-01-01T12:00:27.87+00:20"  | "1937-01-01T12:00:27.87+00:20"
         mkOffsetDT(year: 1980, hour: 3) | "1980-08-08T03:10:09+10:00"
         mkZonedDT(year: 1980, hour: 3)  | "1980-08-08T03:10:09+10:00"
+        new Instant(334588209, 0)       | "1980-08-08T13:10:09Z"
+        new Date(334588209000)          | "1980-08-08T13:10:09Z"
     }
 
     def "datetime serialisation bad inputs"() {
