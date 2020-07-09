@@ -33,6 +33,8 @@ public class DateTimeScalar extends GraphQLScalarType {
                     offsetDateTime = ((ZonedDateTime) input).toOffsetDateTime();
                 } else if (input instanceof Instant) {
                     offsetDateTime = ((Instant) input).atOffset(ZoneOffset.UTC);
+                } else if (input instanceof LocalDateTime) {
+                    offsetDateTime = ((LocalDateTime) input).atOffset(ZoneOffset.UTC);
                 } else if (input instanceof Date) {
                     offsetDateTime = ((Date) input).toInstant().atOffset(ZoneOffset.UTC);
                 } else if (input instanceof String) {
