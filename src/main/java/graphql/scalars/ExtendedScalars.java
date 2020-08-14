@@ -4,6 +4,7 @@ import graphql.PublicApi;
 import graphql.scalars.alias.AliasedScalar;
 import graphql.scalars.datetime.DateScalar;
 import graphql.scalars.datetime.DateTimeScalar;
+import graphql.scalars.datetime.OffsetDateTimeScalar;
 import graphql.scalars.datetime.TimeScalar;
 import graphql.scalars.java.JavaPrimitives;
 import graphql.scalars.locale.LocaleScalar;
@@ -40,6 +41,12 @@ public class ExtendedScalars {
      * @see java.time.ZonedDateTime
      */
     public static GraphQLScalarType DateTime = new DateTimeScalar();
+
+
+    public static GraphQLScalarType OffsetDateTime(String name) {
+        return OffsetDateTimeScalar.newOffsetDateTimeScalar(name);
+    }
+
 
     /**
      * An RFC-3339 compliant date scalar that accepts string values like `1996-12-19` and produces
