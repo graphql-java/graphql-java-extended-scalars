@@ -30,8 +30,7 @@ def getDevelopmentVersion() {
 
 
 def releaseVersion = System.getProperty("RELEASE_VERSION")
-version = '2.0.0-SNAPSHOT'
-//releaseVersion ? releaseVersion : getDevelopmentVersion()
+releaseVersion ? releaseVersion : getDevelopmentVersion()
 group = 'com.graphql-java'
 
 sourceCompatibility = 1.8
