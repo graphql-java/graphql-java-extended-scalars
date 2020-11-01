@@ -9,23 +9,29 @@ system but after that it is up to an implementation about what custom scalars ar
 
 You would use custom scalars when you want to describe more meaningful behavior or ranges of values.
 
-To use this library put the following into your gradle config
+To use this library put the following into your gradle config:
 
-    compile 'com.graphql-java:graphql-java-extended-scalars:1.0'
-    
-or the following into your Maven config
+```groovy
+implementation 'com.graphql-java:graphql-java-extended-scalars:1.1.0'
+```
 
-    <dependency>
-      <groupId>com.graphql-java</groupId>
-      <artifactId>graphql-java-extended-scalars</artifactId>
-      <version>1.0</version>
-    </dependency>
-    
-Then register the scalar with graphql-java
+or the following into your Maven config:
 
-    RuntimeWiring.newRuntimeWiring().scalar(ExtendedScalars.DateTime)
-    
-And use it in your schema
+```xml
+<dependency>
+  <groupId>com.graphql-java</groupId>
+  <artifactId>graphql-java-extended-scalars</artifactId>
+  <version>1.1.0</version>
+</dependency>
+```
+
+Then register the scalar with graphql-java:
+
+```java
+RuntimeWiring.newRuntimeWiring().scalar(ExtendedScalars.DateTime)
+```
+
+And use it in your schema:
     
     scalar DateTime
     type Something {
