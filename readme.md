@@ -11,16 +11,26 @@ You would use custom scalars when you want to describe more meaningful behavior 
 
 To use this library put the following into your gradle config
 
-    compile 'com.graphql-java:graphql-java-extended-scalars:1.0'
+    compile 'com.graphql-java:graphql-java-extended-scalars:16.0.0'
     
 or the following into your Maven config
 
     <dependency>
       <groupId>com.graphql-java</groupId>
       <artifactId>graphql-java-extended-scalars</artifactId>
-      <version>1.0</version>
+      <version>16.0.0</version>
     </dependency>
-    
+
+> Note:
+>
+> use 1.0.1 or above for graphql-java 14.x and above
+>
+> use 15.0.0 or above for graphql-java 15.x and above
+>
+> use 16.0.0 or above for graphql-java 16.x and above
+
+Its currently available from JCenter repo and Maven central.
+
 Then register the scalar with graphql-java
 
     RuntimeWiring.newRuntimeWiring().scalar(ExtendedScalars.DateTime)
