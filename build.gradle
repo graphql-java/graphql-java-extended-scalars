@@ -20,14 +20,13 @@ def getDevelopmentVersion() {
         println "git hash is empty: error: ${error.toString()}"
         throw new IllegalStateException("git hash could not be determined")
     }
-    new SimpleDateFormat('yyyy-MM-dd\'T\'HH-mm-ss').format(new Date()) + "-" + gitHash + "-SNAPSHOT"
+    new SimpleDateFormat('yyyy-MM-dd\'T\'HH-mm-ss').format(new Date()) + "-" + gitHash
 }
 
 
-def releaseVersion = System.getProperty("RELEASE_VERSION")
+def releaseVersion = System.properties.RELEASE_VERSION
 version = releaseVersion ? releaseVersion : getDevelopmentVersion()
 println "Building version = " + version
-
 group = 'com.graphql-java'
 
 sourceCompatibility = 1.8
@@ -38,6 +37,7 @@ repositories {
     mavenLocal()
 }
 
+
 dependencies {
     compile "com.graphql-java:graphql-java:16.1"
 
@@ -46,12 +46,12 @@ dependencies {
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
-    classifier = 'sources'
+    archiveClassifier.set("sources")
     from sourceSets.main.allSource
 }
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
+    archiveClassifier.set("javadoc")
     from javadoc.destinationDir
 }
 
