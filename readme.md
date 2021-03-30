@@ -1,5 +1,10 @@
 # Extended Scalars for graphql-java
 
+[![Build Status](https://github.com/graphql-java/graphql-java-extended-scalars/actions/workflows/master.yml/badge.svg)](https://github.com/graphql-java/graphql-java-extended-scalars/actions/workflows/master.yml)
+[![Latest Release](https://maven-badges.herokuapp.com/maven-central/com.graphql-java/graphql-java-extended-scalars/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.graphql-java/graphql-java-extended-scalars/)
+[![MIT licensed](https://img.shields.io/badge/license-MIT-green)](https://github.com/graphql-java/graphql-java-extended-scalars/blob/master/LICENSE.md)
+
+
 This library provides extended scalars for [graphql-java](https://github.com/graphql-java/graphql-java)
 
 Scalars in graphql are the leaf nodes of a query, the non compound values that cant be queried further via sub field selections.
