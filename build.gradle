@@ -8,6 +8,7 @@ plugins {
     id 'maven-publish'
     id 'signing'
     id "io.github.gradle-nexus.publish-plugin" version "1.0.0"
+    id "groovy"
 }
 
 def getDevelopmentVersion() {
