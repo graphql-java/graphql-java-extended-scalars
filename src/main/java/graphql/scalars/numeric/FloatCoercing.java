@@ -1,6 +1,7 @@
 package graphql.scalars.numeric;
 
 import graphql.Internal;
+import graphql.language.Value;
 import graphql.schema.Coercing;
 import graphql.schema.CoercingParseLiteralException;
 import graphql.schema.CoercingParseValueException;
@@ -31,5 +32,10 @@ abstract class FloatCoercing implements Coercing<Double, Double> {
     public Double parseLiteral(Object input) throws CoercingParseLiteralException {
         Double d = (Double) GraphQLFloat.getCoercing().parseLiteral(input);
         return check(d, CoercingParseLiteralException::new);
+    }
+
+    @Override
+    public Value valueToLiteral(Object input) {
+        return GraphQLFloat.getCoercing().valueToLiteral(input);
     }
 }

@@ -1,6 +1,7 @@
 package graphql.scalars.numeric;
 
 import graphql.Internal;
+import graphql.language.Value;
 import graphql.schema.Coercing;
 import graphql.schema.CoercingParseLiteralException;
 import graphql.schema.CoercingParseValueException;
@@ -32,4 +33,10 @@ abstract class IntCoercing implements Coercing<Integer, Integer> {
         Integer i = (Integer) GraphQLInt.getCoercing().parseLiteral(input);
         return check(i, CoercingParseLiteralException::new);
     }
+
+    @Override
+    public Value valueToLiteral(Object input) {
+        return GraphQLInt.getCoercing().valueToLiteral(input);
+    }
+
 }

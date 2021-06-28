@@ -21,10 +21,12 @@ import static graphql.scalars.util.Kit.typeName;
  * Access this via {@link graphql.scalars.ExtendedScalars#DateTime}
  */
 @Internal
-public class DateTimeScalar extends GraphQLScalarType {
+public class DateTimeScalar {
 
-    public DateTimeScalar() {
-        super("DateTime", "An RFC-3339 compliant DateTime Scalar", new Coercing<OffsetDateTime, String>() {
+    public static GraphQLScalarType INSTANCE;
+
+    static {
+        Coercing<OffsetDateTime, String> coercing = new Coercing<OffsetDateTime, String>() {
             @Override
             public String serialize(Object input) throws CoercingSerializeException {
                 OffsetDateTime offsetDateTime;
@@ -82,7 +84,13 @@ public class DateTimeScalar extends GraphQLScalarType {
                     throw exceptionMaker.apply("Invalid RFC3339 value : '" + s + "'. because of : '" + e.getMessage() + "'");
                 }
             }
-        });
+        };
+
+        INSTANCE = GraphQLScalarType.newScalar()
+                .name("DateTime")
+                .description("An RFC-3339 compliant DateTime Scalar")
+                .coercing(coercing)
+                .build();
     }
 
 }

@@ -31,77 +31,75 @@ import static graphql.scalars.util.Kit.typeName;
  * Access this via {@link graphql.scalars.ExtendedScalars#Object}
  */
 @Internal
-public class ObjectScalar extends GraphQLScalarType {
+public class ObjectScalar {
 
+    static Coercing<Object, Object> OBJECT_COERCING = new Coercing<Object, Object>() {
+        @Override
+        public Object serialize(Object input) throws CoercingSerializeException {
+            return input;
+        }
 
-    public ObjectScalar() {
-        this("Object", "An object scalar");
-    }
+        @Override
+        public Object parseValue(Object input) throws CoercingParseValueException {
+            return input;
+        }
 
-    ObjectScalar(String name, String description) {
-        super(name, description, new Coercing<Object, Object>() {
-            @Override
-            public Object serialize(Object input) throws CoercingSerializeException {
-                return input;
+        @Override
+        public Object parseLiteral(Object input) throws CoercingParseLiteralException {
+            return parseLiteral(input, Collections.emptyMap());
+        }
+
+        @Override
+        public Object parseLiteral(Object input, Map<String, Object> variables) throws CoercingParseLiteralException {
+            if (!(input instanceof Value)) {
+                throw new CoercingParseLiteralException(
+                        "Expected AST type 'StringValue' but was '" + typeName(input) + "'."
+                );
             }
-
-            @Override
-            public Object parseValue(Object input) throws CoercingParseValueException {
-                return input;
+            if (input instanceof NullValue) {
+                return null;
             }
-
-            @Override
-            public Object parseLiteral(Object input) throws CoercingParseLiteralException {
-                return parseLiteral(input, Collections.emptyMap());
+            if (input instanceof FloatValue) {
+                return ((FloatValue) input).getValue();
             }
-
-            @Override
-            public Object parseLiteral(Object input, Map<String, Object> variables) throws CoercingParseLiteralException {
-                if (!(input instanceof Value)) {
-                    throw new CoercingParseLiteralException(
-                            "Expected AST type 'StringValue' but was '" + typeName(input) + "'."
-                    );
-                }
-                if (input instanceof NullValue) {
-                    return null;
-                }
-                if (input instanceof FloatValue) {
-                    return ((FloatValue) input).getValue();
-                }
-                if (input instanceof StringValue) {
-                    return ((StringValue) input).getValue();
-                }
-                if (input instanceof IntValue) {
-                    return ((IntValue) input).getValue();
-                }
-                if (input instanceof BooleanValue) {
-                    return ((BooleanValue) input).isValue();
-                }
-                if (input instanceof EnumValue) {
-                    return ((EnumValue) input).getName();
-                }
-                if (input instanceof VariableReference) {
-                    String varName = ((VariableReference) input).getName();
-                    return variables.get(varName);
-                }
-                if (input instanceof ArrayValue) {
-                    List<Value> values = ((ArrayValue) input).getValues();
-                    return values.stream()
-                            .map(v -> parseLiteral(v, variables))
-                            .collect(Collectors.toList());
-                }
-                if (input instanceof ObjectValue) {
-                    List<ObjectField> values = ((ObjectValue) input).getObjectFields();
-                    Map<String, Object> parsedValues = new LinkedHashMap<>();
-                    values.forEach(fld -> {
-                        Object parsedValue = parseLiteral(fld.getValue(), variables);
-                        parsedValues.put(fld.getName(), parsedValue);
-                    });
-                    return parsedValues;
-                }
-                return Assert.assertShouldNeverHappen("We have covered all Value types");
+            if (input instanceof StringValue) {
+                return ((StringValue) input).getValue();
             }
-        });
-    }
+            if (input instanceof IntValue) {
+                return ((IntValue) input).getValue();
+            }
+            if (input instanceof BooleanValue) {
+                return ((BooleanValue) input).isValue();
+            }
+            if (input instanceof EnumValue) {
+                return ((EnumValue) input).getName();
+            }
+            if (input instanceof VariableReference) {
+                String varName = ((VariableReference) input).getName();
+                return variables.get(varName);
+            }
+            if (input instanceof ArrayValue) {
+                List<Value> values = ((ArrayValue) input).getValues();
+                return values.stream()
+                        .map(v -> parseLiteral(v, variables))
+                        .collect(Collectors.toList());
+            }
+            if (input instanceof ObjectValue) {
+                List<ObjectField> values = ((ObjectValue) input).getObjectFields();
+                Map<String, Object> parsedValues = new LinkedHashMap<>();
+                values.forEach(fld -> {
+                    Object parsedValue = parseLiteral(fld.getValue(), variables);
+                    parsedValues.put(fld.getName(), parsedValue);
+                });
+                return parsedValues;
+            }
+            return Assert.assertShouldNeverHappen("We have covered all Value types");
+        }
+    };
 
+    public static GraphQLScalarType INSTANCE = GraphQLScalarType.newScalar()
+            .name("Object")
+            .description("An object scalar")
+            .coercing(OBJECT_COERCING)
+            .build();
 }

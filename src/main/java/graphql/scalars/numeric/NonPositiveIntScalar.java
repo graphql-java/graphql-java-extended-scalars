@@ -9,16 +9,18 @@ import java.util.function.Function;
  * Access this via {@link graphql.scalars.ExtendedScalars#NonPositiveInt}
  */
 @Internal
-public class NonPositiveIntScalar extends GraphQLScalarType {
-    public NonPositiveIntScalar() {
-        super("NonPositiveInt", "An Int scalar that must be less than or equal to zero", new IntCoercing() {
-            @Override
-            protected Integer check(Integer i, Function<String, RuntimeException> exceptionMaker) {
-                if (!(i <= 0)) {
-                    throw exceptionMaker.apply("The value must be less than or equal to zero");
+public class NonPositiveIntScalar {
+    public static GraphQLScalarType INSTANCE = GraphQLScalarType.newScalar()
+            .name("NonPositiveInt")
+            .description("An Int scalar that must be less than or equal to zero")
+            .coercing(new IntCoercing() {
+                @Override
+                protected Integer check(Integer i, Function<String, RuntimeException> exceptionMaker) {
+                    if (!(i <= 0)) {
+                        throw exceptionMaker.apply("The value must be less than or equal to zero");
+                    }
+                    return i;
                 }
-                return i;
-            }
-        });
-    }
+            })
+            .build();
 }

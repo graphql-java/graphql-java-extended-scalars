@@ -21,12 +21,14 @@ import static graphql.scalars.util.Kit.typeName;
  * Access this via {@link graphql.scalars.ExtendedScalars#Time}
  */
 @Internal
-public class TimeScalar extends GraphQLScalarType {
+public class TimeScalar {
 
     private final static DateTimeFormatter dateFormatter = DateTimeFormatter.ISO_OFFSET_TIME;
 
-    public TimeScalar() {
-        super("Time", "An RFC-3339 compliant Full Time Scalar", new Coercing<OffsetTime, String>() {
+    public static GraphQLScalarType INSTANCE;
+
+    static {
+        Coercing<OffsetTime, String> coercing = new Coercing<OffsetTime, String>() {
             @Override
             public String serialize(Object input) throws CoercingSerializeException {
                 TemporalAccessor temporalAccessor;
@@ -87,7 +89,13 @@ public class TimeScalar extends GraphQLScalarType {
                     throw exceptionMaker.apply("Invalid RFC3339 full time value : '" + s + "'. because of : '" + e.getMessage() + "'");
                 }
             }
-        });
+        };
+
+        INSTANCE = GraphQLScalarType.newScalar()
+                .name("Time")
+                .description("An RFC-3339 compliant Full Time Scalar")
+                .coercing(coercing)
+                .build();
     }
 
 }

@@ -18,10 +18,12 @@ import java.util.function.Function;
 import static graphql.scalars.util.Kit.typeName;
 
 @Internal
-public class UrlScalar extends GraphQLScalarType {
+public class UrlScalar {
 
-    public UrlScalar() {
-        super("Url", "A Url scalar", new Coercing<URL, URL>() {
+    public static GraphQLScalarType INSTANCE;
+
+    static {
+        Coercing<URL, URL> coercing = new Coercing<URL, URL>() {
             @Override
             public URL serialize(Object input) throws CoercingSerializeException {
                 Optional<URL> url;
@@ -68,11 +70,17 @@ public class UrlScalar extends GraphQLScalarType {
             private URL parseURL(String input, Function<String, RuntimeException> exceptionMaker) {
                 try {
                     return new URL(input);
-                } catch (MalformedURLException e){
+                } catch (MalformedURLException e) {
                     throw exceptionMaker.apply("Invalid URL value : '" + input + "'.");
                 }
             }
-        });
+        };
+
+        INSTANCE = GraphQLScalarType.newScalar()
+                .name("Url")
+                .description("A Url scalar")
+                .coercing(coercing)
+                .build();
     }
 
     private static Optional<URL> toURL(Object input) {
