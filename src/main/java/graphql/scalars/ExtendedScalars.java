@@ -177,6 +177,8 @@ public class ExtendedScalars {
      * The scalar converts any passed in objects to Strings first and them matches it against the provided
      * scalars to ensure its an acceptable value.
      *
+     * @param name the name of the scalar
+     *
      * @return a builder of a regex scalar
      */
     public static RegexScalar.Builder newRegexScalar(String name) {
@@ -188,7 +190,6 @@ public class ExtendedScalars {
      * <p>
      * For example you may take a `String` scalar and alias it as `SocialMediaLink` if that helps introduce
      * more semantic meaning to your type system.
-     * <p>
      * <pre>
      * {@code
      *
@@ -200,6 +201,8 @@ public class ExtendedScalars {
      * </pre>
      * <p>
      * A future version of the graphql specification may add this capability but in the meantime you can use this facility.
+     *
+     * @param name the name of the aliased scalar
      *
      * @return a builder of a aliased scalar
      */
