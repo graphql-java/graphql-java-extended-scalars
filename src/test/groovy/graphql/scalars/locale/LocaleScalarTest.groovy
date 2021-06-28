@@ -20,10 +20,11 @@ class LocaleScalarTest extends Specification {
         then:
         result == expectedValue
         where:
-        input      | expectedValue
-        "en"       | mkLocale("en")
-        "ro-RO"    | mkLocale("ro-RO")
-        "zh-hakka" | mkLocale("zh-hakka")
+        input          | expectedValue
+        "en"           | mkLocale("en")
+        "ro-RO"        | mkLocale("ro-RO")
+        "zh-hakka"     | mkLocale("zh-hakka")
+        mkLocale("en") | mkLocale("en")
     }
 
     @Unroll
