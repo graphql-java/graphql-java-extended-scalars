@@ -35,7 +35,7 @@ abstract class FloatCoercing implements Coercing<Double, Double> {
     }
 
     @Override
-    public Value valueToLiteral(Object input) {
+    public Value<?> valueToLiteral(Object input) {
         return GraphQLFloat.getCoercing().valueToLiteral(input);
     }
 }

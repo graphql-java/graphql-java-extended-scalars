@@ -91,11 +91,12 @@ public class AliasedScalar {
 
             @Override
             public Object parseLiteral(Object input, Map<String, Object> variables) throws CoercingParseLiteralException {
-                return aliasedScalar.getCoercing().parseLiteral(input, variables);
+                Coercing<?, ?> c = aliasedScalar.getCoercing();
+                return c.parseLiteral(input, variables);
             }
 
             @Override
-            public Value valueToLiteral(Object input) {
+            public Value<?> valueToLiteral(Object input) {
                 return aliasedScalar.getCoercing().valueToLiteral(input);
             }
         };

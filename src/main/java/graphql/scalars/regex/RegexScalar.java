@@ -3,6 +3,7 @@ package graphql.scalars.regex;
 import graphql.Assert;
 import graphql.PublicApi;
 import graphql.language.StringValue;
+import graphql.language.Value;
 import graphql.schema.Coercing;
 import graphql.schema.CoercingParseLiteralException;
 import graphql.schema.CoercingParseValueException;
@@ -116,6 +117,13 @@ public class RegexScalar {
                 String value = ((StringValue) input).getValue();
                 return matches(value, CoercingParseLiteralException::new);
             }
+
+            @Override
+            public Value<?> valueToLiteral(Object input) {
+                String s = serialize(input);
+                return StringValue.newStringValue(s).build();
+            }
+
 
             private String matches(String value, Function<String, RuntimeException> exceptionMaker) {
                 for (Pattern pattern : patterns) {

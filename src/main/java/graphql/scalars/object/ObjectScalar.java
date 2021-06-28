@@ -18,13 +18,18 @@ import graphql.schema.CoercingParseLiteralException;
 import graphql.schema.CoercingParseValueException;
 import graphql.schema.CoercingSerializeException;
 import graphql.schema.GraphQLScalarType;
+import graphql.util.FpKit;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static graphql.language.ObjectField.newObjectField;
 import static graphql.scalars.util.Kit.typeName;
 
 /**
@@ -46,6 +51,8 @@ public class ObjectScalar {
 
         @Override
         public Object parseLiteral(Object input) throws CoercingParseLiteralException {
+            // on purpose - object scalars can be null
+            //noinspection ConstantConditions
             return parseLiteral(input, Collections.emptyMap());
         }
 
@@ -53,7 +60,7 @@ public class ObjectScalar {
         public Object parseLiteral(Object input, Map<String, Object> variables) throws CoercingParseLiteralException {
             if (!(input instanceof Value)) {
                 throw new CoercingParseLiteralException(
-                        "Expected AST type 'StringValue' but was '" + typeName(input) + "'."
+                        "Expected AST type 'Value' but was '" + typeName(input) + "'."
                 );
             }
             if (input instanceof NullValue) {
@@ -94,6 +101,64 @@ public class ObjectScalar {
                 return parsedValues;
             }
             return Assert.assertShouldNeverHappen("We have covered all Value types");
+        }
+
+        @Override
+        public Value<?> valueToLiteral(Object input) {
+            if (input == null) {
+                return NullValue.newNullValue().build();
+            }
+            if (input instanceof String) {
+                return new StringValue((String) input);
+            }
+            if (input instanceof Float) {
+                return new FloatValue(BigDecimal.valueOf((Float) input));
+            }
+            if (input instanceof Double) {
+                return new FloatValue(BigDecimal.valueOf((Double) input));
+            }
+            if (input instanceof BigDecimal) {
+                return new FloatValue((BigDecimal) input);
+            }
+            if (input instanceof BigInteger) {
+                return new IntValue((BigInteger) input);
+            }
+            if (input instanceof Number) {
+                long l = ((Number) input).longValue();
+                return new IntValue(BigInteger.valueOf(l));
+            }
+            if (input instanceof Boolean) {
+                return new BooleanValue((Boolean) input);
+            }
+            if (FpKit.isIterable(input)) {
+                return handleIterable(FpKit.toIterable(input));
+            }
+            if (input instanceof Map) {
+                return handleMap((Map<?, ?>) input);
+            }
+            throw new UnsupportedOperationException("The ObjectScalar cant handle values of type : " + input.getClass());
+        }
+
+        private Value<?> handleMap(Map<?, ?> map) {
+            ObjectValue.Builder builder = ObjectValue.newObjectValue();
+            for (Map.Entry<?, ?> entry : map.entrySet()) {
+                String name = String.valueOf(entry.getKey());
+                Value<?> value = valueToLiteral(entry.getValue());
+
+                builder.objectField(
+                        newObjectField().name(name).value(value).build()
+                );
+            }
+            return builder.build();
+        }
+
+        @SuppressWarnings("rawtypes")
+        private Value<?> handleIterable(Iterable<?> input) {
+            List<Value> values = new ArrayList<>();
+            for (Object val : input) {
+                values.add(valueToLiteral(val));
+            }
+            return ArrayValue.newArrayValue().values(values).build();
         }
     };
 

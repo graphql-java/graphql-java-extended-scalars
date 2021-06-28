@@ -2,6 +2,7 @@ package graphql.scalars.locale;
 
 import graphql.Internal;
 import graphql.language.StringValue;
+import graphql.language.Value;
 import graphql.schema.Coercing;
 import graphql.schema.CoercingParseLiteralException;
 import graphql.schema.CoercingParseValueException;
@@ -50,6 +51,8 @@ public class LocaleScalar {
                         throw new CoercingParseValueException(
                                 "Unable to parse value to 'java.util.Locale' because of: " + e.getMessage());
                     }
+                } else if (input instanceof Locale) {
+                    return (Locale) input;
                 } else {
                     throw new CoercingParseValueException(
                             "Expected a 'java.lang.String' object but was " + typeName(input));
@@ -64,6 +67,12 @@ public class LocaleScalar {
                     throw new CoercingParseLiteralException(
                             "Expected a 'java.lang.String' object but was " + typeName(input));
                 }
+            }
+
+            @Override
+            public Value<?> valueToLiteral(Object input) {
+                String s = serialize(input);
+                return StringValue.newStringValue(s).build();
             }
         };
 

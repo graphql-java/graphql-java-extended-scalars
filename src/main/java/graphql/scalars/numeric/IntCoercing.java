@@ -35,7 +35,7 @@ abstract class IntCoercing implements Coercing<Integer, Integer> {
     }
 
     @Override
-    public Value valueToLiteral(Object input) {
+    public Value<?> valueToLiteral(Object input) {
         return GraphQLInt.getCoercing().valueToLiteral(input);
     }
 

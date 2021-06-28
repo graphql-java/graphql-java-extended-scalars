@@ -2,15 +2,18 @@ package graphql.scalars.url
 
 import graphql.language.BooleanValue
 import graphql.language.StringValue
+import graphql.scalars.ExtendedScalars
 import graphql.schema.CoercingParseLiteralException
 import graphql.schema.CoercingParseValueException
 import graphql.schema.CoercingSerializeException
 import spock.lang.Specification
 import spock.lang.Unroll
 
+import static graphql.scalars.util.TestKit.mkStringValue
+
 class UrlScalarTest extends Specification {
 
-    def coercing = new UrlScalar().getCoercing()
+    def coercing = ExtendedScalars.Url.getCoercing()
 
     @Unroll
     def "test serialize"() {
@@ -25,6 +28,21 @@ class UrlScalarTest extends Specification {
         new URI("http://www.graphql-java.com/") | new URL("http://www.graphql-java.com/")
         new File("/this/that")                  | new URL("file:/this/that")
         "http://www.graphql-java.com/"          | new URL("http://www.graphql-java.com/")
+    }
+
+    @Unroll
+    def "test valueToLiteral"() {
+
+        when:
+        def result = coercing.valueToLiteral(input)
+        then:
+        result.isEqualTo(expectedResult)
+        where:
+        input                                   | expectedResult
+        new URL("http://www.graphql-java.com/") | mkStringValue("http://www.graphql-java.com/")
+        new URI("http://www.graphql-java.com/") | mkStringValue("http://www.graphql-java.com/")
+        new File("/this/that")                  | mkStringValue("file:/this/that")
+        "http://www.graphql-java.com/"          | mkStringValue("http://www.graphql-java.com/")
     }
 
     @Unroll

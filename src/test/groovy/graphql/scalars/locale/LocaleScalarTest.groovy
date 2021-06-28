@@ -1,19 +1,16 @@
 package graphql.scalars.locale
 
 import graphql.language.StringValue
+import graphql.scalars.ExtendedScalars
 import spock.lang.Specification
 import spock.lang.Unroll
 
-import static graphql.scalars.util.TestKit.mkLocalDate
-import static graphql.scalars.util.TestKit.mkLocalDate
-import static graphql.scalars.util.TestKit.mkLocalDate
 import static graphql.scalars.util.TestKit.mkLocale
-import static graphql.scalars.util.TestKit.mkOffsetDT
-import static graphql.scalars.util.TestKit.mkZonedDT
+import static graphql.scalars.util.TestKit.mkStringValue
 
 class LocaleScalarTest extends Specification {
 
-    def coercing = new LocaleScalar().getCoercing()
+    def coercing = ExtendedScalars.Locale.getCoercing()
 
     @Unroll
     def "full locale parseValue"() {
@@ -23,10 +20,10 @@ class LocaleScalarTest extends Specification {
         then:
         result == expectedValue
         where:
-        input                           | expectedValue
-        "en"                            | mkLocale("en")
-        "ro-RO"                         | mkLocale("ro-RO")
-        "zh-hakka"                      | mkLocale("zh-hakka")
+        input      | expectedValue
+        "en"       | mkLocale("en")
+        "ro-RO"    | mkLocale("ro-RO")
+        "zh-hakka" | mkLocale("zh-hakka")
     }
 
     @Unroll
@@ -36,8 +33,8 @@ class LocaleScalarTest extends Specification {
         then:
         result == expectedValue
         where:
-        input                           | expectedValue
-        new StringValue("ro-RO")        | mkLocale("ro-RO")
+        input                    | expectedValue
+        new StringValue("ro-RO") | mkLocale("ro-RO")
     }
 
     @Unroll
@@ -47,10 +44,23 @@ class LocaleScalarTest extends Specification {
         then:
         result == expectedValue
         where:
-        input                           | expectedValue
-        "ro-RO"                         | "ro-RO"
-        mkLocale("ro-RO")               | "ro-RO"
-        mkLocale("en")                  | "en"
+        input             | expectedValue
+        "ro-RO"           | "ro-RO"
+        mkLocale("ro-RO") | "ro-RO"
+        mkLocale("en")    | "en"
+    }
+
+    @Unroll
+    def "full Locale valueToLiteral"() {
+        when:
+        def result = coercing.valueToLiteral(input)
+        then:
+        result.isEqualTo(expectedValue)
+        where:
+        input             | expectedValue
+        "ro-RO"           | mkStringValue("ro-RO")
+        mkLocale("ro-RO") | mkStringValue("ro-RO")
+        mkLocale("en")    | mkStringValue("en")
     }
 
 }

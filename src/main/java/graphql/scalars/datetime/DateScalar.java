@@ -2,6 +2,7 @@ package graphql.scalars.datetime;
 
 import graphql.Internal;
 import graphql.language.StringValue;
+import graphql.language.Value;
 import graphql.schema.Coercing;
 import graphql.schema.CoercingParseLiteralException;
 import graphql.schema.CoercingParseValueException;
@@ -79,6 +80,12 @@ public class DateScalar  {
                     );
                 }
                 return parseLocalDate(((StringValue) input).getValue(), CoercingParseLiteralException::new);
+            }
+
+            @Override
+            public Value<?> valueToLiteral(Object input) {
+                String s = serialize(input);
+                return StringValue.newStringValue(s).build();
             }
 
             private LocalDate parseLocalDate(String s, Function<String, RuntimeException> exceptionMaker) {

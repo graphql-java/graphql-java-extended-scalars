@@ -2,6 +2,7 @@ package graphql.scalars.url;
 
 import graphql.Internal;
 import graphql.language.StringValue;
+import graphql.language.Value;
 import graphql.schema.Coercing;
 import graphql.schema.CoercingParseLiteralException;
 import graphql.schema.CoercingParseValueException;
@@ -66,6 +67,13 @@ public class UrlScalar {
                 }
                 return parseURL(((StringValue) input).getValue(), CoercingParseLiteralException::new);
             }
+
+            @Override
+            public Value valueToLiteral(Object input) {
+                URL url = serialize(input);
+                return StringValue.newStringValue(url.toExternalForm()).build();
+            }
+
 
             private URL parseURL(String input, Function<String, RuntimeException> exceptionMaker) {
                 try {

@@ -4,6 +4,7 @@ import graphql.Internal;
 import graphql.language.FloatValue;
 import graphql.language.IntValue;
 import graphql.language.StringValue;
+import graphql.language.Value;
 import graphql.schema.Coercing;
 import graphql.schema.CoercingParseLiteralException;
 import graphql.schema.CoercingParseValueException;
@@ -12,6 +13,7 @@ import graphql.schema.GraphQLScalarType;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Objects;
 
 /**
  * Access these via {@link graphql.scalars.ExtendedScalars}
@@ -112,6 +114,12 @@ public class JavaPrimitives {
                         "Expected AST type 'IntValue' or 'StringValue' but was '" + typeName(input) + "'."
                 );
             }
+
+            @Override
+            public Value<?> valueToLiteral(Object input) {
+                Long result = Objects.requireNonNull(convertImpl(input));
+                return IntValue.newIntValue(BigInteger.valueOf(result)).build();
+            }
         };
 
         GraphQLLong = GraphQLScalarType.newScalar()
@@ -185,6 +193,12 @@ public class JavaPrimitives {
                 }
                 return value.shortValue();
             }
+
+            @Override
+            public Value<?> valueToLiteral(Object input) {
+                Short result = Objects.requireNonNull(convertImpl(input));
+                return IntValue.newIntValue(BigInteger.valueOf(result)).build();
+            }
         };
 
         GraphQLShort = GraphQLScalarType.newScalar()
@@ -257,6 +271,12 @@ public class JavaPrimitives {
                     );
                 }
                 return value.byteValue();
+            }
+
+            @Override
+            public Value<?> valueToLiteral(Object input) {
+                Byte result = Objects.requireNonNull(convertImpl(input));
+                return IntValue.newIntValue(BigInteger.valueOf(result)).build();
             }
         };
 
@@ -339,6 +359,12 @@ public class JavaPrimitives {
                         "Expected AST type 'IntValue', 'StringValue' or 'FloatValue' but was '" + typeName(input) + "'."
                 );
             }
+
+            @Override
+            public Value<?> valueToLiteral(Object input) {
+                BigInteger result = Objects.requireNonNull(convertImpl(input));
+                return IntValue.newIntValue(result).build();
+            }
         };
 
         GraphQLBigInteger = GraphQLScalarType.newScalar()
@@ -407,6 +433,13 @@ public class JavaPrimitives {
                         "Expected AST type 'IntValue', 'StringValue' or 'FloatValue' but was '" + typeName(input) + "'."
                 );
             }
+
+            @Override
+            public Value<?> valueToLiteral(Object input) {
+                BigDecimal result = Objects.requireNonNull(convertImpl(input));
+                return FloatValue.newFloatValue(result).build();
+            }
+
         };
 
         GraphQLBigDecimal = GraphQLScalarType.newScalar()
@@ -471,6 +504,13 @@ public class JavaPrimitives {
                 }
                 return value.charAt(0);
             }
+
+            @Override
+            public Value<?> valueToLiteral(Object input) {
+                Character result = Objects.requireNonNull(convertImpl(input));
+                return StringValue.newStringValue(result.toString()).build();
+            }
+
         };
 
         GraphQLChar = GraphQLScalarType.newScalar()
