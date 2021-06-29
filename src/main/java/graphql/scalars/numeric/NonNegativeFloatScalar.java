@@ -9,16 +9,19 @@ import java.util.function.Function;
  * Access this via {@link graphql.scalars.ExtendedScalars#NonNegativeFloat}
  */
 @Internal
-public class NonNegativeFloatScalar extends GraphQLScalarType {
-    public NonNegativeFloatScalar() {
-        super("NonNegativeFloat", "An Float scalar that must be greater than or equal to zero", new FloatCoercing() {
-            @Override
-            protected Double check(Double d, Function<String, RuntimeException> exceptionMaker) {
-                if (!(d >= 0)) {
-                    throw exceptionMaker.apply("The value must be greater than or equal to zero");
+public class NonNegativeFloatScalar {
+
+    public static GraphQLScalarType INSTANCE = GraphQLScalarType.newScalar()
+            .name("NonNegativeFloat")
+            .description("An Float scalar that must be greater than or equal to zero")
+            .coercing(new FloatCoercing() {
+                @Override
+                protected Double check(Double d, Function<String, RuntimeException> exceptionMaker) {
+                    if (!(d >= 0)) {
+                        throw exceptionMaker.apply("The value must be greater than or equal to zero");
+                    }
+                    return d;
                 }
-                return d;
-            }
-        });
-    }
+            })
+            .build();
 }

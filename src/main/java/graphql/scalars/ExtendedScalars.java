@@ -39,7 +39,7 @@ public class ExtendedScalars {
      * @see java.time.OffsetDateTime
      * @see java.time.ZonedDateTime
      */
-    public static GraphQLScalarType DateTime = new DateTimeScalar();
+    public static GraphQLScalarType DateTime = DateTimeScalar.INSTANCE;
 
     /**
      * An RFC-3339 compliant date scalar that accepts string values like `1996-12-19` and produces
@@ -52,7 +52,7 @@ public class ExtendedScalars {
      *
      * @see java.time.LocalDate
      */
-    public static GraphQLScalarType Date = new DateScalar();
+    public static GraphQLScalarType Date = DateScalar.INSTANCE;
     /**
      * An RFC-3339 compliant time scalar that accepts string values like `6:39:57-08:00` and produces
      * `java.time.OffsetTime` objects at runtime.
@@ -64,7 +64,7 @@ public class ExtendedScalars {
      *
      * @see java.time.OffsetTime
      */
-    public static GraphQLScalarType Time = new TimeScalar();
+    public static GraphQLScalarType Time = TimeScalar.INSTANCE;
 
     /**
      * An object scalar allows you to have a multi level data value without defining it in the graphql schema.
@@ -89,7 +89,7 @@ public class ExtendedScalars {
      *
      * @see #Json
      */
-    public static GraphQLScalarType Object = new ObjectScalar();
+    public static GraphQLScalarType Object = ObjectScalar.INSTANCE;
 
     /**
      * A synonym class for the {@link #Object} scalar, since some people prefer their SDL to look like the following :
@@ -106,68 +106,68 @@ public class ExtendedScalars {
      *
      * @see graphql.scalars.ExtendedScalars#Object
      */
-    public static GraphQLScalarType Json = new JsonScalar();
+    public static GraphQLScalarType Json = JsonScalar.INSTANCE;
 
     /**
      * A URL scalar that accepts URL strings and produces {@link java.net.URL} objects at runtime
      */
-    public static GraphQLScalarType Url = new UrlScalar();
+    public static GraphQLScalarType Url = UrlScalar.INSTANCE;
 
     /**
      * A Locale scalar that accepts a IETF BCP 47 language tag string and produces {@link
      * java.util.Locale} objects at runtime.
      */
-    public static GraphQLScalarType Locale = new LocaleScalar();
+    public static GraphQLScalarType Locale = LocaleScalar.INSTANCE;
 
     /**
      * An `Int` scalar that MUST be greater than zero
      *
      * @see graphql.Scalars#GraphQLInt
      */
-    public static GraphQLScalarType PositiveInt = new PositiveIntScalar();
+    public static GraphQLScalarType PositiveInt = PositiveIntScalar.INSTANCE;
     /**
      * An `Int` scalar that MUST be less than zero
      *
      * @see graphql.Scalars#GraphQLInt
      */
-    public static GraphQLScalarType NegativeInt = new NegativeIntScalar();
+    public static GraphQLScalarType NegativeInt = NegativeIntScalar.INSTANCE;
     /**
      * An `Int` scalar that MUST be less than or equal to zero
      *
      * @see graphql.Scalars#GraphQLInt
      */
-    public static GraphQLScalarType NonPositiveInt = new NonPositiveIntScalar();
+    public static GraphQLScalarType NonPositiveInt = NonPositiveIntScalar.INSTANCE;
     /**
      * An `Int` scalar that MUST be greater than or equal to zero
      *
      * @see graphql.Scalars#GraphQLInt
      */
-    public static GraphQLScalarType NonNegativeInt = new NonNegativeIntScalar();
+    public static GraphQLScalarType NonNegativeInt = NonNegativeIntScalar.INSTANCE;
 
     /**
      * An `Float` scalar that MUST be greater than zero
      *
      * @see graphql.Scalars#GraphQLFloat
      */
-    public static GraphQLScalarType PositiveFloat = new PositiveFloatScalar();
+    public static GraphQLScalarType PositiveFloat = PositiveFloatScalar.INSTANCE;
     /**
      * An `Float` scalar that MUST be less than zero
      *
      * @see graphql.Scalars#GraphQLFloat
      */
-    public static GraphQLScalarType NegativeFloat = new NegativeFloatScalar();
+    public static GraphQLScalarType NegativeFloat = NegativeFloatScalar.INSTANCE;
     /**
      * An `Float` scalar that MUST be less than or equal to zero
      *
      * @see graphql.Scalars#GraphQLFloat
      */
-    public static GraphQLScalarType NonPositiveFloat = new NonPositiveFloatScalar();
+    public static GraphQLScalarType NonPositiveFloat = NonPositiveFloatScalar.INSTANCE;
     /**
      * An `Float` scalar that MUST be greater than or equal to zero
      *
      * @see graphql.Scalars#GraphQLFloat
      */
-    public static GraphQLScalarType NonNegativeFloat = new NonNegativeFloatScalar();
+    public static GraphQLScalarType NonNegativeFloat = NonNegativeFloatScalar.INSTANCE;
 
 
     /**
@@ -176,6 +176,8 @@ public class ExtendedScalars {
      * <p>
      * The scalar converts any passed in objects to Strings first and them matches it against the provided
      * scalars to ensure its an acceptable value.
+     *
+     * @param name the name of the scalar
      *
      * @return a builder of a regex scalar
      */
@@ -188,7 +190,6 @@ public class ExtendedScalars {
      * <p>
      * For example you may take a `String` scalar and alias it as `SocialMediaLink` if that helps introduce
      * more semantic meaning to your type system.
-     * <p>
      * <pre>
      * {@code
      *
@@ -200,6 +201,8 @@ public class ExtendedScalars {
      * </pre>
      * <p>
      * A future version of the graphql specification may add this capability but in the meantime you can use this facility.
+     *
+     * @param name the name of the aliased scalar
      *
      * @return a builder of a aliased scalar
      */

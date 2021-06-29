@@ -2,6 +2,7 @@ package graphql.scalars.datetime;
 
 import graphql.Internal;
 import graphql.language.StringValue;
+import graphql.language.Value;
 import graphql.schema.Coercing;
 import graphql.schema.CoercingParseLiteralException;
 import graphql.schema.CoercingParseValueException;
@@ -21,10 +22,12 @@ import static graphql.scalars.util.Kit.typeName;
  * Access this via {@link graphql.scalars.ExtendedScalars#DateTime}
  */
 @Internal
-public class DateTimeScalar extends GraphQLScalarType {
+public class DateTimeScalar {
 
-    public DateTimeScalar() {
-        super("DateTime", "An RFC-3339 compliant DateTime Scalar", new Coercing<OffsetDateTime, String>() {
+    public static GraphQLScalarType INSTANCE;
+
+    static {
+        Coercing<OffsetDateTime, String> coercing = new Coercing<OffsetDateTime, String>() {
             @Override
             public String serialize(Object input) throws CoercingSerializeException {
                 OffsetDateTime offsetDateTime;
@@ -75,6 +78,12 @@ public class DateTimeScalar extends GraphQLScalarType {
                 return parseOffsetDateTime(((StringValue) input).getValue(), CoercingParseLiteralException::new);
             }
 
+            @Override
+            public Value<?> valueToLiteral(Object input) {
+                String s = serialize(input);
+                return StringValue.newStringValue(s).build();
+            }
+
             private OffsetDateTime parseOffsetDateTime(String s, Function<String, RuntimeException> exceptionMaker) {
                 try {
                     return OffsetDateTime.parse(s, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
@@ -82,7 +91,13 @@ public class DateTimeScalar extends GraphQLScalarType {
                     throw exceptionMaker.apply("Invalid RFC3339 value : '" + s + "'. because of : '" + e.getMessage() + "'");
                 }
             }
-        });
+        };
+
+        INSTANCE = GraphQLScalarType.newScalar()
+                .name("DateTime")
+                .description("An RFC-3339 compliant DateTime Scalar")
+                .coercing(coercing)
+                .build();
     }
 
 }

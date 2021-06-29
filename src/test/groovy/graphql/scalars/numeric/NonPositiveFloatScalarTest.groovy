@@ -1,6 +1,7 @@
 package graphql.scalars.numeric
 
 import graphql.language.StringValue
+import graphql.scalars.ExtendedScalars
 import graphql.schema.CoercingParseLiteralException
 import graphql.schema.CoercingParseValueException
 import graphql.schema.CoercingSerializeException
@@ -12,7 +13,7 @@ import static graphql.scalars.util.TestKit.mkFloatValue
 import static graphql.scalars.util.TestKit.mkIntValue
 
 class NonPositiveFloatScalarTest extends Specification {
-    def coercing = new NonPositiveFloatScalar().getCoercing()
+    def coercing = ExtendedScalars.NonPositiveFloat.getCoercing()
 
     @Unroll
     def "serialize"() {

@@ -11,6 +11,7 @@ import graphql.language.ObjectValue
 import graphql.language.StringValue
 import graphql.language.Value
 import graphql.language.VariableReference
+import graphql.scalars.ExtendedScalars
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -20,7 +21,7 @@ class ObjectScalarTest extends Specification {
             "varRef1": "value1"
     ]
 
-    def coercing = new ObjectScalar().getCoercing()
+    def coercing = ExtendedScalars.Object.getCoercing()
 
     @Unroll
     def "test AST parsing"() {
@@ -40,7 +41,7 @@ class ObjectScalarTest extends Specification {
         mkVarRef("varRef1")  | "value1"
         mkArrayValue([
                 mkStringValue("s"), mkIntValue(666)
-        ])                   | ["s", 666]
+        ] as List<Value>)    | ["s", 666]
     }
 
     @Unroll
@@ -51,15 +52,15 @@ class ObjectScalarTest extends Specification {
         then:
         result == expectedResult
         where:
-        input | expectedResult
+        input                    | expectedResult
         mkObjectValue([
                 fld1: mkStringValue("s"),
                 fld2: mkIntValue(99),
                 fld3: mkObjectValue([
                         childFld1: mkStringValue("child1"),
                         childFl2 : mkVarRef("varRef1")
-                ])
-        ])    | [fld1: "s", fld2: 99, fld3: [childFld1: "child1", childFl2: "value1"]]
+                ] as Map<String, Value>)
+        ] as Map<String, Value>) | [fld1: "s", fld2: 99, fld3: [childFld1: "child1", childFl2: "value1"]]
     }
 
     @Unroll
@@ -85,6 +86,34 @@ class ObjectScalarTest extends Specification {
         666    | 666
         "same" | "same"
     }
+
+    @Unroll
+    def "test valueToLiteral #input"() {
+        when:
+        def result = coercing.valueToLiteral(input)
+        then:
+        result.isEqualTo(expectedResult)
+        where:
+        input                 | expectedResult
+        "cba"                 | mkStringValue("cba")
+        666                   | mkIntValue(666)
+        666.99                | mkFloatValue("666.99")
+        true                  | mkBooleanValue(true)
+        null                  | mkNullValue()
+
+        [l1: [l2: [l3: "x"]]] | mkObjectValue(
+                [l1: mkObjectValue(
+                        [l2: mkObjectValue(
+                                [l3: mkStringValue("x")]
+                        )]
+                )]
+        )
+        ["x", 1, true]        | mkArrayValue([
+                mkStringValue("x"),
+                mkIntValue(1),
+                mkBooleanValue(true)] as List<Value>)
+    }
+
 
     ObjectValue mkObjectValue(Map<String, Value> fields) {
         def list = []
@@ -115,7 +144,7 @@ class ObjectScalarTest extends Specification {
     }
 
     IntValue mkIntValue(int val) {
-        new IntValue(val)
+        new IntValue(BigInteger.valueOf(val))
     }
 
     FloatValue mkFloatValue(String val) {

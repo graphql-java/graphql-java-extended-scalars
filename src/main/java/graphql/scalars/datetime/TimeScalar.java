@@ -2,6 +2,7 @@ package graphql.scalars.datetime;
 
 import graphql.Internal;
 import graphql.language.StringValue;
+import graphql.language.Value;
 import graphql.schema.Coercing;
 import graphql.schema.CoercingParseLiteralException;
 import graphql.schema.CoercingParseValueException;
@@ -21,12 +22,14 @@ import static graphql.scalars.util.Kit.typeName;
  * Access this via {@link graphql.scalars.ExtendedScalars#Time}
  */
 @Internal
-public class TimeScalar extends GraphQLScalarType {
+public class TimeScalar {
 
     private final static DateTimeFormatter dateFormatter = DateTimeFormatter.ISO_OFFSET_TIME;
 
-    public TimeScalar() {
-        super("Time", "An RFC-3339 compliant Full Time Scalar", new Coercing<OffsetTime, String>() {
+    public static GraphQLScalarType INSTANCE;
+
+    static {
+        Coercing<OffsetTime, String> coercing = new Coercing<OffsetTime, String>() {
             @Override
             public String serialize(Object input) throws CoercingSerializeException {
                 TemporalAccessor temporalAccessor;
@@ -79,6 +82,12 @@ public class TimeScalar extends GraphQLScalarType {
                 return parseOffsetTime(((StringValue) input).getValue(), CoercingParseLiteralException::new);
             }
 
+            @Override
+            public Value<?> valueToLiteral(Object input) {
+                String s = serialize(input);
+                return StringValue.newStringValue(s).build();
+            }
+
             private OffsetTime parseOffsetTime(String s, Function<String, RuntimeException> exceptionMaker) {
                 try {
                     TemporalAccessor temporalAccessor = dateFormatter.parse(s);
@@ -87,7 +96,13 @@ public class TimeScalar extends GraphQLScalarType {
                     throw exceptionMaker.apply("Invalid RFC3339 full time value : '" + s + "'. because of : '" + e.getMessage() + "'");
                 }
             }
-        });
+        };
+
+        INSTANCE = GraphQLScalarType.newScalar()
+                .name("Time")
+                .description("An RFC-3339 compliant Full Time Scalar")
+                .coercing(coercing)
+                .build();
     }
 
 }

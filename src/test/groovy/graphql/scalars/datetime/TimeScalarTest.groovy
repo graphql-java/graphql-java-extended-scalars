@@ -1,6 +1,7 @@
 package graphql.scalars.datetime
 
 import graphql.language.StringValue
+import graphql.scalars.ExtendedScalars
 import graphql.schema.CoercingParseValueException
 import graphql.schema.CoercingSerializeException
 import spock.lang.Specification
@@ -9,11 +10,12 @@ import spock.lang.Unroll
 import static graphql.scalars.util.TestKit.mkLocalDT
 import static graphql.scalars.util.TestKit.mkOffsetDT
 import static graphql.scalars.util.TestKit.mkOffsetT
+import static graphql.scalars.util.TestKit.mkStringValue
 import static graphql.scalars.util.TestKit.mkZonedDT
 
 class TimeScalarTest extends Specification {
 
-    def coercing = new TimeScalar().getCoercing()
+    def coercing = ExtendedScalars.Time.getCoercing()
 
     @Unroll
     def "datetime parseValue"() {
@@ -69,6 +71,21 @@ class TimeScalarTest extends Specification {
         "12:00:27.87+00:20"             | "12:00:27.87+00:20"
         mkOffsetDT(year: 1980, hour: 3) | "03:10:09+10:00"
         mkZonedDT(year: 1980, hour: 3)  | "03:10:09+10:00"
+    }
+
+    def "datetime valueToLiteral"() {
+
+        when:
+        def result = coercing.valueToLiteral(input)
+        then:
+        result.isEqualTo(expectedValue)
+        where:
+        input                           | expectedValue
+        "23:20:50.52Z"                  | mkStringValue("23:20:50.52Z")
+        "16:39:57-08:00"                | mkStringValue("16:39:57-08:00")
+        "12:00:27.87+00:20"             | mkStringValue("12:00:27.87+00:20")
+        mkOffsetDT(year: 1980, hour: 3) | mkStringValue("03:10:09+10:00")
+        mkZonedDT(year: 1980, hour: 3)  | mkStringValue("03:10:09+10:00")
     }
 
     def "datetime serialisation bad inputs"() {

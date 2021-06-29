@@ -2,6 +2,7 @@ package graphql.scalars.url;
 
 import graphql.Internal;
 import graphql.language.StringValue;
+import graphql.language.Value;
 import graphql.schema.Coercing;
 import graphql.schema.CoercingParseLiteralException;
 import graphql.schema.CoercingParseValueException;
@@ -18,10 +19,12 @@ import java.util.function.Function;
 import static graphql.scalars.util.Kit.typeName;
 
 @Internal
-public class UrlScalar extends GraphQLScalarType {
+public class UrlScalar {
 
-    public UrlScalar() {
-        super("Url", "A Url scalar", new Coercing<URL, URL>() {
+    public static GraphQLScalarType INSTANCE;
+
+    static {
+        Coercing<URL, URL> coercing = new Coercing<URL, URL>() {
             @Override
             public URL serialize(Object input) throws CoercingSerializeException {
                 Optional<URL> url;
@@ -65,14 +68,27 @@ public class UrlScalar extends GraphQLScalarType {
                 return parseURL(((StringValue) input).getValue(), CoercingParseLiteralException::new);
             }
 
+            @Override
+            public Value valueToLiteral(Object input) {
+                URL url = serialize(input);
+                return StringValue.newStringValue(url.toExternalForm()).build();
+            }
+
+
             private URL parseURL(String input, Function<String, RuntimeException> exceptionMaker) {
                 try {
                     return new URL(input);
-                } catch (MalformedURLException e){
+                } catch (MalformedURLException e) {
                     throw exceptionMaker.apply("Invalid URL value : '" + input + "'.");
                 }
             }
-        });
+        };
+
+        INSTANCE = GraphQLScalarType.newScalar()
+                .name("Url")
+                .description("A Url scalar")
+                .coercing(coercing)
+                .build();
     }
 
     private static Optional<URL> toURL(Object input) {

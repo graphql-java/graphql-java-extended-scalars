@@ -2,6 +2,7 @@ package graphql.scalars.util
 
 import graphql.language.FloatValue
 import graphql.language.IntValue
+import graphql.language.StringValue
 
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -69,6 +70,10 @@ class TestKit {
 
     static FloatValue mkFloatValue(String s) {
         return new FloatValue(new BigDecimal(String.valueOf(s)))
+    }
+
+    static StringValue mkStringValue(String s) {
+        return new StringValue(s)
     }
 
     static FloatValue mkFloatValue(double d) {

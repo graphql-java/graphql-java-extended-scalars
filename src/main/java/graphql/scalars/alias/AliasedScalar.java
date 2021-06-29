@@ -2,6 +2,7 @@ package graphql.scalars.alias;
 
 import graphql.Assert;
 import graphql.Internal;
+import graphql.language.Value;
 import graphql.schema.Coercing;
 import graphql.schema.CoercingParseLiteralException;
 import graphql.schema.CoercingParseValueException;
@@ -14,7 +15,7 @@ import java.util.Map;
  * Access this via {@link graphql.scalars.ExtendedScalars#newAliasedScalar(String)}
  */
 @Internal
-public class AliasedScalar extends GraphQLScalarType {
+public class AliasedScalar {
 
     /**
      * A builder for {@link graphql.scalars.alias.AliasedScalar}
@@ -63,20 +64,16 @@ public class AliasedScalar extends GraphQLScalarType {
         /**
          * @return the built {@link AliasedScalar}
          */
-        public AliasedScalar build() {
+        public GraphQLScalarType build() {
             Assert.assertNotNull(name);
             return aliasedScalarImpl(name, description, aliasedScalar);
         }
     }
 
 
-    private AliasedScalar(String name, String description, Coercing coercing) {
-        super(name, description, coercing);
-    }
-
-    private static AliasedScalar aliasedScalarImpl(String name, String description, GraphQLScalarType aliasedScalar) {
+    private static GraphQLScalarType aliasedScalarImpl(String name, String description, GraphQLScalarType aliasedScalar) {
         Assert.assertNotNull(aliasedScalar);
-        return new AliasedScalar(name, description, new Coercing<Object, Object>() {
+        Coercing<Object, Object> coercing = new Coercing<Object, Object>() {
             @Override
             public Object serialize(Object input) throws CoercingSerializeException {
                 return aliasedScalar.getCoercing().serialize(input);
@@ -94,8 +91,19 @@ public class AliasedScalar extends GraphQLScalarType {
 
             @Override
             public Object parseLiteral(Object input, Map<String, Object> variables) throws CoercingParseLiteralException {
-                return aliasedScalar.getCoercing().parseLiteral(input, variables);
+                Coercing<?, ?> c = aliasedScalar.getCoercing();
+                return c.parseLiteral(input, variables);
             }
-        });
+
+            @Override
+            public Value<?> valueToLiteral(Object input) {
+                return aliasedScalar.getCoercing().valueToLiteral(input);
+            }
+        };
+        return GraphQLScalarType.newScalar()
+                .name(name)
+                .description(description)
+                .coercing(coercing)
+                .build();
     }
 }

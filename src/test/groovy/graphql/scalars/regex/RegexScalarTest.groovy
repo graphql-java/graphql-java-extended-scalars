@@ -5,14 +5,17 @@ import graphql.scalars.ExtendedScalars
 import graphql.schema.CoercingParseLiteralException
 import graphql.schema.CoercingParseValueException
 import graphql.schema.CoercingSerializeException
+import graphql.schema.GraphQLScalarType
 import spock.lang.Specification
 import spock.lang.Unroll
 
 import java.util.regex.Pattern
 
+import static graphql.scalars.util.TestKit.mkStringValue
+
 class RegexScalarTest extends Specification {
 
-    RegexScalar phoneNumberScalar = ExtendedScalars.newRegexScalar("phoneNumber")
+    GraphQLScalarType phoneNumberScalar = ExtendedScalars.newRegexScalar("phoneNumber")
             .addPattern(Pattern.compile("\\([0-9]*\\)[0-9]*"))
             .build()
 
@@ -72,6 +75,18 @@ class RegexScalarTest extends Specification {
         where:
         input        || expectedResult
         "(02)998768" || "(02)998768"
+    }
+
+    @Unroll
+    def "basic regex valueToLiteral"() {
+
+        when:
+        def result = phoneNumberScalar.getCoercing().valueToLiteral(input)
+        then:
+        result.isEqualTo(expectedResult)
+        where:
+        input        || expectedResult
+        "(02)998768" || mkStringValue("(02)998768")
     }
 
     @Unroll

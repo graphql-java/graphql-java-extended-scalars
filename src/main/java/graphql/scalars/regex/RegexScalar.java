@@ -3,6 +3,7 @@ package graphql.scalars.regex;
 import graphql.Assert;
 import graphql.PublicApi;
 import graphql.language.StringValue;
+import graphql.language.Value;
 import graphql.schema.Coercing;
 import graphql.schema.CoercingParseLiteralException;
 import graphql.schema.CoercingParseValueException;
@@ -23,7 +24,7 @@ import static graphql.scalars.util.Kit.typeName;
  * a regular expression.
  */
 @PublicApi
-public class RegexScalar extends GraphQLScalarType {
+public class RegexScalar {
 
     /**
      * A builder for {@link graphql.scalars.regex.RegexScalar}
@@ -84,19 +85,16 @@ public class RegexScalar extends GraphQLScalarType {
         /**
          * @return the built {@link graphql.scalars.regex.RegexScalar}
          */
-        public RegexScalar build() {
+        public GraphQLScalarType build() {
             Assert.assertNotNull(name);
             return regexScalarImpl(name, description, patterns);
         }
     }
 
-    private RegexScalar(String name, String description, Coercing coercing) {
-        super(name, description, coercing);
-    }
-
-    private static RegexScalar regexScalarImpl(String name, String description, List<Pattern> patterns) {
+    private static GraphQLScalarType regexScalarImpl(String name, String description, List<Pattern> patterns) {
         Assert.assertNotNull(patterns);
-        return new RegexScalar(name, description, new Coercing<String, String>() {
+
+        Coercing<String, String> coercing = new Coercing<String, String>() {
             @Override
             public String serialize(Object input) throws CoercingSerializeException {
                 String value = String.valueOf(input);
@@ -120,6 +118,13 @@ public class RegexScalar extends GraphQLScalarType {
                 return matches(value, CoercingParseLiteralException::new);
             }
 
+            @Override
+            public Value<?> valueToLiteral(Object input) {
+                String s = serialize(input);
+                return StringValue.newStringValue(s).build();
+            }
+
+
             private String matches(String value, Function<String, RuntimeException> exceptionMaker) {
                 for (Pattern pattern : patterns) {
                     Matcher matcher = pattern.matcher(value);
@@ -129,6 +134,12 @@ public class RegexScalar extends GraphQLScalarType {
                 }
                 throw exceptionMaker.apply("Unable to accept a value into the '" + name + "' scalar.  It does not match the regular expressions.");
             }
-        });
+        };
+
+        return GraphQLScalarType.newScalar()
+                .name(name)
+                .description(description)
+                .coercing(coercing)
+                .build();
     }
 }

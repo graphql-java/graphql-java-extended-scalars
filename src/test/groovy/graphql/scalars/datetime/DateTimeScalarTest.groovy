@@ -1,6 +1,7 @@
 package graphql.scalars.datetime
 
 import graphql.language.StringValue
+import graphql.scalars.ExtendedScalars
 import graphql.schema.CoercingParseValueException
 import graphql.schema.CoercingSerializeException
 import spock.lang.Specification
@@ -8,11 +9,12 @@ import spock.lang.Unroll
 
 import static graphql.scalars.util.TestKit.mkLocalDT
 import static graphql.scalars.util.TestKit.mkOffsetDT
+import static graphql.scalars.util.TestKit.mkStringValue
 import static graphql.scalars.util.TestKit.mkZonedDT
 
 class DateTimeScalarTest extends Specification {
 
-    def coercing = new DateTimeScalar().getCoercing()
+    def coercing = ExtendedScalars.DateTime.getCoercing()
 
     @Unroll
     def "datetime parseValue"() {
@@ -28,6 +30,22 @@ class DateTimeScalarTest extends Specification {
         "1937-01-01T12:00:27.87+00:20"  | mkOffsetDT("1937-01-01T12:00:27.87+00:20")
         mkOffsetDT(year: 1980, hour: 3) | mkOffsetDT("1980-08-08T03:10:09+10:00")
         mkZonedDT(year: 1980, hour: 3)  | mkOffsetDT("1980-08-08T03:10:09+10:00")
+    }
+
+    @Unroll
+    def "datetime valueToLiteral"() {
+
+        when:
+        def result = coercing.valueToLiteral(input)
+        then:
+        result.isEqualTo(expectedValue)
+        where:
+        input                           | expectedValue
+        "1985-04-12T23:20:50.52Z"       | mkStringValue("1985-04-12T23:20:50.52Z")
+        "1996-12-19T16:39:57-08:00"     | mkStringValue("1996-12-19T16:39:57-08:00")
+        "1937-01-01T12:00:27.87+00:20"  | mkStringValue("1937-01-01T12:00:27.87+00:20")
+        mkOffsetDT(year: 1980, hour: 3) | mkStringValue("1980-08-08T03:10:09+10:00")
+        mkZonedDT(year: 1980, hour: 3)  | mkStringValue("1980-08-08T03:10:09+10:00")
     }
 
     @Unroll

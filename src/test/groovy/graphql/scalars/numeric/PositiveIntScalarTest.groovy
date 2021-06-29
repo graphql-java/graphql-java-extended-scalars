@@ -1,6 +1,7 @@
 package graphql.scalars.numeric
 
 import graphql.language.StringValue
+import graphql.scalars.ExtendedScalars
 import graphql.schema.CoercingParseLiteralException
 import graphql.schema.CoercingParseValueException
 import graphql.schema.CoercingSerializeException
@@ -11,7 +12,7 @@ import static graphql.scalars.util.TestKit.assertValueOrException
 import static graphql.scalars.util.TestKit.mkIntValue
 
 class PositiveIntScalarTest extends Specification {
-    def coercing = new PositiveIntScalar().getCoercing()
+    def coercing = ExtendedScalars.PositiveInt.getCoercing()
 
     @Unroll
     def "serialize"() {

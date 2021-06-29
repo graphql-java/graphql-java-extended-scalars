@@ -1,16 +1,18 @@
 package graphql.scalars.datetime
 
 import graphql.language.StringValue
+import graphql.scalars.ExtendedScalars
 import spock.lang.Specification
 import spock.lang.Unroll
 
 import static graphql.scalars.util.TestKit.mkLocalDate
 import static graphql.scalars.util.TestKit.mkOffsetDT
+import static graphql.scalars.util.TestKit.mkStringValue
 import static graphql.scalars.util.TestKit.mkZonedDT
 
 class DateScalarTest extends Specification {
 
-    def coercing = new DateScalar().getCoercing()
+    def coercing = ExtendedScalars.Date.getCoercing()
 
     @Unroll
     def "full date parseValue"() {
@@ -50,6 +52,20 @@ class DateScalarTest extends Specification {
         "1937-01-01"                    | "1937-01-01"
         mkOffsetDT(year: 1980, hour: 3) | "1980-08-08"
         mkZonedDT(year: 1980, hour: 3)  | "1980-08-08"
+    }
+
+    @Unroll
+    def "full date valueToLiteral"() {
+
+        when:
+        def result = coercing.valueToLiteral(input)
+        then:
+        result.isEqualTo(expectedValue)
+        where:
+        input                           | expectedValue
+        "1937-01-01"                    | mkStringValue("1937-01-01")
+        mkOffsetDT(year: 1980, hour: 3) | mkStringValue("1980-08-08")
+        mkZonedDT(year: 1980, hour: 3)  | mkStringValue("1980-08-08")
     }
 
 }
