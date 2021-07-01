@@ -54,7 +54,10 @@ And use it in your schema
   `java.time.OffsetDateTime` objects at runtime  
 * `Time`
   * An RFC-3339 compliant time scalar that accepts string values like `16:39:57-08:00` and produces 
-  `java.time.OffsetTime` objects at runtime  
+  `java.time.OffsetTime` objects at runtime
+* `LocalTime`
+  * 24-hour clock time string in the format `hh:mm:ss.sss` or `hh:mm:ss` if partial seconds is zero and 
+  produces `java.time.LocalTime` objects at runtime.
 * `Date`
   * An RFC-3339 compliant date scalar that accepts string values like `1996-12-19` and produces 
   `java.time.LocalDate` objects at runtime  

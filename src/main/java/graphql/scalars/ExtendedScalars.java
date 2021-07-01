@@ -4,6 +4,7 @@ import graphql.PublicApi;
 import graphql.scalars.alias.AliasedScalar;
 import graphql.scalars.datetime.DateScalar;
 import graphql.scalars.datetime.DateTimeScalar;
+import graphql.scalars.datetime.LocalTimeCoercing;
 import graphql.scalars.datetime.TimeScalar;
 import graphql.scalars.java.JavaPrimitives;
 import graphql.scalars.locale.LocaleScalar;
@@ -65,6 +66,21 @@ public class ExtendedScalars {
      * @see java.time.OffsetTime
      */
     public static GraphQLScalarType Time = TimeScalar.INSTANCE;
+
+    /**
+     * A 24-hour local time scalar that accepts strings like `hh:mm:ss` and `hh:mm:ss.sss` and produces
+     * `java.time.LocalTime` objects at runtime.
+     * <p>
+     * Its {@link graphql.schema.Coercing#serialize(java.lang.Object)} and {@link graphql.schema.Coercing#parseValue(java.lang.Object)} methods
+     * accept time {@link java.time.temporal.TemporalAccessor}s and formatted Strings as valid objects.
+     *
+     * @see java.time.LocalTime
+     */
+    public static GraphQLScalarType LocalTime = GraphQLScalarType.newScalar()
+            .name("LocalTime")
+            .description("24-hour clock time value string in the format `hh:mm:ss` or `hh:mm:ss.sss`.")
+            .coercing(new LocalTimeCoercing())
+            .build();
 
     /**
      * An object scalar allows you to have a multi level data value without defining it in the graphql schema.
