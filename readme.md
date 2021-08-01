@@ -23,7 +23,7 @@ or the following into your Maven config
     <dependency>
       <groupId>com.graphql-java</groupId>
       <artifactId>graphql-java-extended-scalars</artifactId>
-      <version>16.0.0</version>
+      <version>16.0.1</version>
     </dependency>
 
 > Note:
