@@ -1,13 +1,13 @@
 # Extended Scalars for graphql-java
 
 [![Build Status](https://github.com/graphql-java/graphql-java-extended-scalars/actions/workflows/master.yml/badge.svg)](https://github.com/graphql-java/graphql-java-extended-scalars/actions/workflows/master.yml)
-[![Latest Release](https://maven-badges.herokuapp.com/maven-central/com.graphql-java/graphql-java-extended-scalars/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.graphql-java/graphql-java-extended-scalars/)
+[![Latest Release](https://img.shields.io/maven-central/v/com.graphql-java/graphql-java-extended-scalars?versionPrefix=17)](https://maven-badges.herokuapp.com/maven-central/com.graphql-java/graphql-java-extended-scalars/)
 [![MIT licensed](https://img.shields.io/badge/license-MIT-green)](https://github.com/graphql-java/graphql-java-extended-scalars/blob/master/LICENSE.md)
 
 
 This library provides extended scalars for [graphql-java](https://github.com/graphql-java/graphql-java)
 
-Scalars in graphql are the leaf nodes of a query, the non compound values that cant be queried further via sub field selections.
+Scalars in graphql are the leaf nodes of a query, the non-compound values that can't be queried further via sub-field selections.
 
 The graphql standard specifies that the `String`, `Int`, `Float`, `Boolean` and `ID` scalars must be present in a graphql type 
 system but after that it is up to an implementation about what custom scalars are present.
@@ -16,14 +16,14 @@ You would use custom scalars when you want to describe more meaningful behavior 
 
 To use this library put the following into your gradle config
 
-    compile 'com.graphql-java:graphql-java-extended-scalars:16.0.0'
+    compile 'com.graphql-java:graphql-java-extended-scalars:17.0.0'
     
 or the following into your Maven config
 
     <dependency>
       <groupId>com.graphql-java</groupId>
       <artifactId>graphql-java-extended-scalars</artifactId>
-      <version>16.0.0</version>
+      <version>17.0.0</version>
     </dependency>
 
 > Note:
@@ -33,8 +33,10 @@ or the following into your Maven config
 > use 15.0.0 or above for graphql-java 15.x and above
 >
 > use 16.0.0 or above for graphql-java 16.x and above
+>
+> use 17.0 or above for graphql-java 17.x and above
 
-Its currently available from JCenter repo and Maven central.
+It's currently available from Maven Central.
 
 Then register the scalar with graphql-java
 
@@ -276,6 +278,21 @@ And use it in a SDL schema like this :
 ```
 
 Note: A future version of the graphql specification may add this capability but in the meantime you can use this facility.
+
+## Java Primitives
+* `GraphQLLong`
+  * A scalar which represents `java.lang.Long`
+* `GraphQLShort`
+  * A scalar which represents `java.lang.Short`
+* `GraphQLByte`
+  * A scalar which represents `java.lang.Byte`
+* `GraphQLBigDecimal`
+  * A scalar which represents `java.math.BigDecimal`
+* `GraphQLBigInteger`
+  * A scalar which represents `java.math.BigInteger`
+* `GraphQLChar`
+  * A scalar which represents `java.lang.Character`
+
 
 ## Other Scalars
 
