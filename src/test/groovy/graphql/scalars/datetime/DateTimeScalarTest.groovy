@@ -7,6 +7,7 @@ import graphql.schema.CoercingSerializeException
 import spock.lang.Specification
 import spock.lang.Unroll
 
+import static graphql.scalars.util.TestKit.mkInstant
 import static graphql.scalars.util.TestKit.mkLocalDT
 import static graphql.scalars.util.TestKit.mkOffsetDT
 import static graphql.scalars.util.TestKit.mkStringValue
@@ -30,6 +31,7 @@ class DateTimeScalarTest extends Specification {
         "1937-01-01T12:00:27.87+00:20"  | mkOffsetDT("1937-01-01T12:00:27.87+00:20")
         mkOffsetDT(year: 1980, hour: 3) | mkOffsetDT("1980-08-08T03:10:09+10:00")
         mkZonedDT(year: 1980, hour: 3)  | mkOffsetDT("1980-08-08T03:10:09+10:00")
+        mkInstant(year: 1980, hour: 3)  | mkOffsetDT("1980-08-08T03:10:09Z")
     }
 
     @Unroll
@@ -46,6 +48,7 @@ class DateTimeScalarTest extends Specification {
         "1937-01-01T12:00:27.87+00:20"  | mkStringValue("1937-01-01T12:00:27.87+00:20")
         mkOffsetDT(year: 1980, hour: 3) | mkStringValue("1980-08-08T03:10:09+10:00")
         mkZonedDT(year: 1980, hour: 3)  | mkStringValue("1980-08-08T03:10:09+10:00")
+        mkInstant(year: 1980, hour: 3)  | mkStringValue("1980-08-08T03:10:09Z")
     }
 
     @Unroll
@@ -86,6 +89,7 @@ class DateTimeScalarTest extends Specification {
         "1937-01-01T12:00:27.87+00:20"  | "1937-01-01T12:00:27.87+00:20"
         mkOffsetDT(year: 1980, hour: 3) | "1980-08-08T03:10:09+10:00"
         mkZonedDT(year: 1980, hour: 3)  | "1980-08-08T03:10:09+10:00"
+        mkInstant(year: 1980, hour: 3)  | "1980-08-08T03:10:09Z"
     }
 
     def "datetime serialisation bad inputs"() {

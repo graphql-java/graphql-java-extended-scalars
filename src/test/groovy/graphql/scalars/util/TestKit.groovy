@@ -4,6 +4,7 @@ import graphql.language.FloatValue
 import graphql.language.IntValue
 import graphql.language.StringValue
 
+import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.OffsetDateTime
@@ -43,6 +44,11 @@ class TestKit {
     static ZonedDateTime mkZonedDT(args) {
         ZonedDateTime.of(args.year ?: 1969, args.month ?: 8, args.day ?: 8, args.hour ?: 11,
                 args.min ?: 10, args.secs ?: 9, args.nanos ?: 0, ZoneId.ofOffset("", ZoneOffset.ofHours(10)))
+    }
+
+    static Instant mkInstant(args) {
+        OffsetDateTime.of(args.year ?: 1969, args.month ?: 8, args.day ?: 8, args.hour ?: 11,
+                args.min ?: 10, args.secs ?: 9, args.nanos ?: 0, ZoneOffset.UTC).toInstant()
     }
 
 
