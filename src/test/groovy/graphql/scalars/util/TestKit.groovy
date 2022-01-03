@@ -51,6 +51,10 @@ class TestKit {
                 args.min ?: 10, args.secs ?: 9, args.nanos ?: 0, ZoneOffset.UTC).toInstant()
     }
 
+    static Date mkDate(args) {
+        Date.from(mkInstant(args))
+    }
+
 
     static assertValueOrException(result, expectedResult) {
         if (result instanceof Exception) {
