@@ -123,7 +123,7 @@ public class JavaPrimitives {
         };
 
         GraphQLLong = GraphQLScalarType.newScalar()
-                .name("Long").description("Long type")
+                .name("Long").description("A 64-bit signed integer")
                 .coercing(longCoercing).build();
     }
 
@@ -202,7 +202,7 @@ public class JavaPrimitives {
         };
 
         GraphQLShort = GraphQLScalarType.newScalar()
-                .name("Short").description("Short as Int")
+                .name("Short").description("A 16-bit signed integer")
                 .coercing(shortCoercing).build();
     }
 
@@ -281,7 +281,7 @@ public class JavaPrimitives {
         };
 
         GraphQLByte = GraphQLScalarType.newScalar()
-                .name("Byte").description("Byte as Int")
+                .name("Byte").description("An 8-bit signed integer")
                 .coercing(byteCoercing).build();
     }
 
@@ -368,7 +368,7 @@ public class JavaPrimitives {
         };
 
         GraphQLBigInteger = GraphQLScalarType.newScalar()
-                .name("BigInteger").description("java.math.BigInteger")
+                .name("BigInteger").description("An arbitrary precision signed integer")
                 .coercing(bigIntCoercing).build();
     }
 
@@ -443,7 +443,7 @@ public class JavaPrimitives {
         };
 
         GraphQLBigDecimal = GraphQLScalarType.newScalar()
-                .name("BigDecimal").description("java.math.BigDecimal")
+                .name("BigDecimal").description("An arbitrary precision signed decimal")
                 .coercing(bigDecimalCoercing).build();
     }
 
@@ -514,7 +514,7 @@ public class JavaPrimitives {
         };
 
         GraphQLChar = GraphQLScalarType.newScalar()
-                .name("Char").description("Char as Character")
+                .name("Char").description("A UTF-16 code unit; a character on Unicode's BMP")
                 .coercing(characterCoercing).build();
     }
 }
