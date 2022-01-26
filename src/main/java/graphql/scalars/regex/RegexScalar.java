@@ -24,7 +24,9 @@ import static graphql.scalars.util.Kit.typeName;
  * a regular expression.
  */
 @PublicApi
-public class RegexScalar {
+public final class RegexScalar {
+
+    private RegexScalar() {}
 
     /**
      * A builder for {@link graphql.scalars.regex.RegexScalar}

@@ -19,7 +19,9 @@ import java.util.Objects;
  * Access these via {@link graphql.scalars.ExtendedScalars}
  */
 @Internal
-public class JavaPrimitives {
+public final class JavaPrimitives {
+
+    private JavaPrimitives() {}
 
     private static final BigInteger LONG_MAX = BigInteger.valueOf(Long.MAX_VALUE);
     private static final BigInteger LONG_MIN = BigInteger.valueOf(Long.MIN_VALUE);

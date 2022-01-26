@@ -15,7 +15,9 @@ import java.util.Map;
  * Access this via {@link graphql.scalars.ExtendedScalars#newAliasedScalar(String)}
  */
 @Internal
-public class AliasedScalar {
+public final class AliasedScalar {
+
+    private AliasedScalar() {}
 
     /**
      * A builder for {@link graphql.scalars.alias.AliasedScalar}

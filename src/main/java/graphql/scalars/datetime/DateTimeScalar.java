@@ -22,9 +22,11 @@ import static graphql.scalars.util.Kit.typeName;
  * Access this via {@link graphql.scalars.ExtendedScalars#DateTime}
  */
 @Internal
-public class DateTimeScalar {
+public final class DateTimeScalar {
 
-    public static GraphQLScalarType INSTANCE;
+    public static final GraphQLScalarType INSTANCE;
+
+    private DateTimeScalar() {}
 
     static {
         Coercing<OffsetDateTime, String> coercing = new Coercing<OffsetDateTime, String>() {

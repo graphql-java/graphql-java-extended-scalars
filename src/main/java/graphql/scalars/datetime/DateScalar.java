@@ -22,11 +22,13 @@ import static graphql.scalars.util.Kit.typeName;
  * Access this via {@link graphql.scalars.ExtendedScalars#Date}
  */
 @Internal
-public class DateScalar  {
+public final class DateScalar  {
 
-    private final static DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-    public static GraphQLScalarType INSTANCE;
+    public static final GraphQLScalarType INSTANCE;
+
+    private DateScalar() {}
 
     static {
         Coercing<LocalDate, String> coercing = new Coercing<LocalDate, String>() {
@@ -43,7 +45,7 @@ public class DateScalar  {
                     );
                 }
                 try {
-                    return dateFormatter.format(temporalAccessor);
+                    return DATE_FORMATTER.format(temporalAccessor);
                 } catch (DateTimeException e) {
                     throw new CoercingSerializeException(
                             "Unable to turn TemporalAccessor into full date because of : '" + e.getMessage() + "'."
@@ -90,7 +92,7 @@ public class DateScalar  {
 
             private LocalDate parseLocalDate(String s, Function<String, RuntimeException> exceptionMaker) {
                 try {
-                    TemporalAccessor temporalAccessor = dateFormatter.parse(s);
+                    TemporalAccessor temporalAccessor = DATE_FORMATTER.parse(s);
                     return LocalDate.from(temporalAccessor);
                 } catch (DateTimeParseException e) {
                     throw exceptionMaker.apply("Invalid RFC3339 full date value : '" + s + "'. because of : '" + e.getMessage() + "'");

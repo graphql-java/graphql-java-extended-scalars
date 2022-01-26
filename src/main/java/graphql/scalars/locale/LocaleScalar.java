@@ -17,9 +17,11 @@ import static graphql.scalars.util.Kit.typeName;
  * Access this via {@link graphql.scalars.ExtendedScalars#Locale}
  */
 @Internal
-public class LocaleScalar {
+public final class LocaleScalar {
 
-    public static GraphQLScalarType INSTANCE;
+    private LocaleScalar() {}
+
+    public static final GraphQLScalarType INSTANCE;
 
     static {
         Coercing<Locale, String> coercing = new Coercing<Locale, String>() {

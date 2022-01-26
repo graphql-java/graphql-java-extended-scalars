@@ -22,11 +22,13 @@ import static graphql.scalars.util.Kit.typeName;
  * Access this via {@link graphql.scalars.ExtendedScalars#Time}
  */
 @Internal
-public class TimeScalar {
+public final class TimeScalar {
 
-    private final static DateTimeFormatter dateFormatter = DateTimeFormatter.ISO_OFFSET_TIME;
+    private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ISO_OFFSET_TIME;
 
-    public static GraphQLScalarType INSTANCE;
+    public static final GraphQLScalarType INSTANCE;
+
+    private TimeScalar() {}
 
     static {
         Coercing<OffsetTime, String> coercing = new Coercing<OffsetTime, String>() {
