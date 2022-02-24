@@ -3,6 +3,7 @@ package graphql.scalars.id;
 import graphql.Internal;
 import graphql.language.StringValue;
 import graphql.language.Value;
+import graphql.scalars.util.Kit;
 import graphql.schema.Coercing;
 import graphql.schema.CoercingParseLiteralException;
 import graphql.schema.CoercingParseValueException;
@@ -23,42 +24,39 @@ public class UUIDScalar {
 
     static {
         Coercing<UUID, String> coercing = new Coercing<UUID, String>() {
-            @Override
-            public String serialize(Object input) throws CoercingSerializeException {
+            private UUID convertImpl(Object input) {
                 if (input instanceof String) {
                     try {
-                        return (UUID.fromString((String) input)).toString();
+                        return (UUID.fromString((String) input));
                     } catch (IllegalArgumentException ex) {
-                        throw new CoercingSerializeException(
-                                "Expected a UUID value that can be converted : '" + ex.getMessage() + "'."
-                        );
+                        return null;
                     }
                 } else if (input instanceof UUID) {
-                    return input.toString();
-                } else {
+                    return (UUID) input;
+                }
+                return null;
+            }
+
+            @Override
+            public String serialize(Object input) throws CoercingSerializeException {
+                UUID result = convertImpl(input);
+                if (result == null) {
                     throw new CoercingSerializeException(
-                            "Expected something we can convert to 'java.util.UUID' but was '" + typeName(input) + "'."
+                            "Expected type 'UUID' but was '" + Kit.typeName(input) + "'."
                     );
                 }
+                return result.toString();
             }
 
             @Override
             public UUID parseValue(Object input) throws CoercingParseValueException {
-                if (input instanceof String) {
-                    try {
-                        return UUID.fromString((String) input);
-                    } catch (IllegalArgumentException ex) {
-                        throw new CoercingParseValueException(
-                                "Expected a 'String' of UUID type but was '" + typeName(input) + "'."
-                        );
-                    }
-                } else if (input instanceof UUID) {
-                    return (UUID) input;
-                } else {
+                UUID result = convertImpl(input);
+                if (result == null) {
                     throw new CoercingParseValueException(
-                            "Expected a 'String' or 'UUID' type but was '" + typeName(input) + "'."
+                            "Expected type 'UUID' but was '" + Kit.typeName(input) + "'."
                     );
                 }
+                return result;
             }
 
             @Override
@@ -78,8 +76,9 @@ public class UUIDScalar {
             }
 
             @Override
-            public Value valueToLiteral(Object input) {
-                return Coercing.super.valueToLiteral(input);
+            public Value<?> valueToLiteral(Object input) {
+                String s = serialize(input);
+                return StringValue.newStringValue(s).build();
             }
         };
 
