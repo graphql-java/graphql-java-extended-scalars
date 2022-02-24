@@ -97,7 +97,7 @@ And example query might look like:
 
 * `UUID`
     * A universally unique identifier scalar that accepts uuid values like `2423f0a0-3b81-4115-a189-18df8b35e8fc` and produces
-    `java.util.UUID` type at runtime
+    `java.util.UUID` instances at runtime.
 
 ## Object / JSON Scalars
 
