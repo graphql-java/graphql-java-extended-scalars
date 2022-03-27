@@ -9,6 +9,7 @@ plugins {
     id 'maven-publish'
     id 'signing'
     id "io.github.gradle-nexus.publish-plugin" version "1.0.0"
+    id "biz.aQute.bnd.builder" version "6.2.0"
 }
 
 def getDevelopmentVersion() {
@@ -135,3 +136,10 @@ tasks.withType(PublishToMavenRepository) {
     dependsOn build
 }
 
+jar {
+    manifest {
+        attributes('Automatic-Module-Name': 'graphql-java-extended-scalars',
+                '-exportcontents': 'graphql.scalars.*',
+                '-removeheaders': 'Private-Package')
+    }
+}
