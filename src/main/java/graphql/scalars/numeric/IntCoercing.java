@@ -14,7 +14,7 @@ import static graphql.Scalars.GraphQLInt;
 @Internal
 abstract class IntCoercing implements Coercing<Integer, Integer> {
 
-    abstract protected Integer check(Integer i, Function<String, RuntimeException> exceptionMaker);
+    protected abstract Integer check(Integer i, Function<String, RuntimeException> exceptionMaker);
 
     @Override
     public Integer serialize(Object input) throws CoercingSerializeException {

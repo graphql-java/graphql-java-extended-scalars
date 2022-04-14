@@ -14,7 +14,7 @@ import static graphql.Scalars.GraphQLFloat;
 @Internal
 abstract class FloatCoercing implements Coercing<Double, Double> {
 
-    abstract protected Double check(Double d, Function<String, RuntimeException> exceptionMaker);
+    protected abstract Double check(Double d, Function<String, RuntimeException> exceptionMaker);
 
     @Override
     public Double serialize(Object input) throws CoercingSerializeException {

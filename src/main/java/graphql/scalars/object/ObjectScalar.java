@@ -36,9 +36,11 @@ import static graphql.scalars.util.Kit.typeName;
  * Access this via {@link graphql.scalars.ExtendedScalars#Object}
  */
 @Internal
-public class ObjectScalar {
+public final class ObjectScalar {
 
-    static Coercing<Object, Object> OBJECT_COERCING = new Coercing<Object, Object>() {
+    private ObjectScalar() {}
+
+    static final Coercing<Object, Object> OBJECT_COERCING = new Coercing<Object, Object>() {
         @Override
         public Object serialize(Object input) throws CoercingSerializeException {
             return input;

@@ -17,7 +17,7 @@ import static graphql.scalars.util.Kit.typeName;
 
 public class LocalTimeCoercing implements Coercing<LocalTime, String> {
 
-    private final static DateTimeFormatter dateFormatter = DateTimeFormatter.ISO_LOCAL_TIME;
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ISO_LOCAL_TIME;
 
     @Override
     public String serialize(final Object input) throws CoercingSerializeException {
@@ -32,7 +32,7 @@ public class LocalTimeCoercing implements Coercing<LocalTime, String> {
             );
         }
         try {
-            return dateFormatter.format(temporalAccessor);
+            return DATE_FORMATTER.format(temporalAccessor);
         } catch (DateTimeException e) {
             throw new CoercingSerializeException(
                     "Unable to turn TemporalAccessor into full time because of : '" + e.getMessage() + "'."
@@ -73,7 +73,7 @@ public class LocalTimeCoercing implements Coercing<LocalTime, String> {
 
     private static LocalTime parseTime(String s, Function<String, RuntimeException> exceptionMaker) {
         try {
-            TemporalAccessor temporalAccessor = dateFormatter.parse(s);
+            TemporalAccessor temporalAccessor = DATE_FORMATTER.parse(s);
             return LocalTime.from(temporalAccessor);
         } catch (DateTimeParseException e) {
             throw exceptionMaker.apply("Invalid local time value : '" + s + "'. because of : '" + e.getMessage() + "'");

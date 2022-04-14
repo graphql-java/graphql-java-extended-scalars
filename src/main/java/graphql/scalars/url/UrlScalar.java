@@ -19,9 +19,11 @@ import java.util.function.Function;
 import static graphql.scalars.util.Kit.typeName;
 
 @Internal
-public class UrlScalar {
+public final class UrlScalar {
 
-    public static GraphQLScalarType INSTANCE;
+    private UrlScalar() {}
+
+    public static final GraphQLScalarType INSTANCE;
 
     static {
         Coercing<URL, URL> coercing = new Coercing<URL, URL>() {
