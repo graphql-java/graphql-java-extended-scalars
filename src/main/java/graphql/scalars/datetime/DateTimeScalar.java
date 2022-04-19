@@ -13,10 +13,16 @@ import java.time.DateTimeException;
 import java.time.OffsetDateTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.DateTimeParseException;
 import java.util.function.Function;
 
 import static graphql.scalars.util.Kit.typeName;
+import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE;
+import static java.time.temporal.ChronoField.HOUR_OF_DAY;
+import static java.time.temporal.ChronoField.MINUTE_OF_HOUR;
+import static java.time.temporal.ChronoField.NANO_OF_SECOND;
+import static java.time.temporal.ChronoField.SECOND_OF_MINUTE;
 
 /**
  * Access this via {@link graphql.scalars.ExtendedScalars#DateTime}
@@ -27,6 +33,7 @@ public final class DateTimeScalar {
     public static final GraphQLScalarType INSTANCE;
 
     private DateTimeScalar() {}
+    private static final DateTimeFormatter customOutputFormatter = getCustomDateTimeFormatter();
 
     static {
         Coercing<OffsetDateTime, String> coercing = new Coercing<OffsetDateTime, String>() {
@@ -45,7 +52,7 @@ public final class DateTimeScalar {
                     );
                 }
                 try {
-                    return DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(offsetDateTime);
+                    return customOutputFormatter.format(offsetDateTime);
                 } catch (DateTimeException e) {
                     throw new CoercingSerializeException(
                             "Unable to turn TemporalAccessor into OffsetDateTime because of : '" + e.getMessage() + "'."
@@ -101,5 +108,21 @@ public final class DateTimeScalar {
                 .coercing(coercing)
                 .build();
     }
+
+    private static DateTimeFormatter getCustomDateTimeFormatter() {
+        return new DateTimeFormatterBuilder()
+                .parseCaseInsensitive()
+                .append(ISO_LOCAL_DATE)
+                .appendLiteral('T')
+                .appendValue(HOUR_OF_DAY, 2)
+                .appendLiteral(':')
+                .appendValue(MINUTE_OF_HOUR, 2)
+                .appendLiteral(':')
+                .appendValue(SECOND_OF_MINUTE, 2)
+                .appendFraction(NANO_OF_SECOND, 3, 3, true)
+                .appendOffset("+HH:MM", "Z")
+                .toFormatter();
+    }
+
 
 }
