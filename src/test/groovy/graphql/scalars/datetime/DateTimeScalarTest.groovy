@@ -41,11 +41,12 @@ class DateTimeScalarTest extends Specification {
         result.isEqualTo(expectedValue)
         where:
         input                           | expectedValue
-        "1985-04-12T23:20:50.52Z"       | mkStringValue("1985-04-12T23:20:50.52Z")
-        "1996-12-19T16:39:57-08:00"     | mkStringValue("1996-12-19T16:39:57-08:00")
-        "1937-01-01T12:00:27.87+00:20"  | mkStringValue("1937-01-01T12:00:27.87+00:20")
-        mkOffsetDT(year: 1980, hour: 3) | mkStringValue("1980-08-08T03:10:09+10:00")
-        mkZonedDT(year: 1980, hour: 3)  | mkStringValue("1980-08-08T03:10:09+10:00")
+        "1985-04-12T23:20:50.52Z"       | mkStringValue("1985-04-12T23:20:50.520Z")
+        "1996-12-19T16:39:57-08:00"     | mkStringValue("1996-12-19T16:39:57.000-08:00")
+        "1937-01-01T12:00:27.87+00:20"  | mkStringValue("1937-01-01T12:00:27.870+00:20")
+        "1937-01-01T12:00+00:20"        | mkStringValue("1937-01-01T12:00:00.000+00:20")
+        mkOffsetDT(year: 1980, hour: 3) | mkStringValue("1980-08-08T03:10:09.000+10:00")
+        mkZonedDT(year: 1980, hour: 3)  | mkStringValue("1980-08-08T03:10:09.000+10:00")
     }
 
     @Unroll
@@ -81,11 +82,11 @@ class DateTimeScalarTest extends Specification {
         result == expectedValue
         where:
         input                           | expectedValue
-        "1985-04-12T23:20:50.52Z"       | "1985-04-12T23:20:50.52Z"
-        "1996-12-19T16:39:57-08:00"     | "1996-12-19T16:39:57-08:00"
-        "1937-01-01T12:00:27.87+00:20"  | "1937-01-01T12:00:27.87+00:20"
-        mkOffsetDT(year: 1980, hour: 3) | "1980-08-08T03:10:09+10:00"
-        mkZonedDT(year: 1980, hour: 3)  | "1980-08-08T03:10:09+10:00"
+        "1985-04-12T23:20:50.52Z"       | "1985-04-12T23:20:50.520Z"
+        "1996-12-19T16:39:57-08:00"     | "1996-12-19T16:39:57.000-08:00"
+        "1937-01-01T12:00:27.87+00:20"  | "1937-01-01T12:00:27.870+00:20"
+        mkOffsetDT(year: 1980, hour: 3) | "1980-08-08T03:10:09.000+10:00"
+        mkZonedDT(year: 1980, hour: 3)  | "1980-08-08T03:10:09.000+10:00"
     }
 
     def "datetime serialisation bad inputs"() {
