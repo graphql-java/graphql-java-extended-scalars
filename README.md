@@ -1,7 +1,8 @@
 # Extended Scalars for graphql-java
 
 [![Build Status](https://github.com/graphql-java/graphql-java-extended-scalars/actions/workflows/master.yml/badge.svg)](https://github.com/graphql-java/graphql-java-extended-scalars/actions/workflows/master.yml)
-[![Latest Release](https://img.shields.io/maven-central/v/com.graphql-java/graphql-java-extended-scalars?versionPrefix=17)](https://maven-badges.herokuapp.com/maven-central/com.graphql-java/graphql-java-extended-scalars/)
+[![Latest Release](https://img.shields.io/maven-central/v/com.graphql-java/graphql-java-extended-scalars?versionPrefix=18)](https://maven-badges.herokuapp.com/maven-central/com.graphql-java/graphql-java-extended-scalars/)
+[![Latest Snapshot](https://img.shields.io/maven-central/v/com.graphql-java/graphql-java-extended-scalars?label=maven-central%20snapshot)](https://maven-badges.herokuapp.com/maven-central/com.graphql-java/graphql-java-extended-scalars/)
 [![MIT licensed](https://img.shields.io/badge/license-MIT-green)](https://github.com/graphql-java/graphql-java-extended-scalars/blob/master/LICENSE.md)
 
 
@@ -16,14 +17,14 @@ You would use custom scalars when you want to describe more meaningful behavior 
 
 To use this library put the following into your gradle config
 
-    compile 'com.graphql-java:graphql-java-extended-scalars:17.0'
+    compile 'com.graphql-java:graphql-java-extended-scalars:18.1'
     
 or the following into your Maven config
 
     <dependency>
       <groupId>com.graphql-java</groupId>
       <artifactId>graphql-java-extended-scalars</artifactId>
-      <version>17.0</version>
+      <version>18.1</version>
     </dependency>
 
 > Note:
@@ -35,6 +36,8 @@ or the following into your Maven config
 > use 16.0.0 or above for graphql-java 16.x and above
 >
 > use 17.0 or above for graphql-java 17.x and above
+> 
+> use 18.0 or above for graphql-java 18.x and above
 
 It's currently available from Maven Central.
 
