@@ -138,7 +138,7 @@ tasks.withType(PublishToMavenRepository) {
 
 jar {
     manifest {
-        attributes('Automatic-Module-Name': 'graphql-java-extended-scalars',
+        attributes('Automatic-Module-Name': 'graphql.java.extended.scalars',
                 '-exportcontents': 'graphql.scalars.*',
                 '-removeheaders': 'Private-Package')
     }
