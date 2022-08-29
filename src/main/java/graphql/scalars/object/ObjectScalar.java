@@ -65,9 +65,6 @@ public final class ObjectScalar {
                         "Expected AST type 'Value' but was '" + typeName(input) + "'."
                 );
             }
-            if (input instanceof NullValue) {
-                return null;
-            }
             if (input instanceof FloatValue) {
                 return ((FloatValue) input).getValue();
             }
