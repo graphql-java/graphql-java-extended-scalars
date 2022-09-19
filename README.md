@@ -15,9 +15,10 @@ system but after that it is up to an implementation about what custom scalars ar
 
 You would use custom scalars when you want to describe more meaningful behavior or ranges of values.
 
+## How to install
 To use this library put the following into your gradle config
 
-    compile 'com.graphql-java:graphql-java-extended-scalars:19.0'
+    implementation 'com.graphql-java:graphql-java-extended-scalars:19.0'
     
 or the following into your Maven config
 
@@ -44,11 +45,22 @@ or the following into your Maven config
 
 It's currently available from Maven Central.
 
-Then register the scalar with graphql-java
+## How to use extended scalars
+Register the scalar with graphql-java
 
     RuntimeWiring.newRuntimeWiring().scalar(ExtendedScalars.DateTime)
     
-And use it in your schema
+Or if using [Spring for GraphQL](https://docs.spring.io/spring-graphql/docs/current/reference/html/), register the scalar with `RuntimeWiringConfigurer`
+
+    @Configuration
+    public class GraphQlConfig {
+        @Bean
+        public RuntimeWiringConfigurer runtimeWiringConfigurer() {
+            return wiringBuilder -> wiringBuilder.scalar(ExtendedScalars.DateTime);
+        }
+    }
+
+And use the scalar in your schema
     
     scalar DateTime
     type Something {

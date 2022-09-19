@@ -37,7 +37,6 @@ class ObjectScalarTest extends Specification {
         mkIntValue(666)      | 666
         mkBooleanValue(true) | true
         mkEnumValue("enum")  | "enum"
-        mkNullValue()        | null
         mkVarRef("varRef1")  | "value1"
         mkArrayValue([
                 mkStringValue("s"), mkIntValue(666)
