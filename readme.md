@@ -16,14 +16,14 @@ You would use custom scalars when you want to describe more meaningful behavior 
 
 To use this library put the following into your gradle config
 
-    compile 'com.graphql-java:graphql-java-extended-scalars:16.0.0'
+    compile 'com.graphql-java:graphql-java-extended-scalars:17.1'
     
 or the following into your Maven config
 
     <dependency>
       <groupId>com.graphql-java</groupId>
       <artifactId>graphql-java-extended-scalars</artifactId>
-      <version>16.0.0</version>
+      <version>17.1</version>
     </dependency>
 
 > Note:
@@ -33,6 +33,8 @@ or the following into your Maven config
 > use 15.0.0 or above for graphql-java 15.x and above
 >
 > use 16.0.0 or above for graphql-java 16.x and above
+>
+> use 17.0.0 or above for graphql-java 17.x and above
 
 Its currently available from JCenter repo and Maven central.
 
