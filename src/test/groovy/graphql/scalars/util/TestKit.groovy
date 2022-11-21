@@ -3,6 +3,7 @@ package graphql.scalars.util
 import graphql.language.FloatValue
 import graphql.language.IntValue
 import graphql.language.StringValue
+import graphql.scalars.country.code.CountryCode
 
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -89,4 +90,11 @@ class TestKit {
         return UUID.fromString(s)
     }
 
+    static Currency mkCurrency(String currency) {
+        return Currency.getInstance(currency)
+    }
+
+    static CountryCode mkCountryCode(String countryCode) {
+        return CountryCode.valueOf(countryCode)
+    }
 }
