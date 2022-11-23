@@ -274,6 +274,56 @@ An example query to look for customers in the Romanian locale might look like:
     }
     
 ``` 
+## Country Code Scalar
+The CountryCode scalar type as defined by [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2).
+
+
+An example declaration in SDL might be:
+```graphql
+    scalar CountryCode
+
+    type Customer {
+      name : String
+      countryCode : CountryCode
+    }
+``` 
+
+And example query might look like:
+
+```graphql
+    query {
+       customers(code : "US") {
+                name
+                countryCode
+        }
+    }
+``` 
+## Currency Scalar
+
+A field whose value is an [ISO-4217](https://en.wikipedia.org/wiki/ISO_4217) currency.
+
+An example declaration in SDL might be:
+```graphql
+    scalar Currency
+
+    type Account {
+      id : String
+      currency : Currency
+      accountNumber: String
+    }
+``` 
+
+And example query might look like:
+
+```graphql
+    query {
+      accounts(currency : "USD") {
+        id
+        currency
+        accountNumber
+      }
+    }
+``` 
 
 ## Alias Scalars
 

@@ -2,6 +2,8 @@ package graphql.scalars;
 
 import graphql.PublicApi;
 import graphql.scalars.alias.AliasedScalar;
+import graphql.scalars.country.code.CountryCodeScalar;
+import graphql.scalars.currency.CurrencyScalar;
 import graphql.scalars.datetime.DateScalar;
 import graphql.scalars.datetime.DateTimeScalar;
 import graphql.scalars.datetime.LocalTimeCoercing;
@@ -22,8 +24,6 @@ import graphql.scalars.object.ObjectScalar;
 import graphql.scalars.regex.RegexScalar;
 import graphql.scalars.url.UrlScalar;
 import graphql.schema.GraphQLScalarType;
-
-import java.util.UUID;
 
 /**
  * This is the API entry point for all the extended scalars
@@ -137,6 +137,18 @@ public class ExtendedScalars {
      * java.util.Locale} objects at runtime.
      */
     public static final GraphQLScalarType Locale = LocaleScalar.INSTANCE;
+
+    /**
+     * A field whose value is an ISO-4217 currency.
+     * See the <a href="https://en.wikipedia.org/wiki/ISO_4217">ISO-4217</a> for more details.
+     */
+    public static final GraphQLScalarType Currency = CurrencyScalar.INSTANCE;
+
+    /**
+     * The CountryCode scalar type as defined by ISO 3166-1 alpha-2.
+     * See the <a href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2">ISO 3166-1 alpha-2</a> for more details.
+     */
+    public static final GraphQLScalarType CountryCode = CountryCodeScalar.INSTANCE;
 
     /**
      * A UUID scalar that accepts a universally unique identifier and produces {@link
