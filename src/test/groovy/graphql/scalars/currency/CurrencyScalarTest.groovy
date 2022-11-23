@@ -260,7 +260,6 @@ class CurrencyScalarTest extends Specification {
         "UYI" | mkCurrency("UYI")
         "UYU" | mkCurrency("UYU")
         "UZS" | mkCurrency("UZS")
-        "VED" | mkCurrency("VED")
         "VEF" | mkCurrency("VEF")
         "VND" | mkCurrency("VND")
         "VUV" | mkCurrency("VUV")
