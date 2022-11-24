@@ -22,6 +22,7 @@ import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE;
 import static java.time.temporal.ChronoField.HOUR_OF_DAY;
 import static java.time.temporal.ChronoField.MINUTE_OF_HOUR;
 import static java.time.temporal.ChronoField.NANO_OF_SECOND;
+import static java.time.temporal.ChronoField.OFFSET_SECONDS;
 import static java.time.temporal.ChronoField.SECOND_OF_MINUTE;
 
 /**
@@ -95,7 +96,11 @@ public final class DateTimeScalar {
 
             private OffsetDateTime parseOffsetDateTime(String s, Function<String, RuntimeException> exceptionMaker) {
                 try {
-                    return OffsetDateTime.parse(s, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+                    OffsetDateTime parse = OffsetDateTime.parse(s, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+                    if (parse.get(OFFSET_SECONDS) == 0 && s.endsWith("-00:00")) {
+                        throw exceptionMaker.apply("Invalid value : '" + s + "'. Negative zero offset is not allowed");
+                    }
+                    return parse;
                 } catch (DateTimeParseException e) {
                     throw exceptionMaker.apply("Invalid RFC3339 value : '" + s + "'. because of : '" + e.getMessage() + "'");
                 }
@@ -104,7 +109,8 @@ public final class DateTimeScalar {
 
         INSTANCE = GraphQLScalarType.newScalar()
                 .name("DateTime")
-                .description("An RFC-3339 compliant DateTime Scalar")
+                .description("A slightly refined version of RFC-3339 compliant DateTime Scalar")
+                .specifiedByUrl("https://scalars.graphql.org/andimarek/date-time") // TODO: Change to .specifiedByURL after release of graphql-java v20
                 .coercing(coercing)
                 .build();
     }
@@ -123,6 +129,5 @@ public final class DateTimeScalar {
                 .appendOffset("+HH:MM", "Z")
                 .toFormatter();
     }
-
 
 }
