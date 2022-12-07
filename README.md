@@ -1,7 +1,7 @@
 # Extended Scalars for graphql-java
 
 [![Build Status](https://github.com/graphql-java/graphql-java-extended-scalars/actions/workflows/master.yml/badge.svg)](https://github.com/graphql-java/graphql-java-extended-scalars/actions/workflows/master.yml)
-[![Latest Release](https://img.shields.io/maven-central/v/com.graphql-java/graphql-java-extended-scalars?versionPrefix=18)](https://maven-badges.herokuapp.com/maven-central/com.graphql-java/graphql-java-extended-scalars/)
+[![Latest Release](https://img.shields.io/maven-central/v/com.graphql-java/graphql-java-extended-scalars?versionPrefix=19.)](https://maven-badges.herokuapp.com/maven-central/com.graphql-java/graphql-java-extended-scalars/)
 [![Latest Snapshot](https://img.shields.io/maven-central/v/com.graphql-java/graphql-java-extended-scalars?label=maven-central%20snapshot)](https://maven-badges.herokuapp.com/maven-central/com.graphql-java/graphql-java-extended-scalars/)
 [![MIT licensed](https://img.shields.io/badge/license-MIT-green)](https://github.com/graphql-java/graphql-java-extended-scalars/blob/master/LICENSE.md)
 
