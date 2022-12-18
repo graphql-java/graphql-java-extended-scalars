@@ -18,29 +18,21 @@ You would use custom scalars when you want to describe more meaningful behavior 
 ## How to install
 To use this library put the following into your gradle config
 
-    implementation 'com.graphql-java:graphql-java-extended-scalars:19.0'
+    implementation 'com.graphql-java:graphql-java-extended-scalars:20.0'
     
 or the following into your Maven config
 
     <dependency>
       <groupId>com.graphql-java</groupId>
       <artifactId>graphql-java-extended-scalars</artifactId>
-      <version>19.0</version>
+      <version>20.0</version>
     </dependency>
 
 > Note:
 >
-> use 1.0.1 or above for graphql-java 14.x and above
->
-> use 15.0.0 or above for graphql-java 15.x and above
->
-> use 16.0.0 or above for graphql-java 16.x and above
->
-> use 17.0 or above for graphql-java 17.x and above
-> 
-> use 18.0 or above for graphql-java 18.x and above
->
 > use 19.0 or above for graphql-java 19.x and above
+> 
+> use 20.0 or above for graphql-java 20.x and above
 
 
 It's currently available from Maven Central.

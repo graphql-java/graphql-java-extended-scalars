@@ -110,7 +110,7 @@ public final class DateTimeScalar {
         INSTANCE = GraphQLScalarType.newScalar()
                 .name("DateTime")
                 .description("A slightly refined version of RFC-3339 compliant DateTime Scalar")
-                .specifiedByUrl("https://scalars.graphql.org/andimarek/date-time") // TODO: Change to .specifiedByURL after release of graphql-java v20
+                .specifiedByUrl("https://scalars.graphql.org/andimarek/date-time") // TODO: Change to .specifiedByURL when builder added to graphql-java
                 .coercing(coercing)
                 .build();
     }
