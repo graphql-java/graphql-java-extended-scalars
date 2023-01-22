@@ -60,6 +60,10 @@ class ObjectScalarTest extends Specification {
                         childFl2 : mkVarRef("varRef1")
                 ] as Map<String, Value>)
         ] as Map<String, Value>) | [fld1: "s", fld2: 99, fld3: [childFld1: "child1", childFl2: "value1"]]
+
+        mkObjectValue([
+                field1: mkNullValue()
+        ] as Map<String, Value>) | [field1: null] // Nested NullValue inside ObjectValue
     }
 
     @Unroll

@@ -54,7 +54,6 @@ public final class ObjectScalar {
         @Override
         public Object parseLiteral(Object input) throws CoercingParseLiteralException {
             // on purpose - object scalars can be null
-            //noinspection ConstantConditions
             return parseLiteral(input, Collections.emptyMap());
         }
 
@@ -94,7 +93,12 @@ public final class ObjectScalar {
                 List<ObjectField> values = ((ObjectValue) input).getObjectFields();
                 Map<String, Object> parsedValues = new LinkedHashMap<>();
                 values.forEach(fld -> {
-                    Object parsedValue = parseLiteral(fld.getValue(), variables);
+                    Object parsedValue;
+                    if (fld.getValue() instanceof NullValue) { // Nested NullValue inside ObjectValue
+                        parsedValue = null;
+                    } else {
+                        parsedValue = parseLiteral(fld.getValue(), variables);
+                    }
                     parsedValues.put(fld.getName(), parsedValue);
                 });
                 return parsedValues;
