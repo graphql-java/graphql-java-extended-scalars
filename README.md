@@ -61,11 +61,10 @@ And use the scalar in your schema
 
 ## DateTime Scalars
 
-See [GraphQL Scalars - Date Time Specification](https://www.graphql-scalars.com/date-time/).
-
-- `DateTime`
+- `DateTime` - [specification](https://scalars.graphql.org/andimarek/date-time.html)
+  - See specification
   - An RFC-3339 compliant date time scalar that accepts string values like `1996-12-19T16:39:57-08:00` and produces
-    `java.time.OffsetDateTime` objects at runtime
+    `java.time.OffsetDateTime` objects at runtime.
 - `Time`
   - An RFC-3339 compliant time scalar that accepts string values like `16:39:57-08:00` and produces
     `java.time.OffsetTime` objects at runtime
