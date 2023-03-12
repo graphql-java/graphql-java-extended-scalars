@@ -5,21 +5,21 @@
 [![Latest Snapshot](https://img.shields.io/maven-central/v/com.graphql-java/graphql-java-extended-scalars?label=maven-central%20snapshot)](https://maven-badges.herokuapp.com/maven-central/com.graphql-java/graphql-java-extended-scalars/)
 [![MIT licensed](https://img.shields.io/badge/license-MIT-green)](https://github.com/graphql-java/graphql-java-extended-scalars/blob/master/LICENSE.md)
 
-
 This library provides extended scalars for [graphql-java](https://github.com/graphql-java/graphql-java)
 
 Scalars in graphql are the leaf nodes of a query, the non-compound values that can't be queried further via sub-field selections.
 
-The graphql standard specifies that the `String`, `Int`, `Float`, `Boolean` and `ID` scalars must be present in a graphql type 
+The graphql standard specifies that the `String`, `Int`, `Float`, `Boolean` and `ID` scalars must be present in a graphql type
 system but after that it is up to an implementation about what custom scalars are present.
 
 You would use custom scalars when you want to describe more meaningful behavior or ranges of values.
 
 ## How to install
+
 To use this library put the following into your gradle config
 
     implementation 'com.graphql-java:graphql-java-extended-scalars:20.0'
-    
+
 or the following into your Maven config
 
     <dependency>
@@ -31,17 +31,17 @@ or the following into your Maven config
 > Note:
 >
 > use 19.0 or above for graphql-java 19.x and above
-> 
+>
 > use 20.0 or above for graphql-java 20.x and above
-
 
 It's currently available from Maven Central.
 
 ## How to use extended scalars
+
 Register the scalar with graphql-java
 
     RuntimeWiring.newRuntimeWiring().scalar(ExtendedScalars.DateTime)
-    
+
 Or if using [Spring for GraphQL](https://docs.spring.io/spring-graphql/docs/current/reference/html/), register the scalar with `RuntimeWiringConfigurer`
 
     @Configuration
@@ -53,7 +53,7 @@ Or if using [Spring for GraphQL](https://docs.spring.io/spring-graphql/docs/curr
     }
 
 And use the scalar in your schema
-    
+
     scalar DateTime
     type Something {
         someDateTime: DateTime
@@ -61,164 +61,149 @@ And use the scalar in your schema
 
 ## DateTime Scalars
 
-* `DateTime`
-  * An RFC-3339 compliant date time scalar that accepts string values like `1996-12-19T16:39:57-08:00` and produces 
-  `java.time.OffsetDateTime` objects at runtime  
-* `Time`
-  * An RFC-3339 compliant time scalar that accepts string values like `16:39:57-08:00` and produces 
-  `java.time.OffsetTime` objects at runtime
-* `LocalTime`
-  * 24-hour clock time string in the format `hh:mm:ss.sss` or `hh:mm:ss` if partial seconds is zero and 
-  produces `java.time.LocalTime` objects at runtime.
-* `Date`
-  * An RFC-3339 compliant date scalar that accepts string values like `1996-12-19` and produces 
-  `java.time.LocalDate` objects at runtime  
-
-See [the rfc3339 spec](https://www.ietf.org/rfc/rfc3339.txt) for more details on the format.
+- `DateTime` - [specification](https://scalars.graphql.org/andimarek/date-time.html)
+  - See specification
+  - An RFC-3339 compliant date time scalar that accepts string values like `1996-12-19T16:39:57-08:00` and produces
+    `java.time.OffsetDateTime` objects at runtime.
+- `Time`
+  - An RFC-3339 compliant time scalar that accepts string values like `16:39:57-08:00` and produces
+    `java.time.OffsetTime` objects at runtime
+- `LocalTime`
+  - 24-hour clock time string in the format `hh:mm:ss.sss` or `hh:mm:ss` if partial seconds is zero and
+    produces `java.time.LocalTime` objects at runtime.
+- `Date`
+  - An RFC-3339 compliant date scalar that accepts string values like `1996-12-19` and produces
+    `java.time.LocalDate` objects at runtime
 
 An example declaration in SDL might be:
 
 ```graphql
+type Customer {
+  birthDay: Date
+  workStartTime: Time
+  bornAt: DateTime
+}
 
-    type Customer {
-        birthDay : Date
-        workStartTime : Time
-        bornAt : DateTime
-    }
-    
-    type Query {
-        customers(bornAfter : DateTime) : [Customers]
-    }
-    
-``` 
+type Query {
+  customers(bornAfter: DateTime): [Customers]
+}
+```
 
 And example query might look like:
+
 ```graphql
-    
-    query {
-        customers(bornAfter : "1996-12-19T16:39:57-08:00") {
-            birthDay
-            bornAt
-        }
-    }
-    
-``` 
+query {
+  customers(bornAfter: "1996-12-19T16:39:57-08:00") {
+    birthDay
+    bornAt
+  }
+}
+```
+
 ## ID Scalars
 
-* `UUID`
-    * A universally unique identifier scalar that accepts uuid values like `2423f0a0-3b81-4115-a189-18df8b35e8fc` and produces
+- `UUID`
+  - A universally unique identifier scalar that accepts uuid values like `2423f0a0-3b81-4115-a189-18df8b35e8fc` and produces
     `java.util.UUID` instances at runtime.
 
 ## Object / JSON Scalars
 
-* `Object`
-  * An object scalar that accepts any object as a scalar value
+- `Object`
 
-* `JSON`
-  * A synonym for the `Object` scalar, it will accept any object as a scalar value
-  
+  - An object scalar that accepts any object as a scalar value
+
+- `JSON`
+  - A synonym for the `Object` scalar, it will accept any object as a scalar value
+
 One of the design goals of graphql, is that the type system describes the shape of the data returned.
 
-The `Object` / `JSON` scalars work against this some what because they can return compound values outside the type system.  As such 
-they should be used sparingly.  In general your should aim to describe the data via the graphql type system where you can and only
-resort to the `Object` / `JSON` scalars in very rare circumstances. 
+The `Object` / `JSON` scalars work against this some what because they can return compound values outside the type system. As such
+they should be used sparingly. In general your should aim to describe the data via the graphql type system where you can and only
+resort to the `Object` / `JSON` scalars in very rare circumstances.
 
-An example might be an extensible graphql system where systems can input custom metadata objects that cant be known at 
+An example might be an extensible graphql system where systems can input custom metadata objects that cant be known at
 schema type design time.
 
 An example declaration in SDL might be:
 
 ```graphql
+type Customer {
+  name: String
+  associatedMetaData: JSON
+}
 
-    type Customer {
-        name : String
-        associatedMetaData : JSON
-    }
-    
-    type Query {
-        customers(filterSyntax : JSON) : [Customers]
-    }
-    
-``` 
+type Query {
+  customers(filterSyntax: JSON): [Customers]
+}
+```
 
 And example query might look like:
 
 ```graphql
-    
-    query {
-        customers(filterSyntax : {
-                startSpan : "First",
-                matchCriteria : {
-                    countryCode : "AU",
-                    isoCodes : ["27B-34R", "95A-E23"],
-                    
-                }
-            }) {
-            name
-            associatedMetaData    
-        }
+query {
+  customers(
+    filterSyntax: {
+      startSpan: "First"
+      matchCriteria: { countryCode: "AU", isoCodes: ["27B-34R", "95A-E23"] }
     }
-    
-``` 
-   
-Note : The `JSON` scalar is a simple alias type to the `Object` scalar because often the returned data is a blob of JSON.  They are 
-all just objects at runtime in graphql-java terms and what network serialisation protocol is up to you.  Choose whichever name you think
-adds more semantic readers to your schema consumers. 
+  ) {
+    name
+    associatedMetaData
+  }
+}
+```
 
+Note : The `JSON` scalar is a simple alias type to the `Object` scalar because often the returned data is a blob of JSON. They are
+all just objects at runtime in graphql-java terms and what network serialisation protocol is up to you. Choose whichever name you think
+adds more semantic readers to your schema consumers.
 
 ## Numeric Scalars
 
-
-* `PositiveInt`
-  * An `Int` scalar that MUST be greater than zero   
-* `NegativeInt`
-  * An `Int` scalar that MUST be less than zero   
-* `NonPositiveInt`
-  * An `Int` scalar that MUST be less than or equal to zero   
-* `NonNegativeInt`
-  * An `Int` scalar that MUST be greater than or equal to zero   
-* `PositiveFloat`
-  * An `Float` scalar that MUST be greater than zero   
-* `NegativeFloat`
-  * An `Float` scalar that MUST be less than zero   
-* `NonPositiveFloat`
-  * An `Float` scalar that MUST be less than or equal to zero   
-* `NonNegativeFloat`
-  * An `Float` scalar that MUST be greater than or equal to zero   
+- `PositiveInt`
+  - An `Int` scalar that MUST be greater than zero
+- `NegativeInt`
+  - An `Int` scalar that MUST be less than zero
+- `NonPositiveInt`
+  - An `Int` scalar that MUST be less than or equal to zero
+- `NonNegativeInt`
+  - An `Int` scalar that MUST be greater than or equal to zero
+- `PositiveFloat`
+  - An `Float` scalar that MUST be greater than zero
+- `NegativeFloat`
+  - An `Float` scalar that MUST be less than zero
+- `NonPositiveFloat`
+  - An `Float` scalar that MUST be less than or equal to zero
+- `NonNegativeFloat`
+  - An `Float` scalar that MUST be greater than or equal to zero
 
 The numeric scalars are derivations of the standard graphql `Int` and `Float` scalars that enforce range limits.
 
 An example declaration in SDL might be:
 
 ```graphql
+type Customer {
+  name: String
+  currentHeight: PositiveInt
+  weightLossGoal: NonPositiveInt
+  averageWeightLoss: NegativeFloat
+}
 
-    type Customer {
-        name : String
-        currentHeight : PositiveInt
-        weightLossGoal : NonPositiveInt
-        averageWeightLoss : NegativeFloat
-    }
-    
-    type Query {
-        customers(height : PositiveInt) : [Customers]
-    }
-    
-``` 
+type Query {
+  customers(height: PositiveInt): [Customers]
+}
+```
 
 And example query might look like:
 
 ```graphql
-    
-    query {
-        customers(height : 182) {
-            name
-            height
-            weightLossGoal    
-        }
-    }
-    
-``` 
-
+query {
+  customers(height: 182) {
+    name
+    height
+    weightLossGoal
+  }
+}
+```
 
 ## Regex Scalars
 
@@ -239,89 +224,90 @@ For example, imagine a `phoneNumber` scalar like this :
 
 ## Locale Scalar
 
-The Locale scalar handles [IETF BCP 47](https://tools.ietf.org/html/bcp47) language tags via the 
-JDK method [Locale.forLanguageTag](https://docs.oracle.com/javase/7/docs/api/java/util/Locale.html#forLanguageTag(java.lang.String))
+The Locale scalar handles [IETF BCP 47](https://tools.ietf.org/html/bcp47) language tags via the
+JDK method [Locale.forLanguageTag](<https://docs.oracle.com/javase/7/docs/api/java/util/Locale.html#forLanguageTag(java.lang.String)>)
 
 ```graphql
+type Customer {
+  name: String
+  locale: Locale
+}
 
-    type Customer {
-        name : String
-        locale : Locale
-    }
-    
-    type Query {
-        customers(inLocale : Locale) : [Customers]
-    }
-``` 
+type Query {
+  customers(inLocale: Locale): [Customers]
+}
+```
 
 An example query to look for customers in the Romanian locale might look like:
 
 ```graphql
-    
-    query {
-        customers(inLocale : "ro-RO") {
-            name
-            locale
-        }
-    }
-    
-``` 
+query {
+  customers(inLocale: "ro-RO") {
+    name
+    locale
+  }
+}
+```
+
 ## Country Code Scalar
+
 The CountryCode scalar type as defined by [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2).
 
-
 An example declaration in SDL might be:
-```graphql
-    scalar CountryCode
 
-    type Customer {
-      name : String
-      countryCode : CountryCode
-    }
-``` 
+```graphql
+scalar CountryCode
+
+type Customer {
+  name: String
+  countryCode: CountryCode
+}
+```
 
 And example query might look like:
 
 ```graphql
-    query {
-       customers(code : "US") {
-                name
-                countryCode
-        }
-    }
-``` 
+query {
+  customers(code: "US") {
+    name
+    countryCode
+  }
+}
+```
+
 ## Currency Scalar
 
 A field whose value is an [ISO-4217](https://en.wikipedia.org/wiki/ISO_4217) currency.
 
 An example declaration in SDL might be:
-```graphql
-    scalar Currency
 
-    type Account {
-      id : String
-      currency : Currency
-      accountNumber: String
-    }
-``` 
+```graphql
+scalar Currency
+
+type Account {
+  id: String
+  currency: Currency
+  accountNumber: String
+}
+```
 
 And example query might look like:
 
 ```graphql
-    query {
-      accounts(currency : "USD") {
-        id
-        currency
-        accountNumber
-      }
-    }
-``` 
+query {
+  accounts(currency: "USD") {
+    id
+    currency
+    accountNumber
+  }
+}
+```
 
 ## Alias Scalars
 
 You can create aliases for existing scalars to add more semantic meaning to them.
 
-For example a link to a social media post could be representing by a `String` but the name `SocialMediaLink` is a 
+For example a link to a social media post could be representing by a `String` but the name `SocialMediaLink` is a
 more semantically meaningful name for that scalar type.
 
 For example, you would build it like this:
@@ -337,35 +323,31 @@ For example, you would build it like this:
 And use it in a SDL schema like this :
 
 ```graphql
-
-     type Customer {
-           name : String
-           socialMediaLink : SocialMediaLink
-     }
-
+type Customer {
+  name: String
+  socialMediaLink: SocialMediaLink
+}
 ```
 
 Note: A future version of the graphql specification may add this capability but in the meantime you can use this facility.
 
 ## Java Primitives
-* `GraphQLLong`
-  * A scalar which represents `java.lang.Long`
-* `GraphQLShort`
-  * A scalar which represents `java.lang.Short`
-* `GraphQLByte`
-  * A scalar which represents `java.lang.Byte`
-* `GraphQLBigDecimal`
-  * A scalar which represents `java.math.BigDecimal`
-* `GraphQLBigInteger`
-  * A scalar which represents `java.math.BigInteger`
-* `GraphQLChar`
-  * A scalar which represents `java.lang.Character`
 
+- `GraphQLLong`
+  - A scalar which represents `java.lang.Long`
+- `GraphQLShort`
+  - A scalar which represents `java.lang.Short`
+- `GraphQLByte`
+  - A scalar which represents `java.lang.Byte`
+- `GraphQLBigDecimal`
+  - A scalar which represents `java.math.BigDecimal`
+- `GraphQLBigInteger`
+  - A scalar which represents `java.math.BigInteger`
+- `GraphQLChar`
+  - A scalar which represents `java.lang.Character`
 
 ## Other Scalars
 
-* `Url`
-  * An url scalar that accepts string values like `https://www.w3.org/Addressing/URL/url-spec.txt` and produces 
-  `java.net.URL` objects at runtime  
-  
-
+- `Url`
+  - An url scalar that accepts string values like `https://www.w3.org/Addressing/URL/url-spec.txt` and produces
+    `java.net.URL` objects at runtime
