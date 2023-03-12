@@ -72,7 +72,7 @@ public class GraphQlConfig {
 
 ### Netflix DGS
 
-If you are using [Netflix DGS](https://netflix.github.io/dgs) see their [configuration documentation](https://netflix.github.io/dgs/configuration/#dgs-extended-scalars-graphql-dgs-extended-scalars)
+If you are using [Netflix DGS](https://netflix.github.io/dgs), please see their [configuration documentation](https://netflix.github.io/dgs/configuration/#dgs-extended-scalars-graphql-dgs-extended-scalars)
 
 ## How to add extended scalars to your schema
 
