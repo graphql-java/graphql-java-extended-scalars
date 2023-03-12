@@ -120,12 +120,10 @@ type Customer {
 
 <table>
 <tr>
-<td>Scalar Name</td>
-<td>Scalar Specification</td>
+<td>Scalar</td>
 <td>Description</td>
 </tr>
 <tr>
-<td><code>DateTime</code></td>
 <td><pre lang="graphql">
 scalar DateTime
   @specifiedBy(url: 
@@ -135,7 +133,6 @@ scalar DateTime
 <td>A RFC-3339 compliant date time scalar that accepts string values like <code>1996-12-19T16:39:57-08:00</code> and produces <code>java.time.OffsetDateTime</code> objects at runtime.</td>
 </tr>
 <tr>
-<td><code>Date</code></td>
 <td><pre lang="graphql">
 scalar Date
   @specifiedBy(url: 
@@ -144,7 +141,6 @@ scalar Date
 <td>A RFC-3339 compliant date scalar that accepts string values like <code>1996-12-19</code> and produces <code>java.time.LocalDate</code> objects at runtime.</td>
 </tr>
 <tr>
-<td><code>Time</code></td>
 <td><pre lang="graphql">
 scalar Time
   @specifiedBy(url: 
@@ -154,7 +150,6 @@ scalar Time
 <td>A RFC-3339 compliant time scalar that accepts string values like <code>16:39:57-08:00</code> and produces <code>java.time.OffsetTime</code> objects at runtime.</td>
 </tr>
 <tr>
-<td><code>LocalTime</code></td>
 <td><pre lang="graphql">
 scalar LocalTime
 </pre></td>
@@ -191,12 +186,10 @@ query {
 
 <table>
 <tr>
-<td>Scalar Name</td>
-<td>Scalar Specification</td>
+<td>Scalar</td>
 <td>Description</td>
 </tr>
 <tr>
-<td><code>UUID</code></td>
 <td><pre lang="graphql">
 scalar UUID
   @specifiedBy(url: 
@@ -211,47 +204,38 @@ scalar UUID
 
 <table>
 <tr>
-<td>Scalar Name</td>
-<td>Scalar Specification</td>
+<td>Scalar</td>
 <td>Description</td>
 </tr>
 <tr>
-<td><code>PositiveInt</code></td>
 <td><pre lang="graphql">scalar PositiveInt</pre></td>
 <td>An <code>Int</code> scalar that MUST be greater than zero.</td>
 </tr>
 <tr>
-<td><code>NegativeInt</code></td>
 <td><pre lang="graphql">scalar NegativeInt</pre></td>
 <td>An <code>Int</code> scalar that MUST be less than zero.</td>
 </tr>
 <tr>
-<td><code>NonPositiveInt</code></td>
 <td><pre lang="graphql">scalar NonPositiveInt</pre></td>
 <td>An <code>Int</code> scalar that MUST be less than or equal to zero.</td>
 </tr>
 <tr>
-<td><code>NonNegativeInt</code></td>
 <td><pre lang="graphql">scalar NonNegativeInt</pre></td>
 <td>An <code>Int</code> scalar that MUST be greater than or equal to zero.</td>
 </tr>
 <tr>
-<td><code>PositiveFloat</code></td>
 <td><pre lang="graphql">scalar PositiveFloat</pre></td>
 <td>An <code>Float</code> scalar that MUST be greater than zero.</td>
 </tr>
 <tr>
-<td><code>NegativeFloat</code></td>
 <td><pre lang="graphql">scalar NegativeFloat</pre></td>
 <td>An <code>Float</code> scalar that MUST be less than zero.</td>
 </tr>
 <tr>
-<td><code>NonPositiveFloat</code></td>
 <td><pre lang="graphql">scalar NonPositiveFloat</pre></td>
 <td>An <code>Float</code> scalar that MUST be less than or equal to zero.</td>
 </tr>
 <tr>
-<td><code>NonNegativeFloat</code></td>
 <td><pre lang="graphql">scalar NonNegativeFloat</pre></td>
 <td>An <code>Float</code> scalar that MUST be greater than or equal to zero.</td>
 </tr>
@@ -290,37 +274,30 @@ query {
 
 <table>
 <tr>
-<td>Scalar Name</td>
-<td>Scalar Specification</td>
+<td>Scalar</td>
 <td>Description</td>
 </tr>
 <tr>
-<td><code>GraphQLLong</code></td>
 <td><pre lang="graphql">scalar GraphQLLong</pre></td>
 <td>A scalar which represents <code>java.lang.Long<code></td>
 </tr>
 <tr>
-<td><code>GraphQLShort</code></td>
 <td><pre lang="graphql">scalar GraphQLShort</pre></td>
 <td>A scalar which represents <code>java.lang.Short<code></td>
 </tr>
 <tr>
-<td><code>GraphQLByte</code></td>
 <td><pre lang="graphql">scalar GraphQLByte</pre></td>
 <td>A scalar which represents <code>java.lang.Byte<code></td>
 </tr>
 <tr>
-<td><code>GraphQLBigDecimal</code></td>
 <td><pre lang="graphql">scalar GraphQLBigDecimal</pre></td>
 <td>A scalar which represents <code>java.lang.BigDecimal<code></td>
 </tr>
 <tr>
-<td><code>GraphQLBigInteger</code></td>
 <td><pre lang="graphql">scalar GraphQLBigInteger</pre></td>
 <td>A scalar which represents <code>java.lang.BigInteger<code></td>
 </tr>
 <tr>
-<td><code>GraphQLChar</code></td>
 <td><pre lang="graphql">scalar GraphQLChar</pre></td>
 <td>A scalar which represents <code>java.lang.Character<code></td>
 </tr>
@@ -330,12 +307,10 @@ query {
 
 <table>
 <tr>
-<td>Scalar Name</td>
-<td>Scalar Specification</td>
+<td>Scalar</td>
 <td>Description</td>
 </tr>
 <tr>
-<td><code>Locale</code></td>
 <td><pre lang="graphql">
 scalar Locale
   @specifiedBy(url: 
@@ -372,12 +347,10 @@ query {
 
 <table>
 <tr>
-<td>Scalar Name</td>
-<td>Scalar Specification</td>
+<td>Scalar</td>
 <td>Description</td>
 </tr>
 <tr>
-<td><code>CountryCode</code></td>
 <td><pre lang="graphql">
 scalar CountryCode 
   @specifiedBy(url: 
@@ -414,12 +387,10 @@ query {
 
 <table>
 <tr>
-<td>Scalar Name</td>
-<td>Scalar Specification</td>
+<td>Scalar</td>
 <td>Description</td>
 </tr>
 <tr>
-<td><code>Currency</code></td>
 <td><pre lang="graphql">
 scalar Currency
   @specifiedBy(url: 
@@ -458,12 +429,10 @@ query {
 
 <table>
 <tr>
-<td>Scalar Name</td>
-<td>Scalar Specification</td>
+<td>Scalar</td>
 <td>Description</td>
 </tr>
 <tr>
-<td><code>Url</code></td>
 <td><pre lang="graphql">
 scalar URL
   @specifiedBy(url: 
@@ -478,17 +447,14 @@ scalar URL
 
 <table>
 <tr>
-<td>Scalar Name</td>
-<td>Scalar Specification</td>
+<td>Scalar</td>
 <td>Description</td>
 </tr>
 <tr>
-<td><code>Object</code></td>
 <td><pre lang="graphql">scalar Object</pre></td>
 <td>An object scalar that accepts any object as a scalar value.</td>
 </tr>
 <tr>
-<td><code>JSON</code></td>
 <td><pre lang="graphql">scalar JSON</pre></td>
 <td>A synonym for the `Object` scalar, it will accept any object as a scalar value.</td>
 </tr>
@@ -540,12 +506,10 @@ adds more semantic readers to your schema consumers.
 
 <table>
 <tr>
-<td>Scalar Name</td>
-<td>Scalar Specification</td>
+<td>Scalar</td>
 <td>Description</td>
 </tr>
 <tr>
-<td><code>RegexScalar</code></td>
 <td><pre lang="graphql">-</pre></td>
 <td>Allows you to build a new scalar via a builder pattern using regular expressions.</td>
 </tr>
