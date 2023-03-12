@@ -139,7 +139,7 @@ scalar DateTime
 <td><pre lang="graphql">
 scalar Date
   @specifiedBy(url: 
-    ["https://tools.ietf.org/html/rfc3339](https://tools.ietf.org/html/rfc3339)"
+    "https://tools.ietf.org/html/rfc3339"
   )</pre></td>
 <td>A RFC-3339 compliant date scalar that accepts string values like <code>1996-12-19</code> and produces <code>java.time.LocalDate</code> objects at runtime.</td>
 </tr>
