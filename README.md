@@ -287,22 +287,23 @@ query {
 ## URL Scalars
 
 <table>
-<tr>
-<td>Scalar Name</td>
-<td>Scalar Specification</td>
-<td>Description</td>
-</tr>
-<tr>
-<td> `Url` </td>
-<td><pre lang="graphql">
-scalar URL
-  @specifiedBy(url: 
-    "https://www.w3.org/Addressing/URL/url-spec.txt"
-  )
-</ore>
-</td>
-<td>An url scalar that accepts string values like `https://www.w3.org/Addressing/URL/url-spec.txt` and produces `java.net.URL` objects at runtime.</td>
-</tr>
+  <tr>
+    <td>Scalar Name</td>
+    <td>Scalar Specification</td>
+    <td>Description</td>
+  </tr>
+  <tr>
+    <td> `Url` </td>
+    <td>
+      <pre lang="graphql">
+      scalar URL
+        @specifiedBy(url: 
+          "https://www.w3.org/Addressing/URL/url-spec.txt"
+        )
+      </ore>
+    </td>
+    <td>An url scalar that accepts string values like `https://www.w3.org/Addressing/URL/url-spec.txt` and produces `java.net.URL` objects at runtime.</td>
+  </tr>
 </table>
 
 | Scalar Name | Scalar Specification                                                                                     | Description                                                                                                                                    |
