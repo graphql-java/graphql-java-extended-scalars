@@ -296,7 +296,9 @@ query {
 <td> `Url` </td>
 <td><pre lang="graphql">
 scalar URL
-@specifiedBy(url: "https://www.w3.org/Addressing/URL/url-spec.txt")
+  @specifiedBy(url: 
+    "https://www.w3.org/Addressing/URL/url-spec.txt"
+  )
 </ore>
 </td>
 <td>An url scalar that accepts string values like `https://www.w3.org/Addressing/URL/url-spec.txt` and produces `java.net.URL` objects at runtime.</td>
