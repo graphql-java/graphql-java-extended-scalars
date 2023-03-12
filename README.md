@@ -81,9 +81,20 @@ type Something {
 
 ## Alias Scalars
 
-| Scalar Name     | Scalar Specification                           | Description                                                                       |
-| --------------- | ---------------------------------------------- | --------------------------------------------------------------------------------- |
-| `AliasedScalar` | <pre lang="graphql">scalar AliasedScalar</pre> | You can create aliases for existing scalars to add more semantic meaning to them. |
+<table>
+<tr>
+<td>Scalar Name</td>
+<td>Scalar Specification</td>
+<td>Description</td>
+</tr>
+<tr>
+<td><code>AliasedScalar</code></td>
+<td><pre lang="graphql">
+scalar AliasedScalar
+</pre></td>
+<td>You can create aliases for existing scalars to add more semantic meaning to them.</td>
+</tr>
+</table>
 
 For example a link to a social media post could be representing by a `String` but the name `SocialMediaLink` is a
 more semantically meaningful name for that scalar type.
@@ -107,12 +118,49 @@ type Customer {
 
 ## Date & Time Scalars
 
-| Scalar Name | Scalar Definition                                                                                                   | Description                                                                                                                                                    |
-| ----------- | ------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `DateTime`  | <pre lang="graphql">scalar DateTime @specifiedBy(url: "https://scalars.graphql.org/andimarek/date-time.html")</pre> | An RFC-3339 compliant date time scalar that accepts string values like `1996-12-19T16:39:57-08:00` and produces `java.time.OffsetDateTime` objects at runtime. |
-| `Time`      | <pre lang="graphql">scalar Time @specifiedBy(url: "https://tools.ietf.org/html/rfc3339")</pre>                      | An RFC-3339 compliant time scalar that accepts string values like `16:39:57-08:00` and produces `java.time.OffsetTime` objects at runtime                      |
-| `LocalTime` | <pre lang="graphql">scalar LocalTime</pre>                                                                          | 24-hour clock time string in the format `hh:mm:ss.sss` or `hh:mm:ss` if partial seconds is zero and produces `java.time.LocalTime` objects at runtime.         |
-| `Date`      | <pre lang="graphql">scalar Date @specifiedBy(url: "https://tools.ietf.org/html/rfc3339")</pre>                      | An RFC-3339 compliant date scalar that accepts string values like `1996-12-19` and produces `java.time.LocalDate` objects at runtime                           |
+<table>
+<tr>
+<td>Scalar Name</td>
+<td>Scalar Specification</td>
+<td>Description</td>
+</tr>
+<tr>
+<td><code>DateTime</code></td>
+<td><pre lang="graphql">
+scalar DateTime
+  @specifiedBy(url: 
+    "https://scalars.graphql.org/andimarek/date-time.html"
+  )
+</pre></td>
+<td>A RFC-3339 compliant date time scalar that accepts string values like <code>1996-12-19T16:39:57-08:00</code> and produces <code>java.time.OffsetDateTime</code> objects at runtime.</td>
+</tr>
+<tr>
+<td><code>Date</code></td>
+<td><pre lang="graphql">
+scalar Date
+  @specifiedBy(url: 
+    ["https://tools.ietf.org/html/rfc3339](https://tools.ietf.org/html/rfc3339)"
+  )</pre></td>
+<td>A RFC-3339 compliant date scalar that accepts string values like <code>1996-12-19</code> and produces <code>java.time.LocalDate</code> objects at runtime.</td>
+</tr>
+<tr>
+<td><code>Time</code></td>
+<td><pre lang="graphql">
+scalar Time
+  @specifiedBy(url: 
+    "https://tools.ietf.org/html/rfc3339"
+  )
+</pre></td>
+<td>A RFC-3339 compliant time scalar that accepts string values like <code>16:39:57-08:00</code> and produces <code>java.time.OffsetTime</code> objects at runtime.</td>
+</tr>
+<tr>
+<td><code>LocalTime</code></td>
+<td><pre lang="graphql">
+scalar LocalTime
+</pre></td>
+<td>24-hour clock time string in the format <code>hh:mm:ss.sss</code> or <code>hh:mm:ss</code> if partial seconds is zero and produces <code>java.time.LocalTime</code> objects at runtime.</td>
+</tr>
+</table>
 
 An example declaration in SDL might be:
 
@@ -141,22 +189,73 @@ query {
 
 ## ID Scalars
 
-| Scalar Name | Scalar Definition                                                                              | Description                                                                                                                                                     |
-| ----------- | ---------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `UUID`      | <pre lang="graphql">scalar UUID @specifiedBy(url: "https://tools.ietf.org/html/rfc4122")</pre> | A universally unique identifier scalar that accepts uuid values like `2423f0a0-3b81-4115-a189-18df8b35e8fc` and produces `java.util.UUID` instances at runtime. |
+<table>
+<tr>
+<td>Scalar Name</td>
+<td>Scalar Specification</td>
+<td>Description</td>
+</tr>
+<tr>
+<td><code>UUID</code></td>
+<td><pre lang="graphql">
+scalar UUID
+  @specifiedBy(url: 
+    "https://tools.ietf.org/html/rfc4122"
+  )
+</pre></td>
+<td>A universally unique identifier scalar that accepts uuid values like `2423f0a0-3b81-4115-a189-18df8b35e8fc` and produces `java.util.UUID` instances at runtime.</td>
+</tr>
+</table>
 
 ## Numeric Scalars
 
-| Scalar Name        | Scalar Definition                                 | Description                                                   |
-| ------------------ | ------------------------------------------------- | ------------------------------------------------------------- |
-| `PositiveInt`      | <pre lang="graphql">scalar PositiveInt</pre>      | An `Int` scalar that MUST be greater than zero.               |
-| `NegativeInt`      | <pre lang="graphql">scalar NegativeInt</pre>      | An `Int` scalar that MUST be less than zero.                  |
-| `NonPositiveInt`   | <pre lang="graphql">scalar NonPositiveInt</pre>   | An `Int` scalar that MUST be less than or equal to zero.      |
-| `NonNegativeInt`   | <pre lang="graphql">scalar NonNegativeInt</pre>   | An `Int` scalar that MUST be greater than or equal to zero.   |
-| `PositiveFloat`    | <pre lang="graphql">scalar PositiveFloat</pre>    | An `Float` scalar that MUST be greater than zero.             |
-| `NegativeFloat`    | <pre lang="graphql">scalar NegativeFloat</pre>    | An `Float` scalar that MUST be less than zero.                |
-| `NonPositiveFloat` | <pre lang="graphql">scalar NonPositiveFloat</pre> | An `Float` scalar that MUST be less than or equal to zero.    |
-| `NonNegativeFloat` | <pre lang="graphql">scalar NonNegativeFloat</pre> | An `Float` scalar that MUST be greater than or equal to zero. |
+<table>
+<tr>
+<td>Scalar Name</td>
+<td>Scalar Specification</td>
+<td>Description</td>
+</tr>
+<tr>
+<td><code>PositiveInt</code></td>
+<td><pre lang="graphql">scalar PositiveInt</pre></td>
+<td>An <code>Int</code> scalar that MUST be greater than zero.</td>
+</tr>
+<tr>
+<td><code>NegativeInt</code></td>
+<td><pre lang="graphql">scalar NegativeInt</pre></td>
+<td>An <code>Int</code> scalar that MUST be less than zero.</td>
+</tr>
+<tr>
+<td><code>NonPositiveInt</code></td>
+<td><pre lang="graphql">scalar NonPositiveInt</pre></td>
+<td>An <code>Int</code> scalar that MUST be less than or equal to zero.</td>
+</tr>
+<tr>
+<td><code>NonNegativeInt</code></td>
+<td><pre lang="graphql">scalar NonNegativeInt</pre></td>
+<td>An <code>Int</code> scalar that MUST be greater than or equal to zero.</td>
+</tr>
+<tr>
+<td><code>PositiveFloat</code></td>
+<td><pre lang="graphql">scalar PositiveFloat</pre></td>
+<td>An <code>Float</code> scalar that MUST be greater than zero.</td>
+</tr>
+<tr>
+<td><code>NegativeFloat</code></td>
+<td><pre lang="graphql">scalar NegativeFloat</pre></td>
+<td>An <code>Float</code> scalar that MUST be less than zero.</td>
+</tr>
+<tr>
+<td><code>NonPositiveFloat</code></td>
+<td><pre lang="graphql">scalar NonPositiveFloat</pre></td>
+<td>An <code>Float</code> scalar that MUST be less than or equal to zero.</td>
+</tr>
+<tr>
+<td><code>NonNegativeFloat</code></td>
+<td><pre lang="graphql">scalar NonNegativeFloat</pre></td>
+<td>An <code>Float</code> scalar that MUST be greater than or equal to zero.</td>
+</tr>
+</table>
 
 The numeric scalars are derivations of the standard GraphQL `Int` and `Float` scalars that enforce range limits.
 
@@ -189,20 +288,63 @@ query {
 
 ## Java Primitives
 
-| Scalar Name         | Scalar Specification                               | Description                                      |
-| ------------------- | -------------------------------------------------- | ------------------------------------------------ |
-| `GraphQLLong`       | <pre lang="graphql">scalar GraphQLLong</pre>       | A scalar which represents `java.lang.Long`       |
-| `GraphQLShort`      | <pre lang="graphql">scalar GraphQLShort</pre>      | A scalar which represents `java.lang.Short`      |
-| `GraphQLByte`       | <pre lang="graphql">scalar GraphQLByte</pre>       | A scalar which represents `java.lang.Byte`       |
-| `GraphQLBigDecimal` | <pre lang="graphql">scalar GraphQLBigDecimal</pre> | A scalar which represents `java.math.BigDecimal` |
-| `GraphQLBigInteger` | <pre lang="graphql">scalar GraphQLBigInteger</pre> | A scalar which represents `java.math.BigInteger` |
-| `GraphQLChar`       | <pre lang="graphql">scalar GraphQLChar</pre>       | A scalar which represents `java.lang.Character`  |
+<table>
+<tr>
+<td>Scalar Name</td>
+<td>Scalar Specification</td>
+<td>Description</td>
+</tr>
+<tr>
+<td><code>GraphQLLong</code></td>
+<td><pre lang="graphql">scalar GraphQLLong</pre></td>
+<td>A scalar which represents <code>java.lang.Long<code></td>
+</tr>
+<tr>
+<td><code>GraphQLShort</code></td>
+<td><pre lang="graphql">scalar GraphQLShort</pre></td>
+<td>A scalar which represents <code>java.lang.Short<code></td>
+</tr>
+<tr>
+<td><code>GraphQLByte</code></td>
+<td><pre lang="graphql">scalar GraphQLByte</pre></td>
+<td>A scalar which represents <code>java.lang.Byte<code></td>
+</tr>
+<tr>
+<td><code>GraphQLBigDecimal</code></td>
+<td><pre lang="graphql">scalar GraphQLBigDecimal</pre></td>
+<td>A scalar which represents <code>java.lang.BigDecimal<code></td>
+</tr>
+<tr>
+<td><code>GraphQLBigInteger</code></td>
+<td><pre lang="graphql">scalar GraphQLBigInteger</pre></td>
+<td>A scalar which represents <code>java.lang.BigInteger<code></td>
+</tr>
+<tr>
+<td><code>GraphQLChar</code></td>
+<td><pre lang="graphql">scalar GraphQLChar</pre></td>
+<td>A scalar which represents <code>java.lang.Character<code></td>
+</tr>
+</table>
 
 ## Locale Scalar
 
-| Scalar Name | Scalar Specification                                                                           | Description                                                                                                                                                                                                                             |
-| ----------- | ---------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `Locale`    | <pre lang="graphql">scalar Locale @specifiedBy(url: "https://tools.ietf.org/html/bcp47")</pre> | The Locale scalar handles [IETF BCP 47](https://tools.ietf.org/html/bcp47) language tags via the JDK method [Locale.forLanguageTag](<https://docs.oracle.com/javase/7/docs/api/java/util/Locale.html#forLanguageTag(java.lang.String)>) |
+<table>
+<tr>
+<td>Scalar Name</td>
+<td>Scalar Specification</td>
+<td>Description</td>
+</tr>
+<tr>
+<td><code>Locale</code></td>
+<td><pre lang="graphql">
+scalar Locale
+  @specifiedBy(url: 
+    "https://tools.ietf.org/html/bcp47"
+  )
+</pre></td>
+<td>The Locale scalar handles <a href="https://tools.ietf.org/html/bcp47">IETF BCP 47</a> language tags via the JDK method <a href="https://docs.oracle.com/javase/7/docs/api/java/util/Locale.html#forLanguageTag(java.lang.String)">Locale.forLanguageTag</a>.</td>
+</tr>
+</table>
 
 ```graphql
 type Customer {
@@ -228,9 +370,23 @@ query {
 
 ## Country Code Scalar
 
-| Scalar Name   | Scalar Specification                         | Description                                                                                                       |
-| ------------- | -------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
-| `CountryCode` | <pre lang="graphql">scalar CountryCode</pre> | The CountryCode scalar type as defined by [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). |
+<table>
+<tr>
+<td>Scalar Name</td>
+<td>Scalar Specification</td>
+<td>Description</td>
+</tr>
+<tr>
+<td><code>CountryCode</code></td>
+<td><pre lang="graphql">
+scalar CountryCode 
+  @specifiedBy(url: 
+    "https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2"
+  )
+</pre></td>
+<td>The CountryCode scalar type as defined by <a href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2">ISO 3166-1 alpha-2</a>.</td>
+</tr>
+</table>
 
 An example declaration in SDL might be:
 
@@ -256,9 +412,23 @@ query {
 
 ## Currency Scalar
 
-| Scalar Name | Scalar Specification                      | Description                                                                            |
-| ----------- | ----------------------------------------- | -------------------------------------------------------------------------------------- |
-| `Currency`  | <pre lang="graphql">scalar Currency</pre> | A field whose value is an [ISO-4217](https://en.wikipedia.org/wiki/ISO_4217) currency. |
+<table>
+<tr>
+<td>Scalar Name</td>
+<td>Scalar Specification</td>
+<td>Description</td>
+</tr>
+<tr>
+<td><code>Currency</code></td>
+<td><pre lang="graphql">
+scalar Currency
+  @specifiedBy(url: 
+    "https://en.wikipedia.org/wiki/ISO_4217"
+  )
+</pre></td>
+<td>A field whose value is an <a href="https://en.wikipedia.org/wiki/ISO_4217">ISO-4217</a> currency.</td>
+</tr>
+</table>
 
 An example declaration in SDL might be:
 
@@ -293,28 +463,36 @@ query {
 <td>Description</td>
 </tr>
 <tr>
-<td><pre>Url</pre></td>
+<td><code>Url</code></td>
 <td><pre lang="graphql">
 scalar URL
   @specifiedBy(url: 
     "https://www.w3.org/Addressing/URL/url-spec.txt"
   )
-</pre>
-</td>
+</pre></td>
 <td>An url scalar that accepts string values like `https://www.w3.org/Addressing/URL/url-spec.txt` and produces `java.net.URL` objects at runtime.</td>
 </tr>
 </table>
 
-| Scalar Name | Scalar Specification                                                                                     | Description                                                                                                                                    |
-| ----------- | -------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| `Url`       | <pre lang="graphql">scalar URL @specifiedBy(url: "https://www.w3.org/Addressing/URL/url-spec.txt")</pre> | An url scalar that accepts string values like `https://www.w3.org/Addressing/URL/url-spec.txt` and produces `java.net.URL` objects at runtime. |
-
 ## Object / JSON Scalars
 
-| Scalar Name | Scalar Specification                    | Description                                                                     |
-| ----------- | --------------------------------------- | ------------------------------------------------------------------------------- |
-| `Object`    | <pre lang="graphql">scalar Object</pre> | An object scalar that accepts any object as a scalar value.                     |
-| `JSON`      | <pre lang="graphql">scalar JSON</pre>   | A synonym for the `Object` scalar, it will accept any object as a scalar value. |
+<table>
+<tr>
+<td>Scalar Name</td>
+<td>Scalar Specification</td>
+<td>Description</td>
+</tr>
+<tr>
+<td><code>Object</code></td>
+<td><pre lang="graphql">scalar Object</pre></td>
+<td>An object scalar that accepts any object as a scalar value.</td>
+</tr>
+<tr>
+<td><code>JSON</code></td>
+<td><pre lang="graphql">scalar JSON</pre></td>
+<td>A synonym for the `Object` scalar, it will accept any object as a scalar value.</td>
+</tr>
+</table>
 
 One of the design goals of GraphQL, is that the type system describes the shape of the data returned.
 
@@ -360,9 +538,18 @@ adds more semantic readers to your schema consumers.
 
 ## Regex Scalars
 
-| Scalar Name   | Scalar Specification | Description                                                                      |
-| ------------- | -------------------- | -------------------------------------------------------------------------------- |
-| `RegexScalar` | -                    | Allows you to build a new scalar via a builder pattern using regular expressions |
+<table>
+<tr>
+<td>Scalar Name</td>
+<td>Scalar Specification</td>
+<td>Description</td>
+</tr>
+<tr>
+<td><code>RegexScalar</code></td>
+<td><pre lang="graphql">-</pre></td>
+<td>Allows you to build a new scalar via a builder pattern using regular expressions.</td>
+</tr>
+</table>
 
 The RegexScalar has a builder where you provide one or more regex patterns that control the acceptable values
 for a new scalar.
