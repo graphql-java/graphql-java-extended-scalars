@@ -24,15 +24,19 @@ You would use custom scalars when you want to describe more meaningful behavior 
 
 To use this library put the following into your gradle config
 
+```java
     implementation 'com.graphql-java:graphql-java-extended-scalars:20.0'
+```
 
 or the following into your Maven config
 
+```xml
     <dependency>
       <groupId>com.graphql-java</groupId>
       <artifactId>graphql-java-extended-scalars</artifactId>
       <version>20.0</version>
     </dependency>
+```
 
 > Note:
 >
@@ -67,6 +71,7 @@ And use the scalar in your schema
 ```graphql
 scalar DateTime
   @specifiedBy(url: "https://scalars.graphql.org/andimarek/date-time.html")
+
 type Something {
   someDateTime: DateTime
 }
