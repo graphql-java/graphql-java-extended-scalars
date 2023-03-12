@@ -83,12 +83,10 @@ type Something {
 
 <table>
 <tr>
-<td>Scalar Name</td>
-<td>Scalar Specification</td>
+<td>Scalar</td>
 <td>Description</td>
 </tr>
 <tr>
-<td><code>AliasedScalar</code></td>
 <td><pre lang="graphql">
 scalar AliasedScalar
 </pre></td>
