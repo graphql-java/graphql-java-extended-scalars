@@ -83,7 +83,7 @@ type Something {
 
 <table>
 <tr>
-<td>Scalar</td>
+<td>Scalar Definition</td>
 <td>Description</td>
 </tr>
 <tr>
@@ -118,7 +118,7 @@ type Customer {
 
 <table>
 <tr>
-<td>Scalar</td>
+<td>Scalar Definition</td>
 <td>Description</td>
 </tr>
 <tr>
@@ -184,7 +184,7 @@ query {
 
 <table>
 <tr>
-<td>Scalar</td>
+<td>Scalar Definition</td>
 <td>Description</td>
 </tr>
 <tr>
@@ -202,7 +202,7 @@ scalar UUID
 
 <table>
 <tr>
-<td>Scalar</td>
+<td>Scalar Definition</td>
 <td>Description</td>
 </tr>
 <tr>
@@ -272,7 +272,7 @@ query {
 
 <table>
 <tr>
-<td>Scalar</td>
+<td>Scalar Definition</td>
 <td>Description</td>
 </tr>
 <tr>
@@ -305,7 +305,7 @@ query {
 
 <table>
 <tr>
-<td>Scalar</td>
+<td>Scalar Definition</td>
 <td>Description</td>
 </tr>
 <tr>
@@ -345,7 +345,7 @@ query {
 
 <table>
 <tr>
-<td>Scalar</td>
+<td>Scalar Definition</td>
 <td>Description</td>
 </tr>
 <tr>
@@ -385,7 +385,7 @@ query {
 
 <table>
 <tr>
-<td>Scalar</td>
+<td>Scalar Definition</td>
 <td>Description</td>
 </tr>
 <tr>
@@ -427,7 +427,7 @@ query {
 
 <table>
 <tr>
-<td>Scalar</td>
+<td>Scalar Definition</td>
 <td>Description</td>
 </tr>
 <tr>
@@ -437,7 +437,7 @@ scalar URL
     "https://www.w3.org/Addressing/URL/url-spec.txt"
   )
 </pre></td>
-<td>An url scalar that accepts string values like `https://www.w3.org/Addressing/URL/url-spec.txt` and produces `java.net.URL` objects at runtime.</td>
+<td>An url scalar that accepts string values like `https://www.w3.org/Addressing/URL/url-spec.txt` and produces <code>java.net.URL</code> objects at runtime.</td>
 </tr>
 </table>
 
@@ -445,7 +445,7 @@ scalar URL
 
 <table>
 <tr>
-<td>Scalar</td>
+<td>Scalar Definition</td>
 <td>Description</td>
 </tr>
 <tr>
@@ -454,7 +454,7 @@ scalar URL
 </tr>
 <tr>
 <td><pre lang="graphql">scalar JSON</pre></td>
-<td>A synonym for the `Object` scalar, it will accept any object as a scalar value.</td>
+<td>A synonym for the <code>Object</code> scalar, it will accept any object as a scalar value.</td>
 </tr>
 </table>
 
@@ -504,11 +504,11 @@ adds more semantic readers to your schema consumers.
 
 <table>
 <tr>
-<td>Scalar</td>
+<td>Scalar Name</td>
 <td>Description</td>
 </tr>
 <tr>
-<td><pre lang="graphql">-</pre></td>
+<td><code>RegexScalar</code></td>
 <td>Allows you to build a new scalar via a builder pattern using regular expressions.</td>
 </tr>
 </table>
