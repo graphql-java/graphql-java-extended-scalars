@@ -25,17 +25,17 @@ You would use custom scalars when you want to describe more meaningful behavior 
 To use this library put the following into your gradle config
 
 ```java
-    implementation 'com.graphql-java:graphql-java-extended-scalars:20.0'
+implementation 'com.graphql-java:graphql-java-extended-scalars:20.0'
 ```
 
 or the following into your Maven config
 
 ```xml
-    <dependency>
-      <groupId>com.graphql-java</groupId>
-      <artifactId>graphql-java-extended-scalars</artifactId>
-      <version>20.0</version>
-    </dependency>
+<dependency>
+  <groupId>com.graphql-java</groupId>
+  <artifactId>graphql-java-extended-scalars</artifactId>
+  <version>20.0</version>
+</dependency>
 ```
 
 > Note:
@@ -51,19 +51,19 @@ It's currently available from Maven Central.
 Register the scalar with `graphql-java`
 
 ```java
-    RuntimeWiring.newRuntimeWiring().scalar(ExtendedScalars.DateTime)
+RuntimeWiring.newRuntimeWiring().scalar(ExtendedScalars.DateTime)
 ```
 
 Or if using [Spring for GraphQL](https://docs.spring.io/spring-graphql/docs/current/reference/html/), register the scalar with `RuntimeWiringConfigurer`
 
 ```java
-    @Configuration
-    public class GraphQlConfig {
-        @Bean
-        public RuntimeWiringConfigurer runtimeWiringConfigurer() {
-            return wiringBuilder -> wiringBuilder.scalar(ExtendedScalars.DateTime);
-        }
+@Configuration
+public class GraphQlConfig {
+    @Bean
+    public RuntimeWiringConfigurer runtimeWiringConfigurer() {
+        return wiringBuilder -> wiringBuilder.scalar(ExtendedScalars.DateTime);
     }
+}
 ```
 
 And use the scalar in your schema
@@ -91,11 +91,9 @@ more semantically meaningful name for that scalar type.
 For example, you would build it like this:
 
 ```java
-
-    AliasedScalar socialMediaLink = ExtendedScalars.newAliasedScalar("SocialMediaLink")
-            .aliasedScalar(Scalars.GraphQLString)
-            .build()
-
+AliasedScalar socialMediaLink = ExtendedScalars.newAliasedScalar("SocialMediaLink")
+        .aliasedScalar(Scalars.GraphQLString)
+        .build()
 ```
 
 And use it in a SDL schema like this :
@@ -109,12 +107,12 @@ type Customer {
 
 ## Date & Time Scalars
 
-| Scalar Name | Scalar Definition                                                                                                                  | Description                                                                                                                                                    |
-| ----------- | ---------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `DateTime`  | <pre lang="graphql">scalar DateTime @specifiedBy(url: "https://scalars.graphql.org/andimarek/date-time.html")</pre lang="graphql"> | An RFC-3339 compliant date time scalar that accepts string values like `1996-12-19T16:39:57-08:00` and produces `java.time.OffsetDateTime` objects at runtime. |
-| `Time`      | <pre lang="graphql">scalar Time @specifiedBy(url: "https://tools.ietf.org/html/rfc3339")</pre>                                     | An RFC-3339 compliant time scalar that accepts string values like `16:39:57-08:00` and produces `java.time.OffsetTime` objects at runtime                      |
-| `LocalTime` | <pre lang="graphql">scalar LocalTime</pre>                                                                                         | 24-hour clock time string in the format `hh:mm:ss.sss` or `hh:mm:ss` if partial seconds is zero and produces `java.time.LocalTime` objects at runtime.         |
-| `Date`      | <pre lang="graphql">scalar Date @specifiedBy(url: "https://tools.ietf.org/html/rfc3339")</pre>                                     | An RFC-3339 compliant date scalar that accepts string values like `1996-12-19` and produces `java.time.LocalDate` objects at runtime                           |
+| Scalar Name | Scalar Definition                                                                                                   | Description                                                                                                                                                    |
+| ----------- | ------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `DateTime`  | <pre lang="graphql">scalar DateTime @specifiedBy(url: "https://scalars.graphql.org/andimarek/date-time.html")</pre> | An RFC-3339 compliant date time scalar that accepts string values like `1996-12-19T16:39:57-08:00` and produces `java.time.OffsetDateTime` objects at runtime. |
+| `Time`      | <pre lang="graphql">scalar Time @specifiedBy(url: "https://tools.ietf.org/html/rfc3339")</pre>                      | An RFC-3339 compliant time scalar that accepts string values like `16:39:57-08:00` and produces `java.time.OffsetTime` objects at runtime                      |
+| `LocalTime` | <pre lang="graphql">scalar LocalTime</pre>                                                                          | 24-hour clock time string in the format `hh:mm:ss.sss` or `hh:mm:ss` if partial seconds is zero and produces `java.time.LocalTime` objects at runtime.         |
+| `Date`      | <pre lang="graphql">scalar Date @specifiedBy(url: "https://tools.ietf.org/html/rfc3339")</pre>                      | An RFC-3339 compliant date scalar that accepts string values like `1996-12-19` and produces `java.time.LocalDate` objects at runtime                           |
 
 An example declaration in SDL might be:
 
