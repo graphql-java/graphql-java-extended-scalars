@@ -208,7 +208,7 @@ scalar UUID
     "https://tools.ietf.org/html/rfc4122"
   )
 </pre></td>
-<td>A universally unique identifier scalar that accepts uuid values like `2423f0a0-3b81-4115-a189-18df8b35e8fc` and produces `java.util.UUID` instances at runtime.</td>
+<td>A universally unique identifier scalar that accepts uuid values like <code>2423f0a0-3b81-4115-a189-18df8b35e8fc</code> and produces <code>java.util.UUID</code> instances at runtime.</td>
 </tr>
 </table>
 
@@ -451,7 +451,7 @@ scalar URL
     "https://www.w3.org/Addressing/URL/url-spec.txt"
   )
 </pre></td>
-<td>An url scalar that accepts string values like `https://www.w3.org/Addressing/URL/url-spec.txt` and produces <code>java.net.URL</code> objects at runtime.</td>
+<td>An url scalar that accepts string values like https://www.w3.org/Addressing/URL/url-spec.txt and produces <code>java.net.URL</code> objects at runtime.</td>
 </tr>
 </table>
 
