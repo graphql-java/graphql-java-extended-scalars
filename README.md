@@ -329,7 +329,7 @@ scalar Locale
     "https://tools.ietf.org/html/bcp47"
   )
 </pre></td>
-<td>The Locale scalar handles <a href="https://tools.ietf.org/html/bcp47">IETF BCP 47</a> language tags via the JDK method <a href="https://docs.oracle.com/javase/7/docs/api/java/util/Locale.html#forLanguageTag(java.lang.String)">Locale.forLanguageTag</a>.</td>
+<td>The Locale scalar handles <a target="_blank" href="https://tools.ietf.org/html/bcp47">IETF BCP 47</a> language tags via the JDK method <a target="_blank" href="https://docs.oracle.com/javase/7/docs/api/java/util/Locale.html#forLanguageTag(java.lang.String)">Locale.forLanguageTag</a>.</td>
 </tr>
 </table>
 
@@ -369,7 +369,7 @@ scalar CountryCode
     "https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2"
   )
 </pre></td>
-<td>The CountryCode scalar type as defined by <a href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2">ISO 3166-1 alpha-2</a>.</td>
+<td>The CountryCode scalar type as defined by <a target="_blank" href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2">ISO 3166-1 alpha-2</a>.</td>
 </tr>
 </table>
 
@@ -409,7 +409,7 @@ scalar Currency
     "https://en.wikipedia.org/wiki/ISO_4217"
   )
 </pre></td>
-<td>A field whose value is an <a href="https://en.wikipedia.org/wiki/ISO_4217">ISO-4217</a> currency.</td>
+<td>A field whose value is an <a target="_blank" href="https://en.wikipedia.org/wiki/ISO_4217">ISO-4217</a> currency.</td>
 </tr>
 </table>
 
