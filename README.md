@@ -286,6 +286,26 @@ query {
 
 ## URL Scalars
 
+<table>
+<tr>
+<td>Scalar Name</td>
+<td>Scalar Specification</td>
+<td>Description</td>
+</tr>
+<tr>
+<td> `Url` </td>
+<td>
+
+````graphql
+scalar URL
+@specifiedBy(url: "https://www.w3.org/Addressing/URL/url-spec.txt")
+```
+
+</td>
+<td>An url scalar that accepts string values like `https://www.w3.org/Addressing/URL/url-spec.txt` and produces `java.net.URL` objects at runtime.</td>
+</tr>
+</table>
+
 | Scalar Name | Scalar Specification                                                                                     | Description                                                                                                                                    |
 | ----------- | -------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
 | `Url`       | <pre lang="graphql">scalar URL @specifiedBy(url: "https://www.w3.org/Addressing/URL/url-spec.txt")</pre> | An url scalar that accepts string values like `https://www.w3.org/Addressing/URL/url-spec.txt` and produces `java.net.URL` objects at runtime. |
@@ -317,7 +337,7 @@ type Customer {
 type Query {
   customers(filterSyntax: JSON): [Customers]
 }
-```
+````
 
 And example query might look like:
 
