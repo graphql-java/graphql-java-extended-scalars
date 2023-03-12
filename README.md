@@ -14,8 +14,6 @@ This library provides extended scalars for [graphql-java](https://github.com/gra
 The GraphQL Specification defines `String`, `Int`, `Float`, `Boolean` and `ID` as well-defined [built-in scalars](https://spec.graphql.org/October2021/#sec-Scalars.Built-in-Scalars) that must be present in a graphql type
 system. Beyond these, it is up to an implementation about what [custom scalars](https://spec.graphql.org/October2021/#sec-Scalars.Custom-Scalars) are present.
 
-The GraphQL Specification recommends the use of the [@specifiedBy](https://spec.graphql.org/October2021/#sec--specifiedBy) built-in schema directive to provide a scalar specification URL for specifying the behavior of custom scalar types.
-
 You would use custom scalars when you want to describe more meaningful behavior or ranges of values.
 
 # Getting started
@@ -75,6 +73,12 @@ public class GraphQlConfig {
 If you are using [Netflix DGS](https://netflix.github.io/dgs), please see their [configuration documentation](https://netflix.github.io/dgs/configuration/#dgs-extended-scalars-graphql-dgs-extended-scalars)
 
 ## How to add extended scalars to your schema
+
+The GraphQL Specification recommends the use of the [@specifiedBy](https://spec.graphql.org/October2021/#sec--specifiedBy) built-in schema directive to provide a scalar specification URL for specifying the behavior of custom scalar types.
+
+```graphql
+directive @specifiedBy(url: String!) on SCALAR
+```
 
 To use a extended scalar in your schema, define the scalar like shown below for `DateTime`
 
