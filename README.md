@@ -48,13 +48,17 @@ It's currently available from Maven Central.
 
 ## How to use extended scalars
 
+### Direct use
+
 Register the scalar with `graphql-java`
 
 ```java
 RuntimeWiring.newRuntimeWiring().scalar(ExtendedScalars.DateTime)
 ```
 
-Or if using [Spring for GraphQL](https://docs.spring.io/spring-graphql/docs/current/reference/html/), register the scalar with `RuntimeWiringConfigurer`
+### Spring for GraphQL
+
+If you are using [Spring for GraphQL](https://docs.spring.io/spring-graphql/docs/current/reference/html/), register the scalar with `RuntimeWiringConfigurer`
 
 ```java
 @Configuration
@@ -66,7 +70,13 @@ public class GraphQlConfig {
 }
 ```
 
-And use the scalar in your schema
+### Netflix DGS
+
+If you are using [Netflix DGS](https://netflix.github.io/dgs) see their [configuration documentation](https://netflix.github.io/dgs/configuration/#dgs-extended-scalars-graphql-dgs-extended-scalars)
+
+## How to add extended scalars to your schema
+
+To use a extended scalar in your schema, define the scalar like shown below for `DateTime`
 
 ```graphql
 scalar DateTime
