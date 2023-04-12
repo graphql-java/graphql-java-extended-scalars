@@ -9,7 +9,7 @@
 
 This library provides extended scalars for [graphql-java](https://github.com/graphql-java/graphql-java)
 
-[GraphQL Scalars](https://spec.graphql.org/October2021/#sec-Scalars) are the leaf values in the GraphQL type system and can't be queried further via sub-field selections.
+[GraphQL Scalars](https://spec.graphql.org/draft/#sec-Scalars) are the primitive leaf values in the GraphQL type system and can't be queried further via sub-field selections.
 
 The GraphQL Specification defines `String`, `Int`, `Float`, `Boolean` and `ID` as well-defined [built-in scalars](https://spec.graphql.org/October2021/#sec-Scalars.Built-in-Scalars) that must be present in a graphql type
 system. Beyond these, it is up to an implementation about what [custom scalars](https://spec.graphql.org/October2021/#sec-Scalars.Custom-Scalars) are present.
