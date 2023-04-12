@@ -9,10 +9,10 @@
 
 This library provides extended scalars for [graphql-java](https://github.com/graphql-java/graphql-java)
 
-[GraphQL Scalars](https://spec.graphql.org/draft/#sec-Scalars) are the primitive leaf values in the GraphQL type system and can't be queried further via sub-field selections.
+[GraphQL Scalars](https://spec.graphql.org/draft/#sec-Scalars) are the primitive leaf values in the GraphQL type system which cannot be queried further via sub-field selections.
 
-The GraphQL Specification defines `String`, `Int`, `Float`, `Boolean` and `ID` as well-defined [built-in scalars](https://spec.graphql.org/October2021/#sec-Scalars.Built-in-Scalars) that must be present in a graphql type
-system. Beyond these, it is up to an implementation about what [custom scalars](https://spec.graphql.org/October2021/#sec-Scalars.Custom-Scalars) are present.
+The GraphQL Specification defines `String`, `Int`, `Float`, `Boolean` and `ID` as well-defined [built-in scalars](https://spec.graphql.org/draft/#sec-Scalars.Built-in-Scalars) that must be present in a graphql type
+system. Beyond these, it is up to an implementation to decide what [custom scalars](https://spec.graphql.org/draft/#sec-Scalars.Custom-Scalars) are present.
 
 You would use custom scalars when you want to describe more meaningful behavior or ranges of values.
 
@@ -32,7 +32,7 @@ or the following into your Maven config
 <dependency>
   <groupId>com.graphql-java</groupId>
   <artifactId>graphql-java-extended-scalars</artifactId>
-  <version>20.0</version>
+  <version>20.2</version>
 </dependency>
 ```
 
@@ -41,8 +41,6 @@ or the following into your Maven config
 > use 19.0 or above for graphql-java 19.x and above
 >
 > use 20.0 or above for graphql-java 20.x and above
-
-It's currently available from Maven Central.
 
 ## How to use extended scalars
 
@@ -70,7 +68,7 @@ public class GraphQlConfig {
 
 ### Netflix DGS
 
-If you are using [Netflix DGS](https://netflix.github.io/dgs), please see their [configuration documentation](https://netflix.github.io/dgs/configuration/#dgs-extended-scalars-graphql-dgs-extended-scalars)
+If you are using [Netflix DGS](https://netflix.github.io/dgs), please see their [configuration documentation](https://netflix.github.io/dgs/configuration/#dgs-extended-scalars-graphql-dgs-extended-scalars).
 
 ## How to add extended scalars to your schema
 
