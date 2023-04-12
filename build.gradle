@@ -12,6 +12,15 @@ plugins {
     id "biz.aQute.bnd.builder" version "6.4.0"
 }
 
+if (JavaVersion.current() != JavaVersion.VERSION_1_8) {
+    def msg = String.format("This build must be run with java 1.8 - you are running %s - gradle finds the JDK via JAVA_HOME=%s",
+            JavaVersion.current(), System.getenv("JAVA_HOME"))
+    throw new GradleException(msg)
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
 def getDevelopmentVersion() {
     def output = new StringBuilder()
     def error = new StringBuilder()
@@ -25,17 +34,10 @@ def getDevelopmentVersion() {
     "0.0.0-" + new SimpleDateFormat('yyyy-MM-dd\'T\'HH-mm-ss').format(new Date()) + "-" + gitHash
 }
 
-
 def releaseVersion = System.env.RELEASE_VERSION
 version = releaseVersion ? releaseVersion : getDevelopmentVersion()
 println "Building version = " + version
 group = 'com.graphql-java'
-
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(8)
-    }
-}
 
 repositories {
     mavenCentral()
