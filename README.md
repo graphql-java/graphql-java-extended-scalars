@@ -23,7 +23,7 @@ You would use custom scalars when you want to describe more meaningful behavior 
 To use this library put the following into your gradle config
 
 ```java
-implementation 'com.graphql-java:graphql-java-extended-scalars:20.0'
+implementation 'com.graphql-java:graphql-java-extended-scalars:20.2'
 ```
 
 or the following into your Maven config
