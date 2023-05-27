@@ -6,6 +6,7 @@ import graphql.scalars.country.code.CountryCodeScalar;
 import graphql.scalars.currency.CurrencyScalar;
 import graphql.scalars.datetime.DateScalar;
 import graphql.scalars.datetime.DateTimeScalar;
+import graphql.scalars.datetime.LocalDateTimeScalar;
 import graphql.scalars.datetime.LocalTimeCoercing;
 import graphql.scalars.datetime.TimeScalar;
 import graphql.scalars.java.JavaPrimitives;
@@ -44,6 +45,19 @@ public class ExtendedScalars {
      * @see java.time.ZonedDateTime
      */
     public static final GraphQLScalarType DateTime = DateTimeScalar.INSTANCE;
+
+    /**
+     * A date-time without a time-zone in the ISO-8601 calendar system, formatted as 2007-12-03 10:15:30.
+     * `java.time.LocalDateTime` objects at runtime.
+     * <p>
+     * Its {@link graphql.schema.Coercing#serialize(java.lang.Object)} and {@link graphql.schema.Coercing#parseValue(java.lang.Object)} methods
+     * accept LocalDateTime and formatted Strings as valid objects.
+     * <p>
+     * See the <a href="https://www.ietf.org/rfc/rfc3339.txt">rfc3339 spec</a> for more details on the format.
+     *
+     * @see java.time.LocalDateTime
+     */
+    public static final GraphQLScalarType LocalDateTime = LocalDateTimeScalar.INSTANCE;
 
     /**
      * An RFC-3339 compliant date scalar that accepts string values like `1996-12-19` and produces

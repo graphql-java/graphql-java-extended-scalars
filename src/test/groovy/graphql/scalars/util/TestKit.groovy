@@ -28,6 +28,10 @@ class TestKit {
         OffsetDateTime.parse(s)
     }
 
+    static LocalDateTime mkLocalDT(String s) {
+        LocalDateTime.parse(s)
+    }
+
     static OffsetTime mkOffsetT(String s) {
         OffsetTime.parse(s)
     }
