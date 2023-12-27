@@ -70,7 +70,11 @@ public class GraphQlConfig {
 
 ### Netflix DGS
 
-If you are using [Netflix DGS](https://netflix.github.io/dgs), please see their [configuration documentation](https://netflix.github.io/dgs/configuration/#dgs-extended-scalars-graphql-dgs-extended-scalars).
+Note: Netflix also wraps this library in `com.netflix.graphql.dgs:graphql-dgs-extended-scalars` for [automatic registration](https://netflix.github.io/dgs/scalars/#automatically-register-scalar-extensions-via-graphql-dgs-extended-scalars).
+
+If you are using [Netflix DGS](https://netflix.github.io/dgs), please see the following docs:
+ - [registration through runtime wiring](https://netflix.github.io/dgs/scalars/#register-scalar-extensions-via-dgsruntimewiring)
+ - [configuration documentation](https://netflix.github.io/dgs/configuration/#dgs-extended-scalars-graphql-dgs-extended-scalars)
 
 ## How to add extended scalars to your schema
 
