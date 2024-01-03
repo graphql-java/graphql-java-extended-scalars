@@ -43,8 +43,8 @@ repositories {
 dependencies {
     implementation "com.graphql-java:graphql-java:21.3"
 
-    testImplementation 'org.spockframework:spock-core:1.3-groovy-2.5'
-    testImplementation('org.codehaus.groovy:groovy:3.0.20')
+    testImplementation "org.spockframework:spock-core:2.3-groovy-3.0"
+    testImplementation "org.codehaus.groovy:groovy:3.0.20"
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
@@ -63,6 +63,7 @@ artifacts {
 }
 
 test {
+    useJUnitPlatform()
     testLogging {
         exceptionFormat = 'full'
     }
