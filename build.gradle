@@ -44,7 +44,7 @@ dependencies {
     implementation "com.graphql-java:graphql-java:21.3"
 
     testImplementation "org.spockframework:spock-core:2.3-groovy-3.0"
-    testImplementation "org.codehaus.groovy:groovy:3.0.20"
+    testImplementation "org.codehaus.groovy:groovy:3.0.21"
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
