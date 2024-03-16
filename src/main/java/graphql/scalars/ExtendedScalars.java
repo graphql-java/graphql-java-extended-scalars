@@ -6,7 +6,9 @@ import graphql.scalars.country.code.CountryCodeScalar;
 import graphql.scalars.currency.CurrencyScalar;
 import graphql.scalars.datetime.DateScalar;
 import graphql.scalars.datetime.DateTimeScalar;
+import graphql.scalars.datetime.AccurateDurationScalar;
 import graphql.scalars.datetime.LocalTimeCoercing;
+import graphql.scalars.datetime.NominalDurationScalar;
 import graphql.scalars.datetime.TimeScalar;
 import graphql.scalars.java.JavaPrimitives;
 import graphql.scalars.locale.LocaleScalar;
@@ -84,6 +86,35 @@ public class ExtendedScalars {
             .description("24-hour clock time value string in the format `hh:mm:ss` or `hh:mm:ss.sss`.")
             .coercing(new LocalTimeCoercing())
             .build();
+
+    /**
+     * A duration scalar that accepts string values like `P1DT2H3M4.5s` and produces * `java.time.Duration` objects at runtime.
+     * <p>
+     * Components like years and months are not supported as these may have different meanings depending on the placement in the calendar year.
+     * <p>
+     * Its {@link graphql.schema.Coercing#serialize(java.lang.Object)} and {@link graphql.schema.Coercing#parseValue(java.lang.Object)} methods
+     * accept Duration and formatted Strings as valid objects.
+     * <p>
+     * See the ISO 8601 for more details on the format.
+     *
+     * @see java.time.Duration
+     */
+    public static final GraphQLScalarType AccurateDuration = AccurateDurationScalar.INSTANCE;
+
+    /**
+     * An RFC-3339 compliant duration scalar that accepts string values like `P1Y2M3D` and produces
+     * `java.time.Period` objects at runtime.
+     * <p>
+     * Components like hours and seconds are not supported as these are handled by {@link #AccurateDuration}.
+     * <p>
+     * Its {@link graphql.schema.Coercing#serialize(java.lang.Object)} and {@link graphql.schema.Coercing#parseValue(java.lang.Object)} methods
+     * accept Period and formatted Strings as valid objects.
+     * <p>
+     * See the ISO 8601 for more details on the format.
+     *
+     * @see java.time.Period
+     */
+    public static final GraphQLScalarType NominalDuration = NominalDurationScalar.INSTANCE;
 
     /**
      * An object scalar allows you to have a multi level data value without defining it in the graphql schema.
