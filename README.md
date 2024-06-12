@@ -308,11 +308,11 @@ query {
 </tr>
 <tr>
 <td><pre lang="graphql">scalar GraphQLBigDecimal</pre></td>
-<td>A scalar which represents <code>java.lang.BigDecimal<code></td>
+<td>A scalar which represents <code>java.math.BigDecimal<code></td>
 </tr>
 <tr>
 <td><pre lang="graphql">scalar GraphQLBigInteger</pre></td>
-<td>A scalar which represents <code>java.lang.BigInteger<code></td>
+<td>A scalar which represents <code>java.math.BigInteger<code></td>
 </tr>
 <tr>
 <td><pre lang="graphql">scalar GraphQLChar</pre></td>
