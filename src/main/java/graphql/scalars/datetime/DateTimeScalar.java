@@ -125,7 +125,7 @@ public final class DateTimeScalar {
                 .appendValue(MINUTE_OF_HOUR, 2)
                 .appendLiteral(':')
                 .appendValue(SECOND_OF_MINUTE, 2)
-                .appendFraction(NANO_OF_SECOND, 3, 3, true)
+                .appendFraction(MILLI_OF_SECOND, 3, 3, true)
                 .appendOffset("+HH:MM", "Z")
                 .toFormatter();
     }
