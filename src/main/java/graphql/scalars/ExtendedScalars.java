@@ -2,6 +2,7 @@ package graphql.scalars;
 
 import graphql.PublicApi;
 import graphql.scalars.alias.AliasedScalar;
+import graphql.scalars.color.hex.HexColorCodeScalar;
 import graphql.scalars.country.code.CountryCodeScalar;
 import graphql.scalars.currency.CurrencyScalar;
 import graphql.scalars.datetime.DateScalar;
@@ -149,6 +150,12 @@ public class ExtendedScalars {
      * See the <a href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2">ISO 3166-1 alpha-2</a> for more details.
      */
     public static final GraphQLScalarType CountryCode = CountryCodeScalar.INSTANCE;
+
+    /**
+     * A field whose value is a hex color code
+     * See the <a href="https://en.wikipedia.org/wiki/Web_colors">Web colors</a> for more details.
+     */
+    public static final GraphQLScalarType HexColorCode = HexColorCodeScalar.INSTANCE;
 
     /**
      * A UUID scalar that accepts a universally unique identifier and produces {@link
