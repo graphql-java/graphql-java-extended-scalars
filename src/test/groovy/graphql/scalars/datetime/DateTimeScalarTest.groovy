@@ -66,8 +66,8 @@ class DateTimeScalarTest extends Specification {
         mkLocalDT(year: 1980, hour: 3)     | CoercingParseValueException // LocalDateTime has no time zone
         666                                | CoercingParseValueException // A random number
         "2011-08-30T13:22:53.108"          | CoercingParseValueException // No offset provided
-        "2011-08-30T24:22:53.108Z"         | CoercingParseValueException // 24 is not allowed as hour of the time.                           |
-        "2010-02-30T21:22:53.108Z"         | CoercingParseValueException // 30th of February is not a valid date                               |
+        "2011-08-30T24:22:53.108Z"         | CoercingParseValueException // 24 is not allowed as hour of the time
+        "2010-02-30T21:22:53.108Z"         | CoercingParseValueException // 30th of February is not a valid date
         "2010-02-11T21:22:53.108Z+25:11"   | CoercingParseValueException // 25 is not a valid hour for offset
     }
 
@@ -111,8 +111,8 @@ class DateTimeScalarTest extends Specification {
         mkLocalDT(year: 1980, hour: 3)   | CoercingSerializeException // LocalDateTime has no time zone
         666                              | CoercingSerializeException // A random number
         "2011-08-30T13:22:53.108"        | CoercingSerializeException // No offset provided
-        "2011-08-30T24:22:53.108Z"       | CoercingSerializeException // 24 is not allowed as hour of the time.                           |
-        "2010-02-30T21:22:53.108Z"       | CoercingSerializeException // 30th of February is not a valid date                               |
+        "2011-08-30T24:22:53.108Z"       | CoercingSerializeException // 24 is not allowed as hour of the time
+        "2010-02-30T21:22:53.108Z"       | CoercingSerializeException // 30th of February is not a valid date
         "2010-02-11T21:22:53.108Z+25:11" | CoercingSerializeException // 25 is not a valid hour for offset
     }
 
@@ -131,8 +131,8 @@ class DateTimeScalarTest extends Specification {
         mkLocalDT(year: 1980, hour: 3)   | CoercingParseLiteralException // LocalDateTime has no time zone
         666                              | CoercingParseLiteralException // A random number
         "2011-08-30T13:22:53.108"        | CoercingParseLiteralException // No offset provided
-        "2011-08-30T24:22:53.108Z"       | CoercingParseLiteralException // 24 is not allowed as hour of the time.                           |
-        "2010-02-30T21:22:53.108Z"       | CoercingParseLiteralException // 30th of February is not a valid date                               |
+        "2011-08-30T24:22:53.108Z"       | CoercingParseLiteralException // 24 is not allowed as hour of the time
+        "2010-02-30T21:22:53.108Z"       | CoercingParseLiteralException // 30th of February is not a valid date
         "2010-02-11T21:22:53.108Z+25:11" | CoercingParseLiteralException // 25 is not a valid hour for offset
     }
 
