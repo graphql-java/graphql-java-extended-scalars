@@ -60,11 +60,15 @@ class DateTimeScalarTest extends Specification {
         then:
         thrown(expectedValue)
         where:
-        input                          | expectedValue
-        "1985-04-12"                   | CoercingParseValueException
-        "2022-11-24T01:00:01.02-00:00" | CoercingParseValueException
-        mkLocalDT(year: 1980, hour: 3) | CoercingParseValueException
-        666                           || CoercingParseValueException
+        input                              | expectedValue
+        "1985-04-12"                       | CoercingParseValueException // No time provided
+        "2022-11-24T01:00:01.02-00:00"     | CoercingParseValueException // -00:00 is not a valid offset in specification
+        mkLocalDT(year: 1980, hour: 3)     | CoercingParseValueException // LocalDateTime has no time zone
+        666                                | CoercingParseValueException // A random number
+        "2011-08-30T13:22:53.108"          | CoercingParseValueException // No offset provided
+        "2011-08-30T24:22:53.108Z"         | CoercingParseValueException // 24 is not allowed as hour of the time.                           |
+        "2010-02-30T21:22:53.108Z"         | CoercingParseValueException // 30th of February is not a valid date                               |
+        "2010-02-11T21:22:53.108Z+25:11"   | CoercingParseValueException // 25 is not a valid hour for offset
     }
 
     def "datetime AST literal"() {
@@ -101,11 +105,15 @@ class DateTimeScalarTest extends Specification {
         then:
         thrown(expectedValue)
         where:
-        input                          | expectedValue
-        "1985-04-12"                   | CoercingSerializeException
-        "2022-11-24T01:00:01.02-00:00" | CoercingSerializeException
-        mkLocalDT(year: 1980, hour: 3) | CoercingSerializeException
-        666                           || CoercingSerializeException
+        input                            | expectedValue
+        "1985-04-12"                     | CoercingSerializeException // No time provided
+        "2022-11-24T01:00:01.02-00:00"   | CoercingSerializeException // -00:00 is not a valid offset in specification
+        mkLocalDT(year: 1980, hour: 3)   | CoercingSerializeException // LocalDateTime has no time zone
+        666                              | CoercingSerializeException // A random number
+        "2011-08-30T13:22:53.108"        | CoercingSerializeException // No offset provided
+        "2011-08-30T24:22:53.108Z"       | CoercingSerializeException // 24 is not allowed as hour of the time.                           |
+        "2010-02-30T21:22:53.108Z"       | CoercingSerializeException // 30th of February is not a valid date                               |
+        "2010-02-11T21:22:53.108Z+25:11" | CoercingSerializeException // 25 is not a valid hour for offset
     }
 
     @Unroll
@@ -116,8 +124,16 @@ class DateTimeScalarTest extends Specification {
         then:
         thrown(expectedValue)
         where:
-        input                          | expectedValue
-        "2022-11-24T01:00:01.02-00:00" | CoercingParseLiteralException
+        input                            | expectedValue
+        "2022-11-24T01:00:01.02-00:00"   | CoercingParseLiteralException // -00:00 is not a valid offset in specification
+        "1985-04-12"                     | CoercingParseLiteralException // No time provided
+        "2022-11-24T01:00:01.02-00:00"   | CoercingParseLiteralException // -00:00 is not a valid offset in specification
+        mkLocalDT(year: 1980, hour: 3)   | CoercingParseLiteralException // LocalDateTime has no time zone
+        666                              | CoercingParseLiteralException // A random number
+        "2011-08-30T13:22:53.108"        | CoercingParseLiteralException // No offset provided
+        "2011-08-30T24:22:53.108Z"       | CoercingParseLiteralException // 24 is not allowed as hour of the time.                           |
+        "2010-02-30T21:22:53.108Z"       | CoercingParseLiteralException // 30th of February is not a valid date                               |
+        "2010-02-11T21:22:53.108Z+25:11" | CoercingParseLiteralException // 25 is not a valid hour for offset
     }
 
 }
