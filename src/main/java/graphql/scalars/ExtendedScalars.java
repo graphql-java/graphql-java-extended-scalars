@@ -154,7 +154,7 @@ public class ExtendedScalars {
      * A UUID scalar that accepts a universally unique identifier and produces {@link
      * java.util.UUID} objects at runtime.
      */
-    public static GraphQLScalarType UUID = UUIDScalar.INSTANCE;
+    public static final GraphQLScalarType UUID = UUIDScalar.INSTANCE;
 
     /**
      * An `Int` scalar that MUST be greater than zero
