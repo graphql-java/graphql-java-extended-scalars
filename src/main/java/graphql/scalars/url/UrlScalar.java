@@ -87,8 +87,8 @@ public final class UrlScalar {
         };
 
         INSTANCE = GraphQLScalarType.newScalar()
-                .name("Url")
-                .description("A Url scalar")
+                .name("URL")
+                .description("A URL scalar")
                 .coercing(coercing)
                 .build();
     }
