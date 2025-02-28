@@ -546,3 +546,26 @@ For example, imagine a `phoneNumber` scalar like this :
             .build()
 
 ```
+
+## HexColorCode Scalar
+<table>
+<tr>
+<td>Scalar Definition</td>
+<td>Description</td>
+</tr>
+<tr>
+<td><pre lang="graphql">
+scalar HexColorCode
+  @specifiedBy(url: 
+    "https://tools.ietf.org/html/bcp47"
+  )
+</pre></td>
+<td>The HexColorCode scalar handles <a href="https://en.wikipedia.org/wiki/Web_colors">hex color code</a>. You can handle it via <a href="https://docs.oracle.com/javase/8/docs/api/java/awt/Color.html">java.awt.Color </a>(which was built into JDK)</td>
+</tr>
+</table>
+It Support Following Formats:
+
+- #RRGGBB
+- #RGB
+- #RRGGBBAA
+- #RGBA
