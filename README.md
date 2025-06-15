@@ -1,7 +1,7 @@
 # Extended Scalars for graphql-java
 
 [![Build Status](https://github.com/graphql-java/graphql-java-extended-scalars/actions/workflows/master.yml/badge.svg)](https://github.com/graphql-java/graphql-java-extended-scalars/actions/workflows/master.yml)
-[![Latest Release](https://img.shields.io/maven-central/v/com.graphql-java/graphql-java-extended-scalars?versionPrefix=21.)](https://maven-badges.herokuapp.com/maven-central/com.graphql-java/graphql-java-extended-scalars/)
+[![Latest Release](https://img.shields.io/maven-central/v/com.graphql-java/graphql-java-extended-scalars?versionPrefix=22.)](https://maven-badges.herokuapp.com/maven-central/com.graphql-java/graphql-java-extended-scalars/)
 [![Latest Snapshot](https://img.shields.io/maven-central/v/com.graphql-java/graphql-java-extended-scalars?label=maven-central%20snapshot)](https://maven-badges.herokuapp.com/maven-central/com.graphql-java/graphql-java-extended-scalars/)
 [![MIT licensed](https://img.shields.io/badge/license-MIT-green)](https://github.com/graphql-java/graphql-java-extended-scalars/blob/master/LICENSE.md)
 
@@ -23,7 +23,7 @@ You would use custom scalars when you want to describe more meaningful behavior 
 To use this library put the following into your gradle config
 
 ```java
-implementation 'com.graphql-java:graphql-java-extended-scalars:21.0'
+implementation 'com.graphql-java:graphql-java-extended-scalars:22.0'
 ```
 
 or the following into your Maven config
@@ -32,17 +32,18 @@ or the following into your Maven config
 <dependency>
   <groupId>com.graphql-java</groupId>
   <artifactId>graphql-java-extended-scalars</artifactId>
-  <version>21.0</version>
+  <version>22.0</version>
 </dependency>
 ```
 
 > Note:
 >
-> use 21.0 or above for graphql-java 21.x and above
+> use 22.0 or above for graphql-java 22.x and above
+> 
+> use 21.0 for graphql-java 21.x
 >
 > use 20.2 for graphql-java 20.x
 > 
-> use 19.1 for graphql-java 19.x
 
 ## How to use extended scalars
 
@@ -307,11 +308,11 @@ query {
 </tr>
 <tr>
 <td><pre lang="graphql">scalar GraphQLBigDecimal</pre></td>
-<td>A scalar which represents <code>java.lang.BigDecimal<code></td>
+<td>A scalar which represents <code>java.math.BigDecimal<code></td>
 </tr>
 <tr>
 <td><pre lang="graphql">scalar GraphQLBigInteger</pre></td>
-<td>A scalar which represents <code>java.lang.BigInteger<code></td>
+<td>A scalar which represents <code>java.math.BigInteger<code></td>
 </tr>
 <tr>
 <td><pre lang="graphql">scalar GraphQLChar</pre></td>
@@ -545,3 +546,26 @@ For example, imagine a `phoneNumber` scalar like this :
             .build()
 
 ```
+
+## HexColorCode Scalar
+<table>
+<tr>
+<td>Scalar Definition</td>
+<td>Description</td>
+</tr>
+<tr>
+<td><pre lang="graphql">
+scalar HexColorCode
+  @specifiedBy(url: 
+    "https://tools.ietf.org/html/bcp47"
+  )
+</pre></td>
+<td>The HexColorCode scalar handles <a href="https://en.wikipedia.org/wiki/Web_colors">hex color code</a>. You can handle it via <a href="https://docs.oracle.com/javase/8/docs/api/java/awt/Color.html">java.awt.Color </a>(which was built into JDK)</td>
+</tr>
+</table>
+It Support Following Formats:
+
+- #RRGGBB
+- #RGB
+- #RRGGBBAA
+- #RGBA
