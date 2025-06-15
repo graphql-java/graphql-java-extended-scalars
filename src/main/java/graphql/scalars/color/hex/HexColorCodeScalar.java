@@ -12,7 +12,8 @@ import static graphql.scalars.util.Kit.typeName;
 /**
  * Access this via {@link graphql.scalars.ExtendedScalars#HexColorCode}
  * See the <a href="https://en.wikipedia.org/wiki/Web_colors">Web colors</a> for more details.
- * @implNote Supports the following formats: #RGB, #RGBA, #RRGGBB, #RRGGBBAA. Need to be prefixed with '#'
+ * <p>
+ * Supports the following formats: #RGB, #RGBA, #RRGGBB, #RRGGBBAA. Need to be prefixed with '#'
  */
 public class HexColorCodeScalar {
 
