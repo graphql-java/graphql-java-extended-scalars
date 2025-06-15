@@ -9,6 +9,8 @@ import graphql.scalars.datetime.DateScalar;
 import graphql.scalars.datetime.DateTimeScalar;
 import graphql.scalars.datetime.LocalTimeCoercing;
 import graphql.scalars.datetime.TimeScalar;
+import graphql.scalars.datetime.YearMonthScalar;
+import graphql.scalars.datetime.YearScalar;
 import graphql.scalars.java.JavaPrimitives;
 import graphql.scalars.locale.LocaleScalar;
 import graphql.scalars.id.UUIDScalar;
@@ -70,6 +72,25 @@ public class ExtendedScalars {
      * @see java.time.OffsetTime
      */
     public static final GraphQLScalarType Time = TimeScalar.INSTANCE;
+    /**
+     * A scalar that represents a year and month (e.g., `1996-12`) and produces
+     * `java.time.YearMonth` objects at runtime.
+     * <p>
+     * Its {@link graphql.schema.Coercing#serialize(java.lang.Object)} and {@link graphql.schema.Coercing#parseValue(java.lang.Object)} methods
+     * accept YearMonth instances and formatted Strings as valid objects.
+     *
+     * @see java.time.YearMonth
+     */
+    public static final GraphQLScalarType YearMonth = YearMonthScalar.INSTANCE;
+    /**
+     * A scalar that represents a year (e.g., `1996`) and produces `java.time.Year` objects at runtime.
+     * <p>
+     * Its {@link graphql.schema.Coercing#serialize(java.lang.Object)} and {@link graphql.schema.Coercing#parseValue(java.lang.Object)} methods
+     * accept Year instances and formatted Strings as valid objects.
+     *
+     * @see java.time.Year
+     */
+    public static final GraphQLScalarType Year = YearScalar.INSTANCE;
 
     /**
      * A 24-hour local time scalar that accepts strings like `hh:mm:ss` and `hh:mm:ss.sss` and produces
