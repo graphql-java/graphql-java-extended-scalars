@@ -20,8 +20,8 @@ import java.util.function.Function;
 import static graphql.scalars.util.Kit.typeName;
 import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE;
 import static java.time.temporal.ChronoField.HOUR_OF_DAY;
+import static java.time.temporal.ChronoField.MILLI_OF_SECOND;
 import static java.time.temporal.ChronoField.MINUTE_OF_HOUR;
-import static java.time.temporal.ChronoField.NANO_OF_SECOND;
 import static java.time.temporal.ChronoField.OFFSET_SECONDS;
 import static java.time.temporal.ChronoField.SECOND_OF_MINUTE;
 
@@ -33,7 +33,9 @@ public final class DateTimeScalar {
 
     public static final GraphQLScalarType INSTANCE;
 
-    private DateTimeScalar() {}
+    private DateTimeScalar() {
+    }
+
     private static final DateTimeFormatter customOutputFormatter = getCustomDateTimeFormatter();
 
     static {
