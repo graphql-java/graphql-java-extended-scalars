@@ -451,7 +451,7 @@ query {
 </tr>
 <tr>
 <td><pre lang="graphql">
-scalar URL
+scalar Url
   @specifiedBy(url: 
     "https://www.w3.org/Addressing/URL/url-spec.txt"
   )
