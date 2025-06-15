@@ -1,6 +1,8 @@
 package graphql.scalars.datetime;
 
+import graphql.GraphQLContext;
 import graphql.Internal;
+import graphql.execution.CoercedVariables;
 import graphql.language.StringValue;
 import graphql.language.Value;
 import graphql.schema.Coercing;
@@ -14,6 +16,7 @@ import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.TemporalAccessor;
+import java.util.Locale;
 import java.util.function.Function;
 
 import static graphql.scalars.util.Kit.typeName;
@@ -22,18 +25,19 @@ import static graphql.scalars.util.Kit.typeName;
  * Access this via {@link graphql.scalars.ExtendedScalars#YearMonth}
  */
 @Internal
-public final class YearMonthScalar  {
+public final class YearMonthScalar {
 
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM");
 
     public static final GraphQLScalarType INSTANCE;
 
-    private YearMonthScalar() {}
+    private YearMonthScalar() {
+    }
 
     static {
-        Coercing<YearMonth, String> coercing = new Coercing<YearMonth, String>() {
+        Coercing<YearMonth, String> coercing = new Coercing<>() {
             @Override
-            public String serialize(Object input) throws CoercingSerializeException {
+            public String serialize(Object input, GraphQLContext graphQLContext, Locale locale) throws CoercingSerializeException {
                 TemporalAccessor temporalAccessor;
                 if (input instanceof TemporalAccessor) {
                     temporalAccessor = (TemporalAccessor) input;
@@ -54,7 +58,7 @@ public final class YearMonthScalar  {
             }
 
             @Override
-            public YearMonth parseValue(Object input) throws CoercingParseValueException {
+            public YearMonth parseValue(Object input, GraphQLContext graphQLContext, Locale locale) throws CoercingParseValueException {
                 TemporalAccessor temporalAccessor;
                 if (input instanceof TemporalAccessor) {
                     temporalAccessor = (TemporalAccessor) input;
@@ -75,7 +79,7 @@ public final class YearMonthScalar  {
             }
 
             @Override
-            public YearMonth parseLiteral(Object input) throws CoercingParseLiteralException {
+            public YearMonth parseLiteral(Value<?> input, CoercedVariables variables, GraphQLContext graphQLContext, Locale locale) throws CoercingParseLiteralException {
                 if (!(input instanceof StringValue)) {
                     throw new CoercingParseLiteralException(
                             "Expected AST type 'StringValue' but was '" + typeName(input) + "'."
@@ -85,8 +89,8 @@ public final class YearMonthScalar  {
             }
 
             @Override
-            public Value<?> valueToLiteral(Object input) {
-                String s = serialize(input);
+            public Value<?> valueToLiteral(Object input, GraphQLContext graphQLContext, Locale locale) {
+                String s = serialize(input, graphQLContext, locale);
                 return StringValue.newStringValue(s).build();
             }
 

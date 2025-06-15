@@ -5,8 +5,8 @@ import graphql.language.IntValue
 import graphql.language.StringValue
 import graphql.scalars.country.code.CountryCode
 
+import java.awt.*
 import java.time.Duration
-import java.awt.Color
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
@@ -119,6 +119,7 @@ class TestKit {
     static Color mkColor(int r, int g, int b, int a) {
         return new Color(r, g, b, a)
     }
+
     static Color mkColor(int r, int g, int b) {
         return new Color(r, g, b)
     }

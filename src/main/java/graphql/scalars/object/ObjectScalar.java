@@ -1,7 +1,9 @@
 package graphql.scalars.object;
 
 import graphql.Assert;
+import graphql.GraphQLContext;
 import graphql.Internal;
+import graphql.execution.CoercedVariables;
 import graphql.language.ArrayValue;
 import graphql.language.BooleanValue;
 import graphql.language.EnumValue;
@@ -23,9 +25,9 @@ import graphql.util.FpKit;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -38,27 +40,22 @@ import static graphql.scalars.util.Kit.typeName;
 @Internal
 public final class ObjectScalar {
 
-    private ObjectScalar() {}
+    private ObjectScalar() {
+    }
 
-    static final Coercing<Object, Object> OBJECT_COERCING = new Coercing<Object, Object>() {
+    static final Coercing<Object, Object> OBJECT_COERCING = new Coercing<>() {
         @Override
-        public Object serialize(Object input) throws CoercingSerializeException {
+        public Object serialize(Object input, GraphQLContext graphQLContext, Locale locale) throws CoercingSerializeException {
             return input;
         }
 
         @Override
-        public Object parseValue(Object input) throws CoercingParseValueException {
+        public Object parseValue(Object input, GraphQLContext graphQLContext, Locale locale) throws CoercingParseValueException {
             return input;
         }
 
         @Override
-        public Object parseLiteral(Object input) throws CoercingParseLiteralException {
-            // on purpose - object scalars can be null
-            return parseLiteral(input, Collections.emptyMap());
-        }
-
-        @Override
-        public Object parseLiteral(Object input, Map<String, Object> variables) throws CoercingParseLiteralException {
+        public Object parseLiteral(Value<?> input, CoercedVariables variables, GraphQLContext graphQLContext, Locale locale) throws CoercingParseLiteralException {
             if (!(input instanceof Value)) {
                 throw new CoercingParseLiteralException(
                         "Expected AST type 'Value' but was '" + typeName(input) + "'."
@@ -84,9 +81,10 @@ public final class ObjectScalar {
                 return variables.get(varName);
             }
             if (input instanceof ArrayValue) {
+                //noinspection rawtypes
                 List<Value> values = ((ArrayValue) input).getValues();
                 return values.stream()
-                        .map(v -> parseLiteral(v, variables))
+                        .map(v -> parseLiteral(v, variables, graphQLContext, locale))
                         .collect(Collectors.toList());
             }
             if (input instanceof ObjectValue) {
@@ -97,7 +95,7 @@ public final class ObjectScalar {
                     if (fld.getValue() instanceof NullValue) { // Nested NullValue inside ObjectValue
                         parsedValue = null;
                     } else {
-                        parsedValue = parseLiteral(fld.getValue(), variables);
+                        parsedValue = parseLiteral(fld.getValue(), variables, graphQLContext, locale);
                     }
                     parsedValues.put(fld.getName(), parsedValue);
                 });
@@ -107,7 +105,7 @@ public final class ObjectScalar {
         }
 
         @Override
-        public Value<?> valueToLiteral(Object input) {
+        public Value<?> valueToLiteral(Object input, GraphQLContext graphQLContext, Locale locale) {
             if (input == null) {
                 return NullValue.newNullValue().build();
             }
@@ -134,19 +132,19 @@ public final class ObjectScalar {
                 return new BooleanValue((Boolean) input);
             }
             if (FpKit.isIterable(input)) {
-                return handleIterable(FpKit.toIterable(input));
+                return handleIterable(FpKit.toIterable(input), graphQLContext, locale);
             }
             if (input instanceof Map) {
-                return handleMap((Map<?, ?>) input);
+                return handleMap((Map<?, ?>) input, graphQLContext, locale);
             }
             throw new UnsupportedOperationException("The ObjectScalar cant handle values of type : " + input.getClass());
         }
 
-        private Value<?> handleMap(Map<?, ?> map) {
+        private Value<?> handleMap(Map<?, ?> map, GraphQLContext graphQLContext, Locale locale) {
             ObjectValue.Builder builder = ObjectValue.newObjectValue();
             for (Map.Entry<?, ?> entry : map.entrySet()) {
                 String name = String.valueOf(entry.getKey());
-                Value<?> value = valueToLiteral(entry.getValue());
+                Value<?> value = valueToLiteral(entry.getValue(), graphQLContext, locale);
 
                 builder.objectField(
                         newObjectField().name(name).value(value).build()
@@ -156,10 +154,10 @@ public final class ObjectScalar {
         }
 
         @SuppressWarnings("rawtypes")
-        private Value<?> handleIterable(Iterable<?> input) {
+        private Value<?> handleIterable(Iterable<?> input, GraphQLContext graphQLContext, Locale locale) {
             List<Value> values = new ArrayList<>();
             for (Object val : input) {
-                values.add(valueToLiteral(val));
+                values.add(valueToLiteral(val, graphQLContext, locale));
             }
             return ArrayValue.newArrayValue().values(values).build();
         }

@@ -2,18 +2,19 @@ package graphql.scalars.datetime
 
 import graphql.language.StringValue
 import graphql.scalars.ExtendedScalars
+import graphql.scalars.util.AbstractScalarTest
 import graphql.schema.CoercingParseLiteralException
 import graphql.schema.CoercingParseValueException
 import graphql.schema.CoercingSerializeException
-import spock.lang.Specification
 import spock.lang.Unroll
 
+import static graphql.scalars.util.TestKit.mkIntValue
 import static graphql.scalars.util.TestKit.mkLocalDT
 import static graphql.scalars.util.TestKit.mkOffsetDT
 import static graphql.scalars.util.TestKit.mkStringValue
 import static graphql.scalars.util.TestKit.mkZonedDT
 
-class DateTimeScalarTest extends Specification {
+class DateTimeScalarTest extends AbstractScalarTest {
 
     def coercing = ExtendedScalars.DateTime.getCoercing()
 
@@ -21,7 +22,7 @@ class DateTimeScalarTest extends Specification {
     def "datetime parseValue"() {
 
         when:
-        def result = coercing.parseValue(input)
+        def result = coercing.parseValue(input, graphQLContext, locale)
         then:
         result == expectedValue
         where:
@@ -38,7 +39,7 @@ class DateTimeScalarTest extends Specification {
     def "datetime valueToLiteral"() {
 
         when:
-        def result = coercing.valueToLiteral(input)
+        def result = coercing.valueToLiteral(input, graphQLContext, locale)
         then:
         result.isEqualTo(expectedValue)
         where:
@@ -56,25 +57,25 @@ class DateTimeScalarTest extends Specification {
     def "datetime parseValue bad inputs"() {
 
         when:
-        coercing.parseValue(input)
+        coercing.parseValue(input, graphQLContext, locale)
         then:
         thrown(expectedValue)
         where:
-        input                              | expectedValue
-        "1985-04-12"                       | CoercingParseValueException // No time provided
-        "2022-11-24T01:00:01.02-00:00"     | CoercingParseValueException // -00:00 is not a valid offset in specification
-        mkLocalDT(year: 1980, hour: 3)     | CoercingParseValueException // LocalDateTime has no time zone
-        666                                | CoercingParseValueException // A random number
-        "2011-08-30T13:22:53.108"          | CoercingParseValueException // No offset provided
-        "2011-08-30T24:22:53.108Z"         | CoercingParseValueException // 24 is not allowed as hour of the time
-        "2010-02-30T21:22:53.108Z"         | CoercingParseValueException // 30th of February is not a valid date
-        "2010-02-11T21:22:53.108Z+25:11"   | CoercingParseValueException // 25 is not a valid hour for offset
+        input                            | expectedValue
+        "1985-04-12"                     | CoercingParseValueException // No time provided
+        "2022-11-24T01:00:01.02-00:00"   | CoercingParseValueException // -00:00 is not a valid offset in specification
+        mkLocalDT(year: 1980, hour: 3)   | CoercingParseValueException // LocalDateTime has no time zone
+        666                              | CoercingParseValueException // A random number
+        "2011-08-30T13:22:53.108"        | CoercingParseValueException // No offset provided
+        "2011-08-30T24:22:53.108Z"       | CoercingParseValueException // 24 is not allowed as hour of the time
+        "2010-02-30T21:22:53.108Z"       | CoercingParseValueException // 30th of February is not a valid date
+        "2010-02-11T21:22:53.108Z+25:11" | CoercingParseValueException // 25 is not a valid hour for offset
     }
 
     def "datetime AST literal"() {
 
         when:
-        def result = coercing.parseLiteral(input)
+        def result = coercing.parseLiteral(input, variables, graphQLContext, locale)
         then:
         result == expectedValue
         where:
@@ -85,7 +86,7 @@ class DateTimeScalarTest extends Specification {
     def "datetime serialisation"() {
 
         when:
-        def result = coercing.serialize(input)
+        def result = coercing.serialize(input, graphQLContext, locale)
         then:
         result == expectedValue
         where:
@@ -101,7 +102,7 @@ class DateTimeScalarTest extends Specification {
     def "datetime serialisation bad inputs"() {
 
         when:
-        coercing.serialize(input)
+        coercing.serialize(input, graphQLContext, locale)
         then:
         thrown(expectedValue)
         where:
@@ -120,20 +121,19 @@ class DateTimeScalarTest extends Specification {
     def "datetime parseLiteral bad inputs"() {
 
         when:
-        coercing.parseLiteral(input)
+        coercing.parseLiteral(input, variables, graphQLContext, locale)
         then:
         thrown(expectedValue)
         where:
-        input                            | expectedValue
-        "2022-11-24T01:00:01.02-00:00"   | CoercingParseLiteralException // -00:00 is not a valid offset in specification
-        "1985-04-12"                     | CoercingParseLiteralException // No time provided
-        "2022-11-24T01:00:01.02-00:00"   | CoercingParseLiteralException // -00:00 is not a valid offset in specification
-        mkLocalDT(year: 1980, hour: 3)   | CoercingParseLiteralException // LocalDateTime has no time zone
-        666                              | CoercingParseLiteralException // A random number
-        "2011-08-30T13:22:53.108"        | CoercingParseLiteralException // No offset provided
-        "2011-08-30T24:22:53.108Z"       | CoercingParseLiteralException // 24 is not allowed as hour of the time
-        "2010-02-30T21:22:53.108Z"       | CoercingParseLiteralException // 30th of February is not a valid date
-        "2010-02-11T21:22:53.108Z+25:11" | CoercingParseLiteralException // 25 is not a valid hour for offset
+        input                                           | expectedValue
+        mkStringValue("2022-11-24T01:00:01.02-00:00")   | CoercingParseLiteralException // -00:00 is not a valid offset in specification
+        mkStringValue("1985-04-12")                     | CoercingParseLiteralException // No time provided
+        mkStringValue("2022-11-24T01:00:01.02-00:00")   | CoercingParseLiteralException // -00:00 is not a valid offset in specification
+        mkIntValue(666)                                 | CoercingParseLiteralException // A random number
+        mkStringValue("2011-08-30T13:22:53.108")        | CoercingParseLiteralException // No offset provided
+        mkStringValue("2011-08-30T24:22:53.108Z")       | CoercingParseLiteralException // 24 is not allowed as hour of the time
+        mkStringValue("2010-02-30T21:22:53.108Z")       | CoercingParseLiteralException // 30th of February is not a valid date
+        mkStringValue("2010-02-11T21:22:53.108Z+25:11") | CoercingParseLiteralException // 25 is not a valid hour for offset
     }
 
 }

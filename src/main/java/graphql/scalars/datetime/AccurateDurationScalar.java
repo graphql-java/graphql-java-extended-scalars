@@ -1,6 +1,8 @@
 package graphql.scalars.datetime;
 
+import graphql.GraphQLContext;
 import graphql.Internal;
+import graphql.execution.CoercedVariables;
 import graphql.language.StringValue;
 import graphql.language.Value;
 import graphql.schema.Coercing;
@@ -11,6 +13,7 @@ import graphql.schema.GraphQLScalarType;
 
 import java.time.Duration;
 import java.time.format.DateTimeParseException;
+import java.util.Locale;
 import java.util.function.Function;
 
 import static graphql.scalars.util.Kit.typeName;
@@ -23,12 +26,13 @@ public class AccurateDurationScalar {
 
     public static final GraphQLScalarType INSTANCE;
 
-    private AccurateDurationScalar() {}
+    private AccurateDurationScalar() {
+    }
 
     static {
-        Coercing<Duration, String> coercing = new Coercing<Duration, String>() {
+        Coercing<Duration, String> coercing = new Coercing<>() {
             @Override
-            public String serialize(Object input) throws CoercingSerializeException {
+            public String serialize(Object input, GraphQLContext graphQLContext, Locale locale) throws CoercingSerializeException {
                 Duration duration;
                 if (input instanceof Duration) {
                     duration = (Duration) input;
@@ -36,14 +40,14 @@ public class AccurateDurationScalar {
                     duration = parseDuration(input.toString(), CoercingSerializeException::new);
                 } else {
                     throw new CoercingSerializeException(
-                        "Expected something we can convert to 'java.time.Duration' but was '" + typeName(input) + "'."
+                            "Expected something we can convert to 'java.time.Duration' but was '" + typeName(input) + "'."
                     );
                 }
                 return duration.toString();
             }
 
             @Override
-            public Duration parseValue(Object input) throws CoercingParseValueException {
+            public Duration parseValue(Object input, GraphQLContext graphQLContext, Locale locale) throws CoercingParseValueException {
                 Duration duration;
                 if (input instanceof Duration) {
                     duration = (Duration) input;
@@ -51,25 +55,25 @@ public class AccurateDurationScalar {
                     duration = parseDuration(input.toString(), CoercingParseValueException::new);
                 } else {
                     throw new CoercingParseValueException(
-                        "Expected a 'String' but was '" + typeName(input) + "'."
+                            "Expected a 'String' but was '" + typeName(input) + "'."
                     );
                 }
                 return duration;
             }
 
             @Override
-            public Duration parseLiteral(Object input) throws CoercingParseLiteralException {
+            public Duration parseLiteral(Value<?> input, CoercedVariables variables, GraphQLContext graphQLContext, Locale locale) throws CoercingParseLiteralException {
                 if (!(input instanceof StringValue)) {
                     throw new CoercingParseLiteralException(
-                        "Expected AST type 'StringValue' but was '" + typeName(input) + "'."
+                            "Expected AST type 'StringValue' but was '" + typeName(input) + "'."
                     );
                 }
                 return parseDuration(((StringValue) input).getValue(), CoercingParseLiteralException::new);
             }
 
             @Override
-            public Value<?> valueToLiteral(Object input) {
-                String s = serialize(input);
+            public Value<?> valueToLiteral(Object input, GraphQLContext graphQLContext, Locale locale) {
+                String s = serialize(input, graphQLContext, locale);
                 return StringValue.newStringValue(s).build();
             }
 
@@ -83,11 +87,11 @@ public class AccurateDurationScalar {
         };
 
         INSTANCE = GraphQLScalarType.newScalar()
-            .name("AccurateDuration")
-            .description("A ISO 8601 duration scalar with only day, hour, minute, second components.")
-            .specifiedByUrl("https://scalars.graphql.org/AlexandreCarlton/accurate-duration") // TODO: Change to .specifiedByURL when builder added to graphql-java
-            .coercing(coercing)
-            .build();
+                .name("AccurateDuration")
+                .description("A ISO 8601 duration scalar with only day, hour, minute, second components.")
+                .specifiedByUrl("https://scalars.graphql.org/AlexandreCarlton/accurate-duration") // TODO: Change to .specifiedByURL when builder added to graphql-java
+                .coercing(coercing)
+                .build();
     }
 
 }

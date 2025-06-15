@@ -1,6 +1,8 @@
 package graphql.scalars.locale;
 
+import graphql.GraphQLContext;
 import graphql.Internal;
+import graphql.execution.CoercedVariables;
 import graphql.language.StringValue;
 import graphql.language.Value;
 import graphql.schema.Coercing;
@@ -19,15 +21,16 @@ import static graphql.scalars.util.Kit.typeName;
 @Internal
 public final class LocaleScalar {
 
-    private LocaleScalar() {}
+    private LocaleScalar() {
+    }
 
     public static final GraphQLScalarType INSTANCE;
 
     static {
-        Coercing<Locale, String> coercing = new Coercing<Locale, String>() {
+        Coercing<Locale, String> coercing = new Coercing<>() {
 
             @Override
-            public String serialize(Object input) throws CoercingSerializeException {
+            public String serialize(Object input, GraphQLContext graphQLContext, Locale locale) throws CoercingSerializeException {
                 if (input instanceof String) {
                     try {
                         return Locale.forLanguageTag((String) input).toLanguageTag();
@@ -45,7 +48,7 @@ public final class LocaleScalar {
             }
 
             @Override
-            public Locale parseValue(Object input) throws CoercingParseValueException {
+            public Locale parseValue(Object input, GraphQLContext graphQLContext, Locale locale) throws CoercingParseValueException {
                 if (input instanceof String) {
                     try {
                         return Locale.forLanguageTag(input.toString());
@@ -61,8 +64,9 @@ public final class LocaleScalar {
                 }
             }
 
+
             @Override
-            public Locale parseLiteral(Object input) throws CoercingParseLiteralException {
+            public Locale parseLiteral(Value<?> input, CoercedVariables variables, GraphQLContext graphQLContext, Locale locale) throws CoercingParseLiteralException {
                 if (input instanceof StringValue) {
                     return Locale.forLanguageTag(((StringValue) input).getValue());
                 } else {
@@ -72,8 +76,8 @@ public final class LocaleScalar {
             }
 
             @Override
-            public Value<?> valueToLiteral(Object input) {
-                String s = serialize(input);
+            public Value<?> valueToLiteral(Object input, GraphQLContext graphQLContext, Locale locale) {
+                String s = serialize(input, graphQLContext, locale);
                 return StringValue.newStringValue(s).build();
             }
         };

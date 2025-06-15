@@ -1,7 +1,9 @@
 package graphql.scalars.regex;
 
 import graphql.Assert;
+import graphql.GraphQLContext;
 import graphql.PublicApi;
+import graphql.execution.CoercedVariables;
 import graphql.language.StringValue;
 import graphql.language.Value;
 import graphql.schema.Coercing;
@@ -13,6 +15,7 @@ import graphql.schema.GraphQLScalarType;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -26,7 +29,8 @@ import static graphql.scalars.util.Kit.typeName;
 @PublicApi
 public final class RegexScalar {
 
-    private RegexScalar() {}
+    private RegexScalar() {
+    }
 
     /**
      * A builder for {@link graphql.scalars.regex.RegexScalar}
@@ -34,7 +38,7 @@ public final class RegexScalar {
     public static class Builder {
         private String name;
         private String description;
-        private List<Pattern> patterns = new ArrayList<>();
+        private final List<Pattern> patterns = new ArrayList<>();
 
         /**
          * Sets the name of the regex scalar
@@ -96,21 +100,21 @@ public final class RegexScalar {
     private static GraphQLScalarType regexScalarImpl(String name, String description, List<Pattern> patterns) {
         Assert.assertNotNull(patterns);
 
-        Coercing<String, String> coercing = new Coercing<String, String>() {
+        Coercing<String, String> coercing = new Coercing<>() {
             @Override
-            public String serialize(Object input) throws CoercingSerializeException {
+            public String serialize(Object input, GraphQLContext graphQLContext, Locale locale) throws CoercingSerializeException {
                 String value = String.valueOf(input);
                 return matches(value, CoercingSerializeException::new);
             }
 
             @Override
-            public String parseValue(Object input) throws CoercingParseValueException {
+            public String parseValue(Object input, GraphQLContext graphQLContext, Locale locale) throws CoercingParseValueException {
                 String value = String.valueOf(input);
                 return matches(value, CoercingParseValueException::new);
             }
 
             @Override
-            public String parseLiteral(Object input) throws CoercingParseLiteralException {
+            public String parseLiteral(Value<?> input, CoercedVariables variables, GraphQLContext graphQLContext, Locale locale) throws CoercingParseLiteralException {
                 if (!(input instanceof StringValue)) {
                     throw new CoercingParseLiteralException(
                             "Expected AST type 'StringValue' but was '" + typeName(input) + "'."
@@ -121,8 +125,8 @@ public final class RegexScalar {
             }
 
             @Override
-            public Value<?> valueToLiteral(Object input) {
-                String s = serialize(input);
+            public Value<?> valueToLiteral(Object input, GraphQLContext graphQLContext, Locale locale) {
+                String s = serialize(input, graphQLContext, locale);
                 return StringValue.newStringValue(s).build();
             }
 

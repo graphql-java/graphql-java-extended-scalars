@@ -2,20 +2,20 @@ package graphql.scalars.color.hex
 
 import graphql.language.StringValue
 import graphql.scalars.ExtendedScalars
+import graphql.scalars.util.AbstractScalarTest
 import graphql.schema.CoercingParseValueException
-import spock.lang.Specification
 import spock.lang.Unroll
 
 import static graphql.scalars.util.TestKit.mkColor
 
-class HexColorCodeScalarTest extends Specification {
+class HexColorCodeScalarTest extends AbstractScalarTest {
 
     def coercing = ExtendedScalars.HexColorCode.getCoercing()
 
     @Unroll
     def "invoke parseValue for hexCode"() {
         when:
-        def result = coercing.parseValue(input)
+        def result = coercing.parseValue(input, graphQLContext, locale)
         then:
         result.equals(expectedValue)
         where:
@@ -29,7 +29,7 @@ class HexColorCodeScalarTest extends Specification {
     @Unroll
     def "invoke parseLiteral for hexCode"() {
         when:
-        def result = coercing.parseLiteral(input)
+        def result = coercing.parseLiteral(input, variables, graphQLContext, locale)
         then:
         result == expectedValue
         where:
@@ -43,7 +43,7 @@ class HexColorCodeScalarTest extends Specification {
     @Unroll
     def "invoke serialize with hexCode"() {
         when:
-        def result = coercing.serialize(input)
+        def result = coercing.serialize(input, graphQLContext, locale)
         then:
         result == expectedValue
         where:
@@ -59,7 +59,7 @@ class HexColorCodeScalarTest extends Specification {
     @Unroll
     def "invoke valueToLiteral with hexCode"() {
         when:
-        def result = coercing.valueToLiteral(input)
+        def result = coercing.valueToLiteral(input, graphQLContext, locale)
         then:
         result.isEqualTo(expectedValue)
         where:
@@ -75,7 +75,7 @@ class HexColorCodeScalarTest extends Specification {
     @Unroll
     def "parseValue throws exception for invalid input #input"() {
         when:
-        def result = coercing.parseValue(input)
+        def result = coercing.parseValue(input, graphQLContext, locale)
         then:
         thrown(CoercingParseValueException)
         where:

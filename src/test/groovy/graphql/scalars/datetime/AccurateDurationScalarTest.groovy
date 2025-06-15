@@ -1,21 +1,21 @@
 package graphql.scalars.datetime
 
-
 import graphql.language.StringValue
 import graphql.scalars.ExtendedScalars
+import graphql.scalars.util.AbstractScalarTest
 import graphql.schema.CoercingParseLiteralException
 import graphql.schema.CoercingParseValueException
 import graphql.schema.CoercingSerializeException
-import spock.lang.Specification
 import spock.lang.Unroll
 
 import java.time.Period
 import java.time.temporal.ChronoUnit
 
 import static graphql.scalars.util.TestKit.mkDuration
+import static graphql.scalars.util.TestKit.mkIntValue
 import static graphql.scalars.util.TestKit.mkStringValue
 
-class AccurateDurationScalarTest extends Specification {
+class AccurateDurationScalarTest extends AbstractScalarTest {
 
     def coercing = ExtendedScalars.AccurateDuration.getCoercing()
 
@@ -23,7 +23,7 @@ class AccurateDurationScalarTest extends Specification {
     def "accurateduration parseValue"() {
 
         when:
-        def result = coercing.parseValue(input)
+        def result = coercing.parseValue(input, graphQLContext, locale)
         then:
         result == expectedValue
         where:
@@ -40,7 +40,7 @@ class AccurateDurationScalarTest extends Specification {
     def "accurateduration valueToLiteral"() {
 
         when:
-        def result = coercing.valueToLiteral(input)
+        def result = coercing.valueToLiteral(input, graphQLContext, locale)
         then:
         result.isEqualTo(expectedValue)
         where:
@@ -58,7 +58,7 @@ class AccurateDurationScalarTest extends Specification {
     def "accurateduration parseValue bad inputs"() {
 
         when:
-        coercing.parseValue(input)
+        coercing.parseValue(input, graphQLContext, locale)
         then:
         thrown(expectedValue)
         where:
@@ -75,7 +75,7 @@ class AccurateDurationScalarTest extends Specification {
     def "accurateduration AST literal"() {
 
         when:
-        def result = coercing.parseLiteral(input)
+        def result = coercing.parseLiteral(input, variables, graphQLContext, locale)
         then:
         result == expectedValue
         where:
@@ -86,7 +86,7 @@ class AccurateDurationScalarTest extends Specification {
     def "accurateduration serialisation"() {
 
         when:
-        def result = coercing.serialize(input)
+        def result = coercing.serialize(input, graphQLContext, locale)
         then:
         result == expectedValue
         where:
@@ -103,7 +103,7 @@ class AccurateDurationScalarTest extends Specification {
     def "accurateduration serialisation bad inputs"() {
 
         when:
-        coercing.serialize(input)
+        coercing.serialize(input, graphQLContext, locale)
         then:
         thrown(expectedValue)
         where:
@@ -122,18 +122,17 @@ class AccurateDurationScalarTest extends Specification {
     def "accurateduration parseLiteral bad inputs"() {
 
         when:
-        coercing.parseLiteral(input)
+        coercing.parseLiteral(input, variables, graphQLContext, locale)
         then:
         thrown(expectedValue)
         where:
-        input              | expectedValue
-        "P1M"              | CoercingParseLiteralException
-        "PT1.5M"           | CoercingParseLiteralException
-        "P1MT2H"           | CoercingParseLiteralException
-        "P2W"              | CoercingParseLiteralException
-        "P3Y"              | CoercingParseLiteralException
-        123                | CoercingParseLiteralException
-        ""                 | CoercingParseLiteralException
-        Period.of(1, 2, 3) | CoercingParseLiteralException
+        input                   | expectedValue
+        mkStringValue("P1M")    | CoercingParseLiteralException
+        mkStringValue("PT1.5M") | CoercingParseLiteralException
+        mkStringValue("P1MT2H") | CoercingParseLiteralException
+        mkStringValue("P2W")    | CoercingParseLiteralException
+        mkStringValue("P3Y")    | CoercingParseLiteralException
+        mkIntValue(123)         | CoercingParseLiteralException
+        mkStringValue("")       | CoercingParseLiteralException
     }
 }
