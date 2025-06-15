@@ -5,12 +5,14 @@ import graphql.language.IntValue
 import graphql.language.StringValue
 import graphql.scalars.country.code.CountryCode
 
+import java.time.Duration
 import java.awt.Color
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.OffsetDateTime
 import java.time.OffsetTime
+import java.time.Period
 import java.time.ZoneId
 import java.time.ZoneOffset
 import java.time.ZonedDateTime
@@ -52,6 +54,21 @@ class TestKit {
                 args.min ?: 10, args.secs ?: 9, args.nanos ?: 0, ZoneId.ofOffset("", ZoneOffset.ofHours(10)))
     }
 
+    static Duration mkDuration(String s) {
+        Duration.parse(s)
+    }
+
+    static Duration mkDuration(args) {
+        Duration.of(args.amount, args.unit)
+    }
+
+    static Period mkPeriod(String s) {
+        Period.parse(s)
+    }
+
+    static Period mkPeriod(args) {
+        Period.of(args.years, args.months, args.days)
+    }
 
     static assertValueOrException(result, expectedResult) {
         if (result instanceof Exception) {
