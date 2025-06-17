@@ -172,6 +172,22 @@ scalar LocalTime
 </pre></td>
 <td>24-hour clock time string in the format <code>hh:mm:ss.sss</code> or <code>hh:mm:ss</code> if partial seconds is zero and produces <code>java.time.LocalTime</code> objects at runtime.</td>
 </tr>
+<tr>
+<td><pre lang="graphql">
+scalar SecondsSinceEpoch
+</pre></td>
+<td>A scalar that represents a point in time as seconds since the Unix epoch (January 1, 1970, 00:00:00 UTC). It accepts integers or strings containing integers as input values and produces <code>java.time.ZonedDateTime</code> objects at runtime (with UTC timezone).<br><br>
+Using seconds since epoch is preferable to formatted date time strings in several scenarios:
+<ul>
+<li>When you need a universal representation of a point in time that is timezone-agnostic</li>
+<li>For easier date/time arithmetic and comparison operations</li>
+<li>When storage space or bandwidth efficiency is important (more compact representation)</li>
+<li>To avoid complexities with different date formats and timezone conversions</li>
+<li>For better interoperability with systems that natively work with Unix timestamps</li>
+<li>When working with time-series data or logging systems where timestamps are commonly used</li>
+</ul>
+However, human readability is sacrificed compared to formatted date strings, so consider your use case requirements when choosing between <code>DateTime</code> and <code>SecondsSinceEpoch</code>.</td>
+</tr>
 </table>
 
 An example declaration in SDL might be:
@@ -181,10 +197,11 @@ type Customer {
   birthDay: Date
   workStartTime: Time
   bornAt: DateTime
+  createdAtTimestamp: SecondsSinceEpoch
 }
 
 type Query {
-  customers(bornAfter: DateTime): [Customers]
+  customers(bornAfter: DateTime, createdAfter: SecondsSinceEpoch): [Customers]
 }
 ```
 
@@ -192,9 +209,10 @@ And example query might look like:
 
 ```graphql
 query {
-  customers(bornAfter: "1996-12-19T16:39:57-08:00") {
+  customers(bornAfter: "1996-12-19T16:39:57-08:00", createdAfter: 1609459200) {
     birthDay
     bornAt
+    createdAtTimestamp
   }
 }
 ```
