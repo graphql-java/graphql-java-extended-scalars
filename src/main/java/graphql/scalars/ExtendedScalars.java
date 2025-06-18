@@ -10,6 +10,7 @@ import graphql.scalars.datetime.DateTimeScalar;
 import graphql.scalars.datetime.AccurateDurationScalar;
 import graphql.scalars.datetime.LocalTimeCoercing;
 import graphql.scalars.datetime.NominalDurationScalar;
+import graphql.scalars.datetime.SecondsSinceEpochScalar;
 import graphql.scalars.datetime.TimeScalar;
 import graphql.scalars.datetime.YearMonthScalar;
 import graphql.scalars.datetime.YearScalar;
@@ -137,6 +138,34 @@ public class ExtendedScalars {
      * @see java.time.Period
      */
     public static final GraphQLScalarType NominalDuration = NominalDurationScalar.INSTANCE;
+
+    /**
+     * A scalar that represents a point in time as seconds since the Unix epoch (Unix timestamp).
+     * <p>
+     * It accepts integers or strings containing integers as input values and produces
+     * `java.time.ZonedDateTime` objects at runtime (with UTC timezone).
+     * <p>
+     * Its {@link graphql.schema.Coercing#serialize(java.lang.Object)} method accepts various
+     * {@link java.time.temporal.TemporalAccessor} types and returns a string containing the number of seconds since epoch
+     * (January 1, 1970, 00:00:00 UTC).
+     * <p>
+     * Using seconds since epoch is preferable to formatted date time strings in several scenarios:
+     * <ul>
+     * <li>When you need a universal representation of a point in time that is timezone-agnostic</li>
+     * <li>For easier date/time arithmetic and comparison operations</li>
+     * <li>When storage space or bandwidth efficiency is important (more compact representation)</li>
+     * <li>To avoid complexities with different date formats and timezone conversions</li>
+     * <li>For better interoperability with systems that natively work with Unix timestamps</li>
+     * <li>When working with time-series data or logging systems where timestamps are commonly used</li>
+     * </ul>
+     * <p>
+     * However, human readability is sacrificed compared to formatted date strings, so consider your use case
+     * requirements when choosing between {@link #DateTime} and {@link #SecondsSinceEpoch}.
+     *
+     * @see java.time.Instant
+     * @see java.time.ZonedDateTime
+     */
+    public static final GraphQLScalarType SecondsSinceEpoch = SecondsSinceEpochScalar.INSTANCE;
 
     /**
      * An object scalar allows you to have a multi level data value without defining it in the graphql schema.
