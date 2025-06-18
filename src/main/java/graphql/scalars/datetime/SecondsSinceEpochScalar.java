@@ -64,13 +64,14 @@ public final class SecondsSinceEpochScalar {
                         return number.longValue();
                     }
                     if (input instanceof String) {
-                        String string = (String) input;
-                        if (string.matches("\\d+")) {
-                            return Long.parseLong(string);
+                        try {
+                            return Long.parseLong((String) input);
+                        } catch (NumberFormatException e) {
+                            throw new CoercingSerializeException(
+                                    "Invalid seconds since epoch value : '" + input + "'. Expected a string containing only digits.",
+                                    e
+                            );
                         }
-                        throw new CoercingSerializeException(
-                                "Invalid seconds since epoch value : '" + string + "'. Expected a string containing only digits."
-                        );
                     }
                     if (input instanceof TemporalAccessor) {
                         TemporalAccessor temporalAccessor = (TemporalAccessor) input;
