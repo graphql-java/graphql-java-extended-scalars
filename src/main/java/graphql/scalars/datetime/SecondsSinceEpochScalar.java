@@ -55,18 +55,18 @@ public final class SecondsSinceEpochScalar {
     }
 
     static {
-        Coercing<TemporalAccessor, String> coercing = new Coercing<>() {
+        Coercing<TemporalAccessor, Long> coercing = new Coercing<>() {
             @Override
-            public String serialize(Object input, GraphQLContext graphQLContext, Locale locale) throws CoercingSerializeException {
+            public Long serialize(Object input, GraphQLContext graphQLContext, Locale locale) throws CoercingSerializeException {
                 try {
                     if (input instanceof Number) {
                         Number number = (Number) input;
-                        return Long.toString(number.longValue());
+                        return number.longValue();
                     }
                     if (input instanceof String) {
                         String string = (String) input;
                         if (string.matches("\\d+")) {
-                            return string;
+                            return Long.parseLong(string);
                         }
                         throw new CoercingSerializeException(
                                 "Invalid seconds since epoch value : '" + string + "'. Expected a string containing only digits."
@@ -76,20 +76,20 @@ public final class SecondsSinceEpochScalar {
                         TemporalAccessor temporalAccessor = (TemporalAccessor) input;
                         if (temporalAccessor instanceof Instant) {
                             Instant instant = (Instant) temporalAccessor;
-                            return Long.toString(instant.getEpochSecond());
+                            return instant.getEpochSecond();
                         } else if (temporalAccessor instanceof LocalDateTime) {
                             LocalDateTime localDateTime = (LocalDateTime) temporalAccessor;
-                            return Long.toString(localDateTime.toEpochSecond(ZoneOffset.UTC));
+                            return localDateTime.toEpochSecond(ZoneOffset.UTC);
                         } else if (temporalAccessor instanceof ZonedDateTime) {
                             ZonedDateTime zonedDateTime = (ZonedDateTime) temporalAccessor;
-                            return Long.toString(zonedDateTime.toEpochSecond());
+                            return zonedDateTime.toEpochSecond();
                         } else if (temporalAccessor instanceof OffsetDateTime) {
                             OffsetDateTime offsetDateTime = (OffsetDateTime) temporalAccessor;
-                            return Long.toString(offsetDateTime.toEpochSecond());
+                            return offsetDateTime.toEpochSecond();
                         } else {
                             try {
                                 Instant instant = Instant.from(temporalAccessor);
-                                return Long.toString(instant.getEpochSecond());
+                                return instant.getEpochSecond();
                             } catch (Exception e) {
                                 throw new CoercingSerializeException(
                                         "Unable to convert TemporalAccessor to seconds since epoch because of : '" + e.getMessage() + "'."
@@ -158,8 +158,8 @@ public final class SecondsSinceEpochScalar {
 
             @Override
             public Value<?> valueToLiteral(Object input, GraphQLContext graphQLContext, Locale locale) {
-                String s = serialize(input, graphQLContext, locale);
-                return StringValue.newStringValue(s).build();
+                Long value = serialize(input, graphQLContext, locale);
+                return IntValue.newIntValue(java.math.BigInteger.valueOf(value)).build();
             }
 
         };
@@ -168,7 +168,7 @@ public final class SecondsSinceEpochScalar {
                                     .name("SecondsSinceEpoch")
                                     .description("Scalar that represents a point in time as seconds since the Unix epoch (Unix timestamp). " +
                                             "Accepts integers or strings containing integers as input values. " +
-                                            "Returns a string containing the number of seconds since epoch (January 1, 1970, 00:00:00 UTC).")
+                                            "Returns a Long representing the number of seconds since epoch (January 1, 1970, 00:00:00 UTC).")
                                     .coercing(coercing)
                                     .build();
     }

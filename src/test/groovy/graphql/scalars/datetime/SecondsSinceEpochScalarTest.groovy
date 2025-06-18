@@ -51,16 +51,16 @@ class SecondsSinceEpochScalarTest extends AbstractScalarTest {
         result.isEqualTo(expectedValue)
         where:
         input        | expectedValue
-        "0"          | mkStringValue("0")
-        "1"          | mkStringValue("1")
-        "1609459200" | mkStringValue("1609459200")
-        "1640995200" | mkStringValue("1640995200")
-        0            | mkStringValue("0")
-        1            | mkStringValue("1")
-        1609459200   | mkStringValue("1609459200")
-        1640995200   | mkStringValue("1640995200")
-        Instant.ofEpochSecond(1609459200) | mkStringValue("1609459200")
-        ZonedDateTime.ofInstant(Instant.ofEpochSecond(1609459200), ZoneOffset.UTC) | mkStringValue("1609459200")
+        "0"          | mkIntValue(0)
+        "1"          | mkIntValue(1)
+        "1609459200" | mkIntValue(1609459200)
+        "1640995200" | mkIntValue(1640995200)
+        0            | mkIntValue(0)
+        1            | mkIntValue(1)
+        1609459200   | mkIntValue(1609459200)
+        1640995200   | mkIntValue(1640995200)
+        Instant.ofEpochSecond(1609459200) | mkIntValue(1609459200)
+        ZonedDateTime.ofInstant(Instant.ofEpochSecond(1609459200), ZoneOffset.UTC) | mkIntValue(1609459200)
     }
 
     @Unroll
@@ -100,12 +100,12 @@ class SecondsSinceEpochScalarTest extends AbstractScalarTest {
         result == expectedValue
         where:
         input                                                                  | expectedValue
-        Instant.ofEpochSecond(0)                                               | "0"
-        Instant.ofEpochSecond(1)                                               | "1"
-        Instant.ofEpochSecond(1609459200)                                      | "1609459200"
-        LocalDateTime.ofInstant(Instant.ofEpochSecond(1609459200), ZoneOffset.UTC) | "1609459200"
-        ZonedDateTime.ofInstant(Instant.ofEpochSecond(1609459200), ZoneOffset.UTC) | "1609459200"
-        OffsetDateTime.ofInstant(Instant.ofEpochSecond(1609459200), ZoneOffset.UTC) | "1609459200"
+        Instant.ofEpochSecond(0)                                               | 0L
+        Instant.ofEpochSecond(1)                                               | 1L
+        Instant.ofEpochSecond(1609459200)                                      | 1609459200L
+        LocalDateTime.ofInstant(Instant.ofEpochSecond(1609459200), ZoneOffset.UTC) | 1609459200L
+        ZonedDateTime.ofInstant(Instant.ofEpochSecond(1609459200), ZoneOffset.UTC) | 1609459200L
+        OffsetDateTime.ofInstant(Instant.ofEpochSecond(1609459200), ZoneOffset.UTC) | 1609459200L
     }
 
     def "secondsSinceEpoch serialisation bad inputs"() {
