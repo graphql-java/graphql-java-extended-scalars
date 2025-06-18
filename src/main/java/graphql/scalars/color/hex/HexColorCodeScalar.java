@@ -1,14 +1,22 @@
 package graphql.scalars.color.hex;
 
+import graphql.GraphQLContext;
+import graphql.execution.CoercedVariables;
 import graphql.language.StringValue;
 import graphql.language.Value;
-import graphql.schema.*;
+import graphql.schema.Coercing;
+import graphql.schema.CoercingParseLiteralException;
+import graphql.schema.CoercingParseValueException;
+import graphql.schema.CoercingSerializeException;
+import graphql.schema.GraphQLScalarType;
 
 import java.awt.*;
+import java.util.Locale;
 import java.util.function.Function;
 import java.util.regex.Pattern;
 
 import static graphql.scalars.util.Kit.typeName;
+
 /**
  * Access this via {@link graphql.scalars.ExtendedScalars#HexColorCode}
  * See the <a href="https://en.wikipedia.org/wiki/Web_colors">Web colors</a> for more details.
@@ -21,15 +29,15 @@ public class HexColorCodeScalar {
 
 
     static {
-        Coercing<Color, String> coercing = new Coercing<Color, String>() {
+        Coercing<Color, String> coercing = new Coercing<>() {
 
             private final Pattern HEX_PATTERN = Pattern.compile("^(#([A-Fa-f0-9]{3,4}){1,2})$");
 
             @Override
-            public String serialize(Object input) throws CoercingSerializeException {
+            public String serialize(Object input, GraphQLContext graphQLContext, Locale locale) throws CoercingSerializeException {
                 Color color = parseColor(input, CoercingSerializeException::new);
                 boolean hasAlpha = color.getAlpha() != 255;
-                if (hasAlpha){
+                if (hasAlpha) {
                     return String.format("#%02x%02x%02x%02x", color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
                 } else {
                     return String.format("#%02x%02x%02x", color.getRed(), color.getGreen(), color.getBlue());
@@ -37,12 +45,12 @@ public class HexColorCodeScalar {
             }
 
             @Override
-            public Color parseValue(Object input) throws CoercingParseValueException {
+            public Color parseValue(Object input, GraphQLContext graphQLContext, Locale locale) throws CoercingParseValueException {
                 return parseColor(input, CoercingParseValueException::new);
             }
 
             @Override
-            public Color parseLiteral(Object input) throws CoercingParseLiteralException {
+            public Color parseLiteral(Value<?> input, CoercedVariables variables, GraphQLContext graphQLContext, Locale locale) throws CoercingParseLiteralException {
                 if (!(input instanceof StringValue)) {
                     throw new CoercingParseLiteralException("Expected type 'StringValue' but was '" + typeName(input) + "'.");
                 }
@@ -51,8 +59,8 @@ public class HexColorCodeScalar {
             }
 
             @Override
-            public Value<?> valueToLiteral(Object input) {
-                String s = serialize(input);
+            public Value<?> valueToLiteral(Object input, GraphQLContext graphQLContext, Locale locale) {
+                String s = serialize(input, graphQLContext, locale);
                 return StringValue.newStringValue(s).build();
             }
 

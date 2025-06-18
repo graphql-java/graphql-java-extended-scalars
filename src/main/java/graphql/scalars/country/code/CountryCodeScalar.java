@@ -1,10 +1,17 @@
 package graphql.scalars.country.code;
 
+import graphql.GraphQLContext;
 import graphql.Internal;
+import graphql.execution.CoercedVariables;
 import graphql.language.StringValue;
 import graphql.language.Value;
-import graphql.schema.*;
+import graphql.schema.Coercing;
+import graphql.schema.CoercingParseLiteralException;
+import graphql.schema.CoercingParseValueException;
+import graphql.schema.CoercingSerializeException;
+import graphql.schema.GraphQLScalarType;
 
+import java.util.Locale;
 import java.util.function.Function;
 
 import static graphql.scalars.util.Kit.typeName;
@@ -18,21 +25,21 @@ public class CountryCodeScalar {
     public static final GraphQLScalarType INSTANCE;
 
     static {
-        Coercing<CountryCode, String> coercing = new Coercing<CountryCode, String>() {
+        Coercing<CountryCode, String> coercing = new Coercing<>() {
 
             @Override
-            public String serialize(Object input) throws CoercingSerializeException {
+            public String serialize(Object input, GraphQLContext graphQLContext, Locale locale) throws CoercingSerializeException {
                 CountryCode countryCode = parseCountryCode(input, CoercingParseValueException::new);
                 return countryCode.name();
             }
 
             @Override
-            public CountryCode parseValue(Object input) throws CoercingParseValueException {
+            public CountryCode parseValue(Object input, GraphQLContext graphQLContext, Locale locale) throws CoercingParseValueException {
                 return parseCountryCode(input, CoercingParseValueException::new);
             }
 
             @Override
-            public CountryCode parseLiteral(Object input) throws CoercingParseLiteralException {
+            public CountryCode parseLiteral(Value<?> input, CoercedVariables variables, GraphQLContext graphQLContext, Locale locale) throws CoercingParseLiteralException {
                 if (!(input instanceof StringValue)) {
                     throw new CoercingParseLiteralException("Expected AST type 'StringValue' but was '" + typeName(input) + "'.");
                 }
@@ -42,8 +49,8 @@ public class CountryCodeScalar {
             }
 
             @Override
-            public Value<?> valueToLiteral(Object input) {
-                String s = serialize(input);
+            public Value<?> valueToLiteral(Object input, GraphQLContext graphQLContext, Locale locale) {
+                String s = serialize(input, graphQLContext, locale);
                 return StringValue.newStringValue(s).build();
             }
 

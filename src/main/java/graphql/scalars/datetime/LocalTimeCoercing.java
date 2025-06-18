@@ -1,6 +1,9 @@
 package graphql.scalars.datetime;
 
+import graphql.GraphQLContext;
+import graphql.execution.CoercedVariables;
 import graphql.language.StringValue;
+import graphql.language.Value;
 import graphql.schema.Coercing;
 import graphql.schema.CoercingParseLiteralException;
 import graphql.schema.CoercingParseValueException;
@@ -11,6 +14,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.TemporalAccessor;
+import java.util.Locale;
 import java.util.function.Function;
 
 import static graphql.scalars.util.Kit.typeName;
@@ -20,7 +24,7 @@ public class LocalTimeCoercing implements Coercing<LocalTime, String> {
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ISO_LOCAL_TIME;
 
     @Override
-    public String serialize(final Object input) throws CoercingSerializeException {
+    public String serialize(Object input, GraphQLContext graphQLContext, Locale locale) throws CoercingSerializeException {
         TemporalAccessor temporalAccessor;
         if (input instanceof TemporalAccessor) {
             temporalAccessor = (TemporalAccessor) input;
@@ -41,7 +45,7 @@ public class LocalTimeCoercing implements Coercing<LocalTime, String> {
     }
 
     @Override
-    public LocalTime parseValue(final Object input) throws CoercingParseValueException {
+    public LocalTime parseValue(Object input, GraphQLContext graphQLContext, Locale locale) throws CoercingParseValueException {
         TemporalAccessor temporalAccessor;
         if (input instanceof TemporalAccessor) {
             temporalAccessor = (TemporalAccessor) input;
@@ -62,13 +66,19 @@ public class LocalTimeCoercing implements Coercing<LocalTime, String> {
     }
 
     @Override
-    public LocalTime parseLiteral(final Object input) throws CoercingParseLiteralException {
+    public LocalTime parseLiteral(Value<?> input, CoercedVariables variables, GraphQLContext graphQLContext, Locale locale) throws CoercingParseLiteralException {
         if (!(input instanceof StringValue)) {
             throw new CoercingParseLiteralException(
                     "Expected AST type 'StringValue' but was '" + typeName(input) + "'."
             );
         }
         return parseTime(((StringValue) input).getValue(), CoercingParseLiteralException::new);
+    }
+
+    @Override
+    public Value<?> valueToLiteral(Object input, GraphQLContext graphQLContext, Locale locale) {
+        String s = serialize(input, graphQLContext, locale);
+        return StringValue.newStringValue(s).build();
     }
 
     private static LocalTime parseTime(String s, Function<String, RuntimeException> exceptionMaker) {

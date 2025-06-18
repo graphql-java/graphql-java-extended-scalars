@@ -2,13 +2,13 @@ package graphql.scalars.locale
 
 import graphql.language.StringValue
 import graphql.scalars.ExtendedScalars
-import spock.lang.Specification
+import graphql.scalars.util.AbstractScalarTest
 import spock.lang.Unroll
 
 import static graphql.scalars.util.TestKit.mkLocale
 import static graphql.scalars.util.TestKit.mkStringValue
 
-class LocaleScalarTest extends Specification {
+class LocaleScalarTest extends AbstractScalarTest {
 
     def coercing = ExtendedScalars.Locale.getCoercing()
 
@@ -16,7 +16,7 @@ class LocaleScalarTest extends Specification {
     def "full locale parseValue"() {
 
         when:
-        def result = coercing.parseValue(input)
+        def result = coercing.parseValue(input, graphQLContext, locale)
         then:
         result == expectedValue
         where:
@@ -30,7 +30,7 @@ class LocaleScalarTest extends Specification {
     @Unroll
     def "full Locale parseLiteral"() {
         when:
-        def result = coercing.parseLiteral(input)
+        def result = coercing.parseLiteral(input, variables, graphQLContext, locale)
         then:
         result == expectedValue
         where:
@@ -41,7 +41,7 @@ class LocaleScalarTest extends Specification {
     @Unroll
     def "full Locale serialization"() {
         when:
-        def result = coercing.serialize(input)
+        def result = coercing.serialize(input, graphQLContext, locale)
         then:
         result == expectedValue
         where:
@@ -54,7 +54,7 @@ class LocaleScalarTest extends Specification {
     @Unroll
     def "full Locale valueToLiteral"() {
         when:
-        def result = coercing.valueToLiteral(input)
+        def result = coercing.valueToLiteral(input, graphQLContext, locale)
         then:
         result.isEqualTo(expectedValue)
         where:

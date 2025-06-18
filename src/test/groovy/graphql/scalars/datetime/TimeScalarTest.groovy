@@ -2,9 +2,9 @@ package graphql.scalars.datetime
 
 import graphql.language.StringValue
 import graphql.scalars.ExtendedScalars
+import graphql.scalars.util.AbstractScalarTest
 import graphql.schema.CoercingParseValueException
 import graphql.schema.CoercingSerializeException
-import spock.lang.Specification
 import spock.lang.Unroll
 
 import static graphql.scalars.util.TestKit.mkLocalDT
@@ -13,7 +13,7 @@ import static graphql.scalars.util.TestKit.mkOffsetT
 import static graphql.scalars.util.TestKit.mkStringValue
 import static graphql.scalars.util.TestKit.mkZonedDT
 
-class TimeScalarTest extends Specification {
+class TimeScalarTest extends AbstractScalarTest {
 
     def coercing = ExtendedScalars.Time.getCoercing()
 
@@ -21,7 +21,7 @@ class TimeScalarTest extends Specification {
     def "datetime parseValue"() {
 
         when:
-        def result = coercing.parseValue(input)
+        def result = coercing.parseValue(input, graphQLContext, locale)
         then:
         result == expectedValue
         where:
@@ -37,7 +37,7 @@ class TimeScalarTest extends Specification {
     def "datetime parseValue bad inputs"() {
 
         when:
-        coercing.parseValue(input)
+        coercing.parseValue(input, graphQLContext, locale)
         then:
         thrown(expectedValue)
         where:
@@ -50,7 +50,7 @@ class TimeScalarTest extends Specification {
     def "datetime AST literal"() {
 
         when:
-        def result = coercing.parseLiteral(input)
+        def result = coercing.parseLiteral(input, variables, graphQLContext, locale)
         then:
         result == expectedValue
         where:
@@ -61,7 +61,7 @@ class TimeScalarTest extends Specification {
     def "datetime serialisation"() {
 
         when:
-        def result = coercing.serialize(input)
+        def result = coercing.serialize(input, graphQLContext, locale)
         then:
         result == expectedValue
         where:
@@ -76,7 +76,7 @@ class TimeScalarTest extends Specification {
     def "datetime valueToLiteral"() {
 
         when:
-        def result = coercing.valueToLiteral(input)
+        def result = coercing.valueToLiteral(input, graphQLContext, locale)
         then:
         result.isEqualTo(expectedValue)
         where:
@@ -91,7 +91,7 @@ class TimeScalarTest extends Specification {
     def "datetime serialisation bad inputs"() {
 
         when:
-        coercing.serialize(input)
+        coercing.serialize(input, graphQLContext, locale)
         then:
         thrown(expectedValue)
         where:

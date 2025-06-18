@@ -1,6 +1,8 @@
 package graphql.scalars.id;
 
+import graphql.GraphQLContext;
 import graphql.Internal;
+import graphql.execution.CoercedVariables;
 import graphql.language.StringValue;
 import graphql.language.Value;
 import graphql.scalars.util.Kit;
@@ -10,6 +12,7 @@ import graphql.schema.CoercingParseValueException;
 import graphql.schema.CoercingSerializeException;
 import graphql.schema.GraphQLScalarType;
 
+import java.util.Locale;
 import java.util.UUID;
 
 import static graphql.scalars.util.Kit.typeName;
@@ -23,7 +26,7 @@ public class UUIDScalar {
     public static GraphQLScalarType INSTANCE;
 
     static {
-        Coercing<UUID, String> coercing = new Coercing<UUID, String>() {
+        Coercing<UUID, String> coercing = new Coercing<>() {
             private UUID convertImpl(Object input) {
                 if (input instanceof String) {
                     try {
@@ -38,7 +41,7 @@ public class UUIDScalar {
             }
 
             @Override
-            public String serialize(Object input) throws CoercingSerializeException {
+            public String serialize(Object input, GraphQLContext graphQLContext, Locale locale) throws CoercingSerializeException {
                 UUID result = convertImpl(input);
                 if (result == null) {
                     throw new CoercingSerializeException(
@@ -49,7 +52,7 @@ public class UUIDScalar {
             }
 
             @Override
-            public UUID parseValue(Object input) throws CoercingParseValueException {
+            public UUID parseValue(Object input, GraphQLContext graphQLContext, Locale locale) throws CoercingParseValueException {
                 UUID result = convertImpl(input);
                 if (result == null) {
                     throw new CoercingParseValueException(
@@ -60,7 +63,7 @@ public class UUIDScalar {
             }
 
             @Override
-            public UUID parseLiteral(Object input) throws CoercingParseLiteralException {
+            public UUID parseLiteral(Value<?> input, CoercedVariables variables, GraphQLContext graphQLContext, Locale locale) throws CoercingParseLiteralException {
                 if (!(input instanceof StringValue)) {
                     throw new CoercingParseLiteralException(
                             "Expected a 'java.util.UUID' AST type object but was '" + typeName(input) + "'."
@@ -76,8 +79,8 @@ public class UUIDScalar {
             }
 
             @Override
-            public Value<?> valueToLiteral(Object input) {
-                String s = serialize(input);
+            public Value<?> valueToLiteral(Object input, GraphQLContext graphQLContext, Locale locale) {
+                String s = serialize(input, graphQLContext, locale);
                 return StringValue.newStringValue(s).build();
             }
         };

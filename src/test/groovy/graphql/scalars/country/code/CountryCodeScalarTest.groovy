@@ -2,21 +2,22 @@ package graphql.scalars.country.code
 
 import graphql.language.StringValue
 import graphql.scalars.ExtendedScalars
+import graphql.scalars.util.AbstractScalarTest
 import graphql.schema.CoercingParseValueException
-import spock.lang.Specification
 import spock.lang.Unroll
 
 import static graphql.scalars.util.TestKit.mkCountryCode
 import static graphql.scalars.util.TestKit.mkStringValue
 
-class CountryCodeScalarTest extends Specification {
+class CountryCodeScalarTest extends AbstractScalarTest {
 
     def coercing = ExtendedScalars.CountryCode.getCoercing()
+
 
     @Unroll
     def "invoke parseValue for countryCode"() {
         when:
-        def result = coercing.parseValue(input)
+        def result = coercing.parseValue(input, graphQLContext, locale)
         then:
         result == expectedValue
         where:
@@ -31,7 +32,7 @@ class CountryCodeScalarTest extends Specification {
     def "invoke parseLiteral for countryCode"() {
 
         when:
-        def result = coercing.parseLiteral(input)
+        def result = coercing.parseLiteral(input, variables, graphQLContext, locale)
         then:
         result == expectedValue
         where:
@@ -44,7 +45,7 @@ class CountryCodeScalarTest extends Specification {
     @Unroll
     def "invoke serialize with countryCode"() {
         when:
-        def result = coercing.serialize(input)
+        def result = coercing.serialize(input, graphQLContext, locale)
         then:
         result == expectedValue
         where:
@@ -59,7 +60,7 @@ class CountryCodeScalarTest extends Specification {
     def "invoke valueToLiteral with countryCode"() {
 
         when:
-        def result = coercing.valueToLiteral(input)
+        def result = coercing.valueToLiteral(input, graphQLContext, locale)
         then:
         result.isEqualTo(expectedValue)
         where:
@@ -73,7 +74,7 @@ class CountryCodeScalarTest extends Specification {
     @Unroll
     def "parseValue throws exception for invalid input #value"() {
         when:
-        coercing.parseValue(value)
+        coercing.parseValue(value, graphQLContext, locale)
         then:
         thrown(CoercingParseValueException)
 
@@ -83,8 +84,8 @@ class CountryCodeScalarTest extends Specification {
         "US(UNITED STATES)"  | _
         "not a countryCode " | _
         "42.3"               | _
-        new Double(42.3)     | _
-        new Float(42.3)      | _
+        Double.valueOf(42.3) | _
+        Float.valueOf(42.3)  | _
         new Object()         | _
     }
 
@@ -92,7 +93,7 @@ class CountryCodeScalarTest extends Specification {
     @Unroll
     def "invoke parseValue with all countryCode list"() {
         when:
-        def result = coercing.parseValue(input)
+        def result = coercing.parseValue(input, graphQLContext, locale)
         then:
         result == expectedValue
         where:

@@ -2,14 +2,14 @@ package graphql.scalars.currency
 
 import graphql.language.StringValue
 import graphql.scalars.ExtendedScalars
+import graphql.scalars.util.AbstractScalarTest
 import graphql.schema.CoercingParseValueException
-import spock.lang.Specification
 import spock.lang.Unroll
 
 import static graphql.scalars.util.TestKit.mkCurrency
 import static graphql.scalars.util.TestKit.mkStringValue
 
-class CurrencyScalarTest extends Specification {
+class CurrencyScalarTest extends AbstractScalarTest {
 
 
     def coercing = ExtendedScalars.Currency.getCoercing()
@@ -18,7 +18,7 @@ class CurrencyScalarTest extends Specification {
     def "currency parseValue cases"() {
 
         when:
-        def result = coercing.parseValue(input)
+        def result = coercing.parseValue(input, graphQLContext, locale)
         then:
         result == expectedValue
         where:
@@ -42,7 +42,7 @@ class CurrencyScalarTest extends Specification {
     def "currency parseLiteral"() {
 
         when:
-        def result = coercing.parseLiteral(input)
+        def result = coercing.parseLiteral(input, variables, graphQLContext, locale)
         then:
         result == expectedValue
         where:
@@ -56,7 +56,7 @@ class CurrencyScalarTest extends Specification {
     def "currency serialize"() {
 
         when:
-        def result = coercing.serialize(input)
+        def result = coercing.serialize(input, graphQLContext, locale)
         then:
         result == expectedValue
         where:
@@ -69,7 +69,7 @@ class CurrencyScalarTest extends Specification {
     def "currency valueToLiteral"() {
 
         when:
-        def result = coercing.valueToLiteral(input)
+        def result = coercing.valueToLiteral(input, graphQLContext, locale)
         then:
         result.isEqualTo(expectedValue)
         where:
@@ -81,19 +81,19 @@ class CurrencyScalarTest extends Specification {
     @Unroll
     def "parseValue throws exception for invalid input #value"() {
         when:
-        coercing.parseValue(value)
+        coercing.parseValue(value, graphQLContext, locale)
         then:
         thrown(CoercingParseValueException)
 
         where:
-        value             | _
-        ""                | _
-        "US_DOLLAR"       | _
-        "not a currency " | _
-        "42.3"            | _
-        new Double(42.3)  | _
-        new Float(42.3)   | _
-        new Object()      | _
+        value                | _
+        ""                   | _
+        "US_DOLLAR"          | _
+        "not a currency "    | _
+        "42.3"               | _
+        Double.valueOf(42.3) | _
+        Float.valueOf(42.3)  | _
+        new Object()         | _
     }
 
 
@@ -101,7 +101,7 @@ class CurrencyScalarTest extends Specification {
     def "all currency ISO list parseValue"() {
 
         when:
-        def result = coercing.parseValue(input)
+        def result = coercing.parseValue(input, graphQLContext, locale)
         then:
         result == expectedValue
         where:

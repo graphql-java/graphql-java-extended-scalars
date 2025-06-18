@@ -2,14 +2,15 @@ package graphql.scalars.datetime
 
 import graphql.language.StringValue
 import graphql.scalars.ExtendedScalars
+import graphql.scalars.util.AbstractScalarTest
 import graphql.schema.CoercingParseValueException
 import graphql.schema.CoercingSerializeException
-import spock.lang.Specification
 import spock.lang.Unroll
 
 import static graphql.scalars.util.TestKit.mkLocalT
+import static graphql.scalars.util.TestKit.mkStringValue
 
-class LocalTimeScalarTest extends Specification {
+class LocalTimeScalarTest extends AbstractScalarTest {
 
     def coercing = ExtendedScalars.LocalTime.getCoercing()
 
@@ -17,7 +18,7 @@ class LocalTimeScalarTest extends Specification {
     def "localtime parseValue"() {
 
         when:
-        def result = coercing.parseValue(input)
+        def result = coercing.parseValue(input, graphQLContext, locale)
         then:
         result == expectedValue
         where:
@@ -32,7 +33,7 @@ class LocalTimeScalarTest extends Specification {
     def "localtime parseValue bad inputs"() {
 
         when:
-        coercing.parseValue(input)
+        coercing.parseValue(input, graphQLContext, locale)
         then:
         thrown(expectedValue)
         where:
@@ -45,7 +46,7 @@ class LocalTimeScalarTest extends Specification {
     def "localtime AST literal"() {
 
         when:
-        def result = coercing.parseLiteral(input)
+        def result = coercing.parseLiteral(input, variables, graphQLContext, locale)
         then:
         result == expectedValue
         where:
@@ -59,7 +60,7 @@ class LocalTimeScalarTest extends Specification {
     def "localtime serialisation"() {
 
         when:
-        def result = coercing.serialize(input)
+        def result = coercing.serialize(input, graphQLContext, locale)
         then:
         result == expectedValue
         where:
@@ -70,10 +71,24 @@ class LocalTimeScalarTest extends Specification {
         mkLocalT("16:39:57.1") | "16:39:57.1"
     }
 
+    def "localtime valueToLiteral"() {
+
+        when:
+        def result = coercing.valueToLiteral(input, graphQLContext, locale)
+        then:
+        result.isEqualTo(expectedValue)
+
+        where:
+        input                | expectedValue
+        "23:20:50"           | mkStringValue("23:20:50")
+        "16:39"              | mkStringValue("16:39:00")
+        "12:00:27.999999999" | mkStringValue("12:00:27.999999999")
+    }
+
     def "datetime serialisation bad inputs"() {
 
         when:
-        coercing.serialize(input)
+        coercing.serialize(input, graphQLContext, locale)
         then:
         thrown(expectedValue)
         where:

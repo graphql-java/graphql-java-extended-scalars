@@ -1,6 +1,8 @@
 package graphql.scalars.datetime;
 
+import graphql.GraphQLContext;
 import graphql.Internal;
+import graphql.execution.CoercedVariables;
 import graphql.language.StringValue;
 import graphql.language.Value;
 import graphql.schema.Coercing;
@@ -14,6 +16,7 @@ import java.time.OffsetTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.TemporalAccessor;
+import java.util.Locale;
 import java.util.function.Function;
 
 import static graphql.scalars.util.Kit.typeName;
@@ -28,12 +31,13 @@ public final class TimeScalar {
 
     public static final GraphQLScalarType INSTANCE;
 
-    private TimeScalar() {}
+    private TimeScalar() {
+    }
 
     static {
-        Coercing<OffsetTime, String> coercing = new Coercing<OffsetTime, String>() {
+        Coercing<OffsetTime, String> coercing = new Coercing<>() {
             @Override
-            public String serialize(Object input) throws CoercingSerializeException {
+            public String serialize(Object input, GraphQLContext graphQLContext, Locale locale) throws CoercingSerializeException {
                 TemporalAccessor temporalAccessor;
                 if (input instanceof TemporalAccessor) {
                     temporalAccessor = (TemporalAccessor) input;
@@ -54,7 +58,7 @@ public final class TimeScalar {
             }
 
             @Override
-            public OffsetTime parseValue(Object input) throws CoercingParseValueException {
+            public OffsetTime parseValue(Object input, GraphQLContext graphQLContext, Locale locale) throws CoercingParseValueException {
                 TemporalAccessor temporalAccessor;
                 if (input instanceof TemporalAccessor) {
                     temporalAccessor = (TemporalAccessor) input;
@@ -75,7 +79,7 @@ public final class TimeScalar {
             }
 
             @Override
-            public OffsetTime parseLiteral(Object input) throws CoercingParseLiteralException {
+            public OffsetTime parseLiteral(Value<?> input, CoercedVariables variables, GraphQLContext graphQLContext, Locale locale) throws CoercingParseLiteralException {
                 if (!(input instanceof StringValue)) {
                     throw new CoercingParseLiteralException(
                             "Expected AST type 'StringValue' but was '" + typeName(input) + "'."
@@ -85,8 +89,8 @@ public final class TimeScalar {
             }
 
             @Override
-            public Value<?> valueToLiteral(Object input) {
-                String s = serialize(input);
+            public Value<?> valueToLiteral(Object input, GraphQLContext graphQLContext, Locale locale) {
+                String s = serialize(input, graphQLContext, locale);
                 return StringValue.newStringValue(s).build();
             }
 
