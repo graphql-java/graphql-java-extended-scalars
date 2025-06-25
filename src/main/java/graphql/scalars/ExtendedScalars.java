@@ -146,7 +146,7 @@ public class ExtendedScalars {
      * `java.time.ZonedDateTime` objects at runtime (with UTC timezone).
      * <p>
      * Its {@link graphql.schema.Coercing#serialize(java.lang.Object)} method accepts various
-     * {@link java.time.temporal.TemporalAccessor} types and returns a string containing the number of seconds since epoch
+     * {@link java.time.temporal.TemporalAccessor} types and returns the number of seconds since epoch
      * (January 1, 1970, 00:00:00 UTC).
      * <p>
      * Using seconds since epoch is preferable to formatted date time strings in several scenarios:
