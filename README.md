@@ -121,7 +121,7 @@ For example, you would build it like this:
 ```java
 AliasedScalar socialMediaLink = ExtendedScalars.newAliasedScalar("SocialMediaLink")
         .aliasedScalar(Scalars.GraphQLString)
-        .build()
+        .build();
 ```
 
 And use it in a SDL schema like this :
@@ -313,27 +313,27 @@ query {
 <td>Description</td>
 </tr>
 <tr>
-<td><pre lang="graphql">scalar GraphQLLong</pre></td>
+<td><pre lang="graphql">scalar Long</pre></td>
 <td>A scalar which represents <code>java.lang.Long<code></td>
 </tr>
 <tr>
-<td><pre lang="graphql">scalar GraphQLShort</pre></td>
+<td><pre lang="graphql">scalar Short</pre></td>
 <td>A scalar which represents <code>java.lang.Short<code></td>
 </tr>
 <tr>
-<td><pre lang="graphql">scalar GraphQLByte</pre></td>
+<td><pre lang="graphql">scalar Byte</pre></td>
 <td>A scalar which represents <code>java.lang.Byte<code></td>
 </tr>
 <tr>
-<td><pre lang="graphql">scalar GraphQLBigDecimal</pre></td>
+<td><pre lang="graphql">scalar BigDecimal</pre></td>
 <td>A scalar which represents <code>java.math.BigDecimal<code></td>
 </tr>
 <tr>
-<td><pre lang="graphql">scalar GraphQLBigInteger</pre></td>
+<td><pre lang="graphql">scalar BigInteger</pre></td>
 <td>A scalar which represents <code>java.math.BigInteger<code></td>
 </tr>
 <tr>
-<td><pre lang="graphql">scalar GraphQLChar</pre></td>
+<td><pre lang="graphql">scalar Char</pre></td>
 <td>A scalar which represents <code>java.lang.Character<code></td>
 </tr>
 </table>
