@@ -1,23 +1,23 @@
 package graphql.scalars.java
 
-import graphql.scalars.ExtendedScalars
 import graphql.language.FloatValue
 import graphql.language.IntValue
 import graphql.language.StringValue
+import graphql.scalars.ExtendedScalars
+import graphql.scalars.util.AbstractScalarTest
 import graphql.schema.CoercingParseLiteralException
 import graphql.schema.CoercingParseValueException
 import graphql.schema.CoercingSerializeException
-import spock.lang.Specification
 import spock.lang.Unroll
 
 import java.util.concurrent.atomic.AtomicInteger
 
-class ScalarsByteTest extends Specification {
+class ScalarsByteTest extends AbstractScalarTest {
 
     @Unroll
     def "Byte parse literal #literal.value as #result"() {
         expect:
-        ExtendedScalars.GraphQLByte.getCoercing().parseLiteral(literal) == result
+        ExtendedScalars.GraphQLByte.getCoercing().parseLiteral(literal, variables, graphQLContext, locale) == result
 
         where:
         literal                                    | result
@@ -30,7 +30,7 @@ class ScalarsByteTest extends Specification {
     @Unroll
     def "Byte returns null for invalid #literal"() {
         when:
-        ExtendedScalars.GraphQLByte.getCoercing().parseLiteral(literal)
+        ExtendedScalars.GraphQLByte.getCoercing().parseLiteral(literal, variables, graphQLContext, locale)
         then:
         thrown(CoercingParseLiteralException)
 
@@ -49,67 +49,67 @@ class ScalarsByteTest extends Specification {
     @Unroll
     def "Byte serialize #value into #result (#result.class)"() {
         expect:
-        ExtendedScalars.GraphQLByte.getCoercing().serialize(value) == result
-        ExtendedScalars.GraphQLByte.getCoercing().parseValue(value) == result
+        ExtendedScalars.GraphQLByte.getCoercing().serialize(value, graphQLContext, locale) == result
+        ExtendedScalars.GraphQLByte.getCoercing().parseValue(value, graphQLContext, locale) == result
 
         where:
-        value                 | result
-        "42"                  | 42
-        "42.0000"             | 42
-        42.0000d              | 42
-        new Integer(42)       | 42
-        "-1"                  | -1
-        new BigInteger(42)    | 42
-        new BigDecimal("42")  | 42
-        42.0f                 | 42
-        42.0d                 | 42
-        new Byte("42")        | 42
-        new Short("42")       | 42
-        123l                  | 123
-        new AtomicInteger(42) | 42
-        Byte.MAX_VALUE        | Byte.MAX_VALUE
-        Byte.MIN_VALUE        | Byte.MIN_VALUE
+        value                  | result
+        "42"                   | 42
+        "42.0000"              | 42
+        42.0000d               | 42
+        Integer.valueOf(42)    | 42
+        "-1"                   | -1
+        BigInteger.valueOf(42) | 42
+        new BigDecimal("42")   | 42
+        42.0f                  | 42
+        42.0d                  | 42
+        Byte.valueOf("42")     | 42
+        Short.valueOf("42")    | 42
+        123l                   | 123
+        new AtomicInteger(42)  | 42
+        Byte.MAX_VALUE         | Byte.MAX_VALUE
+        Byte.MIN_VALUE         | Byte.MIN_VALUE
     }
 
     @Unroll
     def "serialize throws exception for invalid input #value"() {
         when:
-        ExtendedScalars.GraphQLByte.getCoercing().serialize(value)
+        ExtendedScalars.GraphQLByte.getCoercing().serialize(value, graphQLContext, locale)
         then:
         thrown(CoercingSerializeException)
 
         where:
-        value                        | _
-        ""                           | _
-        "not a number "              | _
-        "42.3"                       | _
-        new Long(42345784398534785l) | _
-        new Double(42.3)             | _
-        new Float(42.3)              | _
-        Byte.MAX_VALUE + 1l          | _
-        Byte.MIN_VALUE - 1l          | _
-        new Object()                 | _
+        value                            | _
+        ""                               | _
+        "not a number "                  | _
+        "42.3"                           | _
+        Long.valueOf(42345784398534785l) | _
+        Double.valueOf(42.3)             | _
+        Float.valueOf(42.3)              | _
+        Byte.MAX_VALUE + 1l              | _
+        Byte.MIN_VALUE - 1l              | _
+        new Object()                     | _
 
     }
 
     @Unroll
     def "parseValue throws exception for invalid input #value"() {
         when:
-        ExtendedScalars.GraphQLByte.getCoercing().parseValue(value)
+        ExtendedScalars.GraphQLByte.getCoercing().parseValue(value, graphQLContext, locale)
         then:
         thrown(CoercingParseValueException)
 
         where:
-        value                        | _
-        ""                           | _
-        "not a number "              | _
-        "42.3"                       | _
-        new Long(42345784398534785l) | _
-        new Double(42.3)             | _
-        new Float(42.3)              | _
-        Byte.MAX_VALUE + 1l          | _
-        Byte.MIN_VALUE - 1l          | _
-        new Object()                 | _
+        value                            | _
+        ""                               | _
+        "not a number "                  | _
+        "42.3"                           | _
+        Long.valueOf(42345784398534785l) | _
+        Double.valueOf(42.3)             | _
+        Float.valueOf(42.3)              | _
+        Byte.MAX_VALUE + 1l              | _
+        Byte.MIN_VALUE - 1l              | _
+        new Object()                     | _
 
     }
 

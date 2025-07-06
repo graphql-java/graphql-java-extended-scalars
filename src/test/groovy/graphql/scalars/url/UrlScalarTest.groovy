@@ -1,17 +1,18 @@
 package graphql.scalars.url
 
+
 import graphql.language.BooleanValue
 import graphql.language.StringValue
 import graphql.scalars.ExtendedScalars
+import graphql.scalars.util.AbstractScalarTest
 import graphql.schema.CoercingParseLiteralException
 import graphql.schema.CoercingParseValueException
 import graphql.schema.CoercingSerializeException
-import spock.lang.Specification
 import spock.lang.Unroll
 
 import static graphql.scalars.util.TestKit.mkStringValue
 
-class UrlScalarTest extends Specification {
+class UrlScalarTest extends AbstractScalarTest {
 
     def coercing = ExtendedScalars.Url.getCoercing()
 
@@ -19,7 +20,7 @@ class UrlScalarTest extends Specification {
     def "test serialize"() {
 
         when:
-        def result = coercing.serialize(input)
+        def result = coercing.serialize(input, graphQLContext, locale)
         then:
         result == expectedResult
         where:
@@ -34,7 +35,7 @@ class UrlScalarTest extends Specification {
     def "test valueToLiteral"() {
 
         when:
-        def result = coercing.valueToLiteral(input)
+        def result = coercing.valueToLiteral(input, graphQLContext, locale)
         then:
         result.isEqualTo(expectedResult)
         where:
@@ -48,7 +49,7 @@ class UrlScalarTest extends Specification {
     @Unroll
     def "test serialize bad inputs"() {
         when:
-        coercing.serialize(input)
+        coercing.serialize(input, graphQLContext, locale)
         then:
         thrown(exceptionClas)
         where:
@@ -60,7 +61,7 @@ class UrlScalarTest extends Specification {
     @Unroll
     def "test parseValue"() {
         when:
-        def result = coercing.parseValue(input)
+        def result = coercing.parseValue(input, graphQLContext, locale)
         then:
         result == expectedResult
         where:
@@ -74,7 +75,7 @@ class UrlScalarTest extends Specification {
     @Unroll
     def "test parseValue bad inputs"() {
         when:
-        coercing.parseValue(input)
+        coercing.parseValue(input, graphQLContext, locale)
         then:
         thrown(exceptionClas)
         where:
@@ -86,7 +87,7 @@ class UrlScalarTest extends Specification {
     @Unroll
     def "test parseLiteral"() {
         when:
-        def result = coercing.parseLiteral(input)
+        def result = coercing.parseLiteral(input, variables, graphQLContext, locale)
         then:
         result == expectedResult
         where:
@@ -97,7 +98,7 @@ class UrlScalarTest extends Specification {
     @Unroll
     def "test parseLiteral bad inputs"() {
         when:
-        coercing.parseLiteral(input)
+        coercing.parseLiteral(input, variables, graphQLContext, locale)
         then:
         thrown(exceptionClas)
         where:

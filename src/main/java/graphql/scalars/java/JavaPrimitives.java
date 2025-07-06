@@ -1,6 +1,8 @@
 package graphql.scalars.java;
 
+import graphql.GraphQLContext;
 import graphql.Internal;
+import graphql.execution.CoercedVariables;
 import graphql.language.FloatValue;
 import graphql.language.IntValue;
 import graphql.language.StringValue;
@@ -13,6 +15,7 @@ import graphql.schema.GraphQLScalarType;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Locale;
 import java.util.Objects;
 
 /**
@@ -21,7 +24,8 @@ import java.util.Objects;
 @Internal
 public final class JavaPrimitives {
 
-    private JavaPrimitives() {}
+    private JavaPrimitives() {
+    }
 
     private static final BigInteger LONG_MAX = BigInteger.valueOf(Long.MAX_VALUE);
     private static final BigInteger LONG_MIN = BigInteger.valueOf(Long.MIN_VALUE);
@@ -48,7 +52,7 @@ public final class JavaPrimitives {
     public static final GraphQLScalarType GraphQLLong;
 
     static {
-        Coercing<Long, Long> longCoercing = new Coercing<Long, Long>() {
+        Coercing<Long, Long> longCoercing = new Coercing<>() {
 
             private Long convertImpl(Object input) {
                 if (input instanceof Long) {
@@ -72,7 +76,7 @@ public final class JavaPrimitives {
             }
 
             @Override
-            public Long serialize(Object input) {
+            public Long serialize(Object input, GraphQLContext graphQLContext, Locale locale) throws CoercingSerializeException {
                 Long result = convertImpl(input);
                 if (result == null) {
                     throw new CoercingSerializeException(
@@ -83,7 +87,7 @@ public final class JavaPrimitives {
             }
 
             @Override
-            public Long parseValue(Object input) {
+            public Long parseValue(Object input, GraphQLContext graphQLContext, Locale locale) throws CoercingParseValueException {
                 Long result = convertImpl(input);
                 if (result == null) {
                     throw new CoercingParseValueException(
@@ -94,7 +98,7 @@ public final class JavaPrimitives {
             }
 
             @Override
-            public Long parseLiteral(Object input) {
+            public Long parseLiteral(Value<?> input, CoercedVariables variables, GraphQLContext graphQLContext, Locale locale) throws CoercingParseLiteralException {
                 if (input instanceof StringValue) {
                     try {
                         return Long.parseLong(((StringValue) input).getValue());
@@ -118,7 +122,7 @@ public final class JavaPrimitives {
             }
 
             @Override
-            public Value<?> valueToLiteral(Object input) {
+            public Value<?> valueToLiteral(Object input, GraphQLContext graphQLContext, Locale locale) {
                 Long result = Objects.requireNonNull(convertImpl(input));
                 return IntValue.newIntValue(BigInteger.valueOf(result)).build();
             }
@@ -135,7 +139,7 @@ public final class JavaPrimitives {
     public static final GraphQLScalarType GraphQLShort;
 
     static {
-        Coercing<Short, Short> shortCoercing = new Coercing<Short, Short>() {
+        Coercing<Short, Short> shortCoercing = new Coercing<>() {
 
             private Short convertImpl(Object input) {
                 if (input instanceof Short) {
@@ -159,7 +163,7 @@ public final class JavaPrimitives {
             }
 
             @Override
-            public Short serialize(Object input) {
+            public Short serialize(Object input, GraphQLContext graphQLContext, Locale locale) throws CoercingSerializeException {
                 Short result = convertImpl(input);
                 if (result == null) {
                     throw new CoercingSerializeException(
@@ -170,7 +174,7 @@ public final class JavaPrimitives {
             }
 
             @Override
-            public Short parseValue(Object input) {
+            public Short parseValue(Object input, GraphQLContext graphQLContext, Locale locale) throws CoercingParseValueException {
                 Short result = convertImpl(input);
                 if (result == null) {
                     throw new CoercingParseValueException(
@@ -181,7 +185,7 @@ public final class JavaPrimitives {
             }
 
             @Override
-            public Short parseLiteral(Object input) {
+            public Short parseLiteral(Value<?> input, CoercedVariables variables, GraphQLContext graphQLContext, Locale locale) throws CoercingParseLiteralException {
                 if (!(input instanceof IntValue)) {
                     throw new CoercingParseLiteralException(
                             "Expected AST type 'IntValue' but was '" + typeName(input) + "'."
@@ -197,7 +201,7 @@ public final class JavaPrimitives {
             }
 
             @Override
-            public Value<?> valueToLiteral(Object input) {
+            public Value<?> valueToLiteral(Object input, GraphQLContext graphQLContext, Locale locale) {
                 Short result = Objects.requireNonNull(convertImpl(input));
                 return IntValue.newIntValue(BigInteger.valueOf(result)).build();
             }
@@ -214,7 +218,7 @@ public final class JavaPrimitives {
     public static final GraphQLScalarType GraphQLByte;
 
     static {
-        Coercing<Byte, Byte> byteCoercing = new Coercing<Byte, Byte>() {
+        Coercing<Byte, Byte> byteCoercing = new Coercing<>() {
 
             private Byte convertImpl(Object input) {
                 if (input instanceof Byte) {
@@ -238,7 +242,7 @@ public final class JavaPrimitives {
             }
 
             @Override
-            public Byte serialize(Object input) {
+            public Byte serialize(Object input, GraphQLContext graphQLContext, Locale locale) throws CoercingSerializeException {
                 Byte result = convertImpl(input);
                 if (result == null) {
                     throw new CoercingSerializeException(
@@ -249,7 +253,7 @@ public final class JavaPrimitives {
             }
 
             @Override
-            public Byte parseValue(Object input) {
+            public Byte parseValue(Object input, GraphQLContext graphQLContext, Locale locale) throws CoercingParseValueException {
                 Byte result = convertImpl(input);
                 if (result == null) {
                     throw new CoercingParseValueException(
@@ -260,7 +264,7 @@ public final class JavaPrimitives {
             }
 
             @Override
-            public Byte parseLiteral(Object input) {
+            public Byte parseLiteral(Value<?> input, CoercedVariables variables, GraphQLContext graphQLContext, Locale locale) throws CoercingParseLiteralException {
                 if (!(input instanceof IntValue)) {
                     throw new CoercingParseLiteralException(
                             "Expected AST type 'IntValue' but was '" + typeName(input) + "'."
@@ -276,7 +280,7 @@ public final class JavaPrimitives {
             }
 
             @Override
-            public Value<?> valueToLiteral(Object input) {
+            public Value<?> valueToLiteral(Object input, GraphQLContext graphQLContext, Locale locale) {
                 Byte result = Objects.requireNonNull(convertImpl(input));
                 return IntValue.newIntValue(BigInteger.valueOf(result)).build();
             }
@@ -294,7 +298,7 @@ public final class JavaPrimitives {
     public static final GraphQLScalarType GraphQLBigInteger;
 
     static {
-        Coercing<BigInteger, BigInteger> bigIntCoercing = new Coercing<BigInteger, BigInteger>() {
+        Coercing<BigInteger, BigInteger> bigIntCoercing = new Coercing<>() {
 
             private BigInteger convertImpl(Object input) {
                 if (isNumberIsh(input)) {
@@ -315,7 +319,7 @@ public final class JavaPrimitives {
             }
 
             @Override
-            public BigInteger serialize(Object input) {
+            public BigInteger serialize(Object input, GraphQLContext graphQLContext, Locale locale) throws CoercingSerializeException {
                 BigInteger result = convertImpl(input);
                 if (result == null) {
                     throw new CoercingSerializeException(
@@ -326,7 +330,7 @@ public final class JavaPrimitives {
             }
 
             @Override
-            public BigInteger parseValue(Object input) {
+            public BigInteger parseValue(Object input, GraphQLContext graphQLContext, Locale locale) throws CoercingParseValueException {
                 BigInteger result = convertImpl(input);
                 if (result == null) {
                     throw new CoercingParseValueException(
@@ -337,7 +341,7 @@ public final class JavaPrimitives {
             }
 
             @Override
-            public BigInteger parseLiteral(Object input) {
+            public BigInteger parseLiteral(Value<?> input, CoercedVariables variables, GraphQLContext graphQLContext, Locale locale) throws CoercingParseLiteralException {
                 if (input instanceof StringValue) {
                     try {
                         return new BigDecimal(((StringValue) input).getValue()).toBigIntegerExact();
@@ -363,7 +367,7 @@ public final class JavaPrimitives {
             }
 
             @Override
-            public Value<?> valueToLiteral(Object input) {
+            public Value<?> valueToLiteral(Object input, GraphQLContext graphQLContext, Locale locale) {
                 BigInteger result = Objects.requireNonNull(convertImpl(input));
                 return IntValue.newIntValue(result).build();
             }
@@ -380,7 +384,7 @@ public final class JavaPrimitives {
     public static final GraphQLScalarType GraphQLBigDecimal;
 
     static {
-        Coercing<BigDecimal, BigDecimal> bigDecimalCoercing = new Coercing<BigDecimal, BigDecimal>() {
+        Coercing<BigDecimal, BigDecimal> bigDecimalCoercing = new Coercing<>() {
 
             private BigDecimal convertImpl(Object input) {
                 if (isNumberIsh(input)) {
@@ -395,7 +399,7 @@ public final class JavaPrimitives {
             }
 
             @Override
-            public BigDecimal serialize(Object input) {
+            public BigDecimal serialize(Object input, GraphQLContext graphQLContext, Locale locale) throws CoercingSerializeException {
                 BigDecimal result = convertImpl(input);
                 if (result == null) {
                     throw new CoercingSerializeException(
@@ -406,7 +410,7 @@ public final class JavaPrimitives {
             }
 
             @Override
-            public BigDecimal parseValue(Object input) {
+            public BigDecimal parseValue(Object input, GraphQLContext graphQLContext, Locale locale) throws CoercingParseValueException {
                 BigDecimal result = convertImpl(input);
                 if (result == null) {
                     throw new CoercingParseValueException(
@@ -417,7 +421,7 @@ public final class JavaPrimitives {
             }
 
             @Override
-            public BigDecimal parseLiteral(Object input) {
+            public BigDecimal parseLiteral(Value<?> input, CoercedVariables variables, GraphQLContext graphQLContext, Locale locale) throws CoercingParseLiteralException {
                 if (input instanceof StringValue) {
                     try {
                         return new BigDecimal(((StringValue) input).getValue());
@@ -437,7 +441,7 @@ public final class JavaPrimitives {
             }
 
             @Override
-            public Value<?> valueToLiteral(Object input) {
+            public Value<?> valueToLiteral(Object input, GraphQLContext graphQLContext, Locale locale) {
                 BigDecimal result = Objects.requireNonNull(convertImpl(input));
                 return FloatValue.newFloatValue(result).build();
             }
@@ -456,7 +460,7 @@ public final class JavaPrimitives {
     public static final GraphQLScalarType GraphQLChar;
 
     static {
-        Coercing<Character, Character> characterCoercing = new Coercing<Character, Character>() {
+        Coercing<Character, Character> characterCoercing = new Coercing<>() {
 
             private Character convertImpl(Object input) {
                 if (input instanceof String && ((String) input).length() == 1) {
@@ -470,7 +474,7 @@ public final class JavaPrimitives {
             }
 
             @Override
-            public Character serialize(Object input) {
+            public Character serialize(Object input, GraphQLContext graphQLContext, Locale locale) throws CoercingSerializeException {
                 Character result = convertImpl(input);
                 if (result == null) {
                     throw new CoercingSerializeException(
@@ -481,7 +485,7 @@ public final class JavaPrimitives {
             }
 
             @Override
-            public Character parseValue(Object input) {
+            public Character parseValue(Object input, GraphQLContext graphQLContext, Locale locale) throws CoercingParseValueException {
                 Character result = convertImpl(input);
                 if (result == null) {
                     throw new CoercingParseValueException(
@@ -492,7 +496,7 @@ public final class JavaPrimitives {
             }
 
             @Override
-            public Character parseLiteral(Object input) {
+            public Character parseLiteral(Value<?> input, CoercedVariables variables, GraphQLContext graphQLContext, Locale locale) throws CoercingParseLiteralException {
                 if (!(input instanceof StringValue)) {
                     throw new CoercingParseLiteralException(
                             "Expected AST type 'StringValue' but was '" + typeName(input) + "'."
@@ -508,7 +512,7 @@ public final class JavaPrimitives {
             }
 
             @Override
-            public Value<?> valueToLiteral(Object input) {
+            public Value<?> valueToLiteral(Object input, GraphQLContext graphQLContext, Locale locale) {
                 Character result = Objects.requireNonNull(convertImpl(input));
                 return StringValue.newStringValue(result.toString()).build();
             }

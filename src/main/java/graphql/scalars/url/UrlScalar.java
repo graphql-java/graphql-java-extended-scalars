@@ -1,6 +1,8 @@
 package graphql.scalars.url;
 
+import graphql.GraphQLContext;
 import graphql.Internal;
+import graphql.execution.CoercedVariables;
 import graphql.language.StringValue;
 import graphql.language.Value;
 import graphql.schema.Coercing;
@@ -13,6 +15,7 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.function.Function;
 
@@ -21,14 +24,15 @@ import static graphql.scalars.util.Kit.typeName;
 @Internal
 public final class UrlScalar {
 
-    private UrlScalar() {}
+    private UrlScalar() {
+    }
 
     public static final GraphQLScalarType INSTANCE;
 
     static {
-        Coercing<URL, URL> coercing = new Coercing<URL, URL>() {
+        Coercing<URL, URL> coercing = new Coercing<>() {
             @Override
-            public URL serialize(Object input) throws CoercingSerializeException {
+            public URL serialize(Object input, GraphQLContext graphQLContext, Locale locale) throws CoercingSerializeException {
                 Optional<URL> url;
                 if (input instanceof String) {
                     url = Optional.of(parseURL(input.toString(), CoercingSerializeException::new));
@@ -44,13 +48,13 @@ public final class UrlScalar {
             }
 
             @Override
-            public URL parseValue(Object input) throws CoercingParseValueException {
+            public URL parseValue(Object input, GraphQLContext graphQLContext, Locale locale) throws CoercingParseValueException {
                 String urlStr;
                 if (input instanceof String) {
                     urlStr = String.valueOf(input);
                 } else {
                     Optional<URL> url = toURL(input);
-                    if (!url.isPresent()) {
+                    if (url.isEmpty()) {
                         throw new CoercingParseValueException(
                                 "Expected a 'URL' like object but was '" + typeName(input) + "'."
                         );
@@ -61,7 +65,7 @@ public final class UrlScalar {
             }
 
             @Override
-            public URL parseLiteral(Object input) throws CoercingParseLiteralException {
+            public URL parseLiteral(Value<?> input, CoercedVariables variables, GraphQLContext graphQLContext, Locale locale) throws CoercingParseLiteralException {
                 if (!(input instanceof StringValue)) {
                     throw new CoercingParseLiteralException(
                             "Expected AST type 'StringValue' but was '" + typeName(input) + "'."
@@ -71,8 +75,8 @@ public final class UrlScalar {
             }
 
             @Override
-            public Value valueToLiteral(Object input) {
-                URL url = serialize(input);
+            public Value<?> valueToLiteral(Object input, GraphQLContext graphQLContext, Locale locale) {
+                URL url = serialize(input, graphQLContext, locale);
                 return StringValue.newStringValue(url.toExternalForm()).build();
             }
 

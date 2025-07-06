@@ -1,19 +1,18 @@
 package graphql.scalars.numeric
 
-
 import graphql.language.StringValue
 import graphql.scalars.ExtendedScalars
+import graphql.scalars.util.AbstractScalarTest
 import graphql.schema.CoercingParseLiteralException
 import graphql.schema.CoercingParseValueException
 import graphql.schema.CoercingSerializeException
-import spock.lang.Specification
 import spock.lang.Unroll
 
 import static graphql.scalars.util.TestKit.assertValueOrException
 import static graphql.scalars.util.TestKit.mkFloatValue
 import static graphql.scalars.util.TestKit.mkIntValue
 
-class NegativeFloatScalarTest extends Specification {
+class NegativeFloatScalarTest extends AbstractScalarTest {
     def coercing = ExtendedScalars.NegativeFloat.getCoercing()
 
     @Unroll
@@ -21,7 +20,7 @@ class NegativeFloatScalarTest extends Specification {
         def result
         when:
         try {
-            result = coercing.serialize(input)
+            result = coercing.serialize(input, graphQLContext, locale)
         } catch (Exception e) {
             result = e
         }
@@ -43,7 +42,7 @@ class NegativeFloatScalarTest extends Specification {
         def result
         when:
         try {
-            result = coercing.parseValue(input)
+            result = coercing.parseValue(input, graphQLContext, locale)
         } catch (Exception e) {
             result = e
         }
@@ -65,7 +64,7 @@ class NegativeFloatScalarTest extends Specification {
         def result
         when:
         try {
-            result = coercing.parseLiteral(input)
+            result = coercing.parseLiteral(input, variables, graphQLContext, locale)
         } catch (Exception e) {
             result = e
         }

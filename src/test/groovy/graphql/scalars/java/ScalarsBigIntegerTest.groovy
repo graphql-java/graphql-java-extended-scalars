@@ -1,25 +1,24 @@
 package graphql.scalars.java
 
-import graphql.Scalars
 import graphql.language.BooleanValue
 import graphql.language.FloatValue
 import graphql.language.IntValue
 import graphql.language.StringValue
 import graphql.scalars.ExtendedScalars
+import graphql.scalars.util.AbstractScalarTest
 import graphql.schema.CoercingParseLiteralException
 import graphql.schema.CoercingParseValueException
 import graphql.schema.CoercingSerializeException
-import spock.lang.Specification
 import spock.lang.Unroll
 
 import java.util.concurrent.atomic.AtomicInteger
 
-class ScalarsBigIntegerTest extends Specification {
+class ScalarsBigIntegerTest extends AbstractScalarTest {
 
     @Unroll
     def "BigInteger parse literal #literal.value as #result"() {
         expect:
-        ExtendedScalars.GraphQLBigInteger.getCoercing().parseLiteral(literal) == result
+        ExtendedScalars.GraphQLBigInteger.getCoercing().parseLiteral(literal, variables, graphQLContext, locale) == result
 
         where:
         literal                                 | result
@@ -31,7 +30,7 @@ class ScalarsBigIntegerTest extends Specification {
     @Unroll
     def "BigInteger returns null for invalid #literal"() {
         when:
-        ExtendedScalars.GraphQLBigInteger.getCoercing().parseLiteral(literal)
+        ExtendedScalars.GraphQLBigInteger.getCoercing().parseLiteral(literal, variables, graphQLContext, locale)
         then:
         thrown(CoercingParseLiteralException)
 
@@ -46,18 +45,18 @@ class ScalarsBigIntegerTest extends Specification {
     @Unroll
     def "BigInteger serialize #value into #result (#result.class)"() {
         expect:
-        ExtendedScalars.GraphQLBigInteger.getCoercing().serialize(value) == result
-        ExtendedScalars.GraphQLBigInteger.getCoercing().parseValue(value) == result
+        ExtendedScalars.GraphQLBigInteger.getCoercing().serialize(value, graphQLContext, locale) == result
+        ExtendedScalars.GraphQLBigInteger.getCoercing().parseValue(value, graphQLContext, locale) == result
 
         where:
         value                 | result
         "42"                  | new BigInteger("42")
-        new Integer(42)       | new BigInteger("42")
+        Integer.valueOf(42)   | new BigInteger("42")
         "-1"                  | new BigInteger("-1")
         new BigInteger("42")  | new BigInteger("42")
         42.0d                 | new BigInteger("42")
-        new Byte("42")        | new BigInteger("42")
-        new Short("42")       | new BigInteger("42")
+        Byte.valueOf("42")    | new BigInteger("42")
+        Short.valueOf("42")   | new BigInteger("42")
         1234567l              | new BigInteger("1234567")
         new AtomicInteger(42) | new BigInteger("42")
     }
@@ -65,7 +64,7 @@ class ScalarsBigIntegerTest extends Specification {
     @Unroll
     def "serialize throws exception for invalid input #value"() {
         when:
-        ExtendedScalars.GraphQLBigInteger.getCoercing().serialize(value)
+        ExtendedScalars.GraphQLBigInteger.getCoercing().serialize(value, graphQLContext, locale)
         then:
         thrown(CoercingSerializeException)
 
@@ -81,7 +80,7 @@ class ScalarsBigIntegerTest extends Specification {
     @Unroll
     def "parseValue throws exception for invalid input #value"() {
         when:
-        ExtendedScalars.GraphQLBigInteger.getCoercing().parseValue(value)
+        ExtendedScalars.GraphQLBigInteger.getCoercing().parseValue(value, graphQLContext, locale)
         then:
         thrown(CoercingParseValueException)
 

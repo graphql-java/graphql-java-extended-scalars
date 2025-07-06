@@ -1,23 +1,24 @@
 package graphql.scalars.java
 
+
 import graphql.language.FloatValue
 import graphql.language.IntValue
 import graphql.language.StringValue
 import graphql.scalars.ExtendedScalars
+import graphql.scalars.util.AbstractScalarTest
 import graphql.schema.CoercingParseLiteralException
 import graphql.schema.CoercingParseValueException
 import graphql.schema.CoercingSerializeException
-import spock.lang.Specification
 import spock.lang.Unroll
 
 import java.util.concurrent.atomic.AtomicInteger
 
-class ScalarsShortTest extends Specification {
+class ScalarsShortTest extends AbstractScalarTest {
 
     @Unroll
     def "Short parse literal #literal.value as #result"() {
         expect:
-        ExtendedScalars.GraphQLShort.getCoercing().parseLiteral(literal) == result
+        ExtendedScalars.GraphQLShort.getCoercing().parseLiteral(literal, variables, graphQLContext, locale) == result
 
         where:
         literal                                     | result
@@ -30,7 +31,7 @@ class ScalarsShortTest extends Specification {
     @Unroll
     def "Short returns null for invalid #literal"() {
         when:
-        ExtendedScalars.GraphQLShort.getCoercing().parseLiteral(literal)
+        ExtendedScalars.GraphQLShort.getCoercing().parseLiteral(literal, variables, graphQLContext, locale)
         then:
         thrown(CoercingParseLiteralException)
 
@@ -48,32 +49,32 @@ class ScalarsShortTest extends Specification {
     @Unroll
     def "Short serialize #value into #result (#result.class)"() {
         expect:
-        ExtendedScalars.GraphQLShort.getCoercing().serialize(value) == result
-        ExtendedScalars.GraphQLShort.getCoercing().parseValue(value) == result
+        ExtendedScalars.GraphQLShort.getCoercing().serialize(value, graphQLContext, locale) == result
+        ExtendedScalars.GraphQLShort.getCoercing().parseValue(value, graphQLContext, locale) == result
 
         where:
-        value                 | result
-        "42"                  | 42
-        "42.0000"             | 42
-        42.0000d              | 42
-        new Integer(42)       | 42
-        "-1"                  | -1
-        new BigInteger(42)    | 42
-        new BigDecimal("42")  | 42
-        42.0f                 | 42
-        42.0d                 | 42
-        new Byte("42")        | 42
-        new Short("42")       | 42
-        1234l                 | 1234
-        new AtomicInteger(42) | 42
-        Short.MAX_VALUE       | Short.MAX_VALUE
-        Short.MIN_VALUE       | Short.MIN_VALUE
+        value                  | result
+        "42"                   | 42
+        "42.0000"              | 42
+        42.0000d               | 42
+        Integer.valueOf(42)    | 42
+        "-1"                   | -1
+        BigInteger.valueOf(42) | 42
+        new BigDecimal("42")   | 42
+        42.0f                  | 42
+        42.0d                  | 42
+        Byte.valueOf("42")     | 42
+        Short.valueOf("42")    | 42
+        1234l                  | 1234
+        new AtomicInteger(42)  | 42
+        Short.MAX_VALUE        | Short.MAX_VALUE
+        Short.MIN_VALUE        | Short.MIN_VALUE
     }
 
     @Unroll
     def "serialize throws exception for invalid input #value"() {
         when:
-        ExtendedScalars.GraphQLShort.getCoercing().serialize(value)
+        ExtendedScalars.GraphQLShort.getCoercing().serialize(value, graphQLContext, locale)
         then:
         thrown(CoercingSerializeException)
 
@@ -94,7 +95,7 @@ class ScalarsShortTest extends Specification {
     @Unroll
     def "parseValue throws exception for invalid input #value"() {
         when:
-        ExtendedScalars.GraphQLShort.getCoercing().parseValue(value)
+        ExtendedScalars.GraphQLShort.getCoercing().parseValue(value, graphQLContext, locale)
         then:
         thrown(CoercingParseValueException)
 

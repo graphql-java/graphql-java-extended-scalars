@@ -2,19 +2,20 @@ package graphql.scalars.datetime
 
 import graphql.language.StringValue
 import graphql.scalars.ExtendedScalars
+import graphql.scalars.util.AbstractScalarTest
 import graphql.schema.CoercingParseLiteralException
 import graphql.schema.CoercingParseValueException
 import graphql.schema.CoercingSerializeException
-import spock.lang.Specification
 import spock.lang.Unroll
 
 import java.time.Duration
 import java.time.temporal.ChronoUnit
 
+import static graphql.scalars.util.TestKit.mkIntValue
 import static graphql.scalars.util.TestKit.mkPeriod
 import static graphql.scalars.util.TestKit.mkStringValue
 
-class NominalDurationScalarTest extends Specification {
+class NominalDurationScalarTest extends AbstractScalarTest {
 
     def coercing = ExtendedScalars.NominalDuration.getCoercing()
 
@@ -22,7 +23,7 @@ class NominalDurationScalarTest extends Specification {
     def "nominalduration parseValue"() {
 
         when:
-        def result = coercing.parseValue(input)
+        def result = coercing.parseValue(input, graphQLContext, locale)
         then:
         result == expectedValue
         where:
@@ -39,7 +40,7 @@ class NominalDurationScalarTest extends Specification {
     def "nominalduration valueToLiteral"() {
 
         when:
-        def result = coercing.valueToLiteral(input)
+        def result = coercing.valueToLiteral(input, graphQLContext, locale)
         then:
         result.isEqualTo(expectedValue)
         where:
@@ -57,7 +58,7 @@ class NominalDurationScalarTest extends Specification {
     def "nominalduration parseValue bad inputs"() {
 
         when:
-        coercing.parseValue(input)
+        coercing.parseValue(input, graphQLContext, locale)
         then:
         thrown(expectedValue)
         where:
@@ -73,7 +74,7 @@ class NominalDurationScalarTest extends Specification {
     def "nominalduration AST literal"() {
 
         when:
-        def result = coercing.parseLiteral(input)
+        def result = coercing.parseLiteral(input, variables, graphQLContext, locale)
         then:
         result == expectedValue
         where:
@@ -84,7 +85,7 @@ class NominalDurationScalarTest extends Specification {
     def "nominalduration serialisation"() {
 
         when:
-        def result = coercing.serialize(input)
+        def result = coercing.serialize(input, graphQLContext, locale)
         then:
         result == expectedValue
         where:
@@ -100,7 +101,7 @@ class NominalDurationScalarTest extends Specification {
     def "nominalduration serialisation bad inputs"() {
 
         when:
-        coercing.serialize(input)
+        coercing.serialize(input, graphQLContext, locale)
         then:
         thrown(expectedValue)
         where:
@@ -118,17 +119,16 @@ class NominalDurationScalarTest extends Specification {
     def "nominalduration parseLiteral bad inputs"() {
 
         when:
-        coercing.parseLiteral(input)
+        coercing.parseLiteral(input, variables, graphQLContext, locale)
         then:
         thrown(expectedValue)
         where:
-        input                              | expectedValue
-        "PT1M"                             | CoercingParseLiteralException
-        "P1.5M"                            | CoercingParseLiteralException
-        "P1MT2H"                           | CoercingParseLiteralException
-        "PY"                               | CoercingParseLiteralException
-        123                                | CoercingParseLiteralException
-        ""                                 | CoercingParseLiteralException
-        Duration.of(1, ChronoUnit.MINUTES) | CoercingParseLiteralException
+        input                   | expectedValue
+        mkStringValue("PT1M")   | CoercingParseLiteralException
+        mkStringValue("P1.5M")  | CoercingParseLiteralException
+        mkStringValue("P1MT2H") | CoercingParseLiteralException
+        mkStringValue("PY")     | CoercingParseLiteralException
+        mkIntValue(123)         | CoercingParseLiteralException
+        mkStringValue("")       | CoercingParseLiteralException
     }
 }

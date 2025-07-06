@@ -2,7 +2,7 @@ package graphql.scalars.datetime
 
 import graphql.language.StringValue
 import graphql.scalars.ExtendedScalars
-import spock.lang.Specification
+import graphql.scalars.util.AbstractScalarTest
 import spock.lang.Unroll
 
 import static graphql.scalars.util.TestKit.mkLocalDate
@@ -10,7 +10,7 @@ import static graphql.scalars.util.TestKit.mkOffsetDT
 import static graphql.scalars.util.TestKit.mkStringValue
 import static graphql.scalars.util.TestKit.mkZonedDT
 
-class DateScalarTest extends Specification {
+class DateScalarTest extends AbstractScalarTest {
 
     def coercing = ExtendedScalars.Date.getCoercing()
 
@@ -18,7 +18,7 @@ class DateScalarTest extends Specification {
     def "full date parseValue"() {
 
         when:
-        def result = coercing.parseValue(input)
+        def result = coercing.parseValue(input, graphQLContext, locale)
         then:
         result == expectedValue
         where:
@@ -32,7 +32,7 @@ class DateScalarTest extends Specification {
     def "full date parseLiteral"() {
 
         when:
-        def result = coercing.parseLiteral(input)
+        def result = coercing.parseLiteral(input, variables, graphQLContext, locale)
         then:
         result == expectedValue
         where:
@@ -44,7 +44,7 @@ class DateScalarTest extends Specification {
     def "full date serialize"() {
 
         when:
-        def result = coercing.serialize(input)
+        def result = coercing.serialize(input, graphQLContext, locale)
         then:
         result == expectedValue
         where:
@@ -58,7 +58,7 @@ class DateScalarTest extends Specification {
     def "full date valueToLiteral"() {
 
         when:
-        def result = coercing.valueToLiteral(input)
+        def result = coercing.valueToLiteral(input, graphQLContext, locale)
         then:
         result.isEqualTo(expectedValue)
         where:
