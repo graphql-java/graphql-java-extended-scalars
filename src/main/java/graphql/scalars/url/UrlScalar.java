@@ -14,6 +14,7 @@ import graphql.schema.GraphQLScalarType;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Locale;
 import java.util.Optional;
@@ -83,8 +84,8 @@ public final class UrlScalar {
 
             private URL parseURL(String input, Function<String, RuntimeException> exceptionMaker) {
                 try {
-                    return new URL(input);
-                } catch (MalformedURLException e) {
+                    return new URI(input).toURL();
+                } catch (URISyntaxException | IllegalArgumentException | MalformedURLException e) {
                     throw exceptionMaker.apply("Invalid URL value : '" + input + "'.");
                 }
             }
