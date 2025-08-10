@@ -25,10 +25,10 @@ class UriScalarTest extends AbstractScalarTest {
         result == expectedResult
         where:
         input                                   | expectedResult
-        new URL("http://www.graphql-java.com/") | new URL("http://www.graphql-java.com/")
-        new URI("http://www.graphql-java.com/") | new URL("http://www.graphql-java.com/")
-        new File("/this/that")                  | new URL("file:/this/that")
-        "http://www.graphql-java.com/"          | new URL("http://www.graphql-java.com/")
+        new URL("http://www.graphql-java.com/") | new URI("http://www.graphql-java.com/")
+        new URI("http://www.graphql-java.com/") | new URI("http://www.graphql-java.com/")
+        new File("/this/that")                  | new URI("file:/this/that")
+        "http://www.graphql-java.com/"          | new URI("http://www.graphql-java.com/")
     }
 
     @Unroll
@@ -53,9 +53,9 @@ class UriScalarTest extends AbstractScalarTest {
         then:
         thrown(exceptionClas)
         where:
-        input       || exceptionClas
-        666         || CoercingSerializeException
-        "not/a/url" || CoercingSerializeException
+        input         || exceptionClas
+        666           || CoercingSerializeException
+        "1:not/a/uri" || CoercingSerializeException
     }
 
     @Unroll
@@ -66,10 +66,10 @@ class UriScalarTest extends AbstractScalarTest {
         result == expectedResult
         where:
         input                                   | expectedResult
-        new URL("http://www.graphql-java.com/") | new URL("http://www.graphql-java.com/")
-        new URI("http://www.graphql-java.com/") | new URL("http://www.graphql-java.com/")
-        new File("/this/that")                  | new URL("file:/this/that")
-        "http://www.graphql-java.com/"          | new URL("http://www.graphql-java.com/")
+        new URL("http://www.graphql-java.com/") | new URI("http://www.graphql-java.com/")
+        new URI("http://www.graphql-java.com/") | new URI("http://www.graphql-java.com/")
+        new File("/this/that")                  | new URI("file:/this/that")
+        "http://www.graphql-java.com/"          | new URI("http://www.graphql-java.com/")
     }
 
     @Unroll
@@ -79,9 +79,9 @@ class UriScalarTest extends AbstractScalarTest {
         then:
         thrown(exceptionClas)
         where:
-        input       || exceptionClas
-        666         || CoercingParseValueException
-        "not/a/url" || CoercingParseValueException
+        input         || exceptionClas
+        666           || CoercingParseValueException
+        "1:not/a/url" || CoercingParseValueException
     }
 
     @Unroll
@@ -92,7 +92,7 @@ class UriScalarTest extends AbstractScalarTest {
         result == expectedResult
         where:
         input                                           | expectedResult
-        new StringValue("http://www.graphql-java.com/") | new URL("http://www.graphql-java.com/")
+        new StringValue("http://www.graphql-java.com/") | new URI("http://www.graphql-java.com/")
     }
 
     @Unroll
@@ -102,9 +102,9 @@ class UriScalarTest extends AbstractScalarTest {
         then:
         thrown(exceptionClas)
         where:
-        input                        | exceptionClas
-        new BooleanValue(true)       | CoercingParseLiteralException
-        new StringValue("1:not/a/uri") | CoercingParseLiteralException
+        input                          | exceptionClas
+        new BooleanValue(true)         | CoercingParseLiteralException
+        new StringValue("1:not/a/url") | CoercingParseLiteralException
     }
 
 

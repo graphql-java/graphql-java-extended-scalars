@@ -12,7 +12,6 @@ import graphql.schema.CoercingSerializeException;
 import graphql.schema.GraphQLScalarType;
 
 import java.io.File;
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -31,86 +30,83 @@ public final class UriScalar {
     public static final GraphQLScalarType INSTANCE;
 
     static {
-        Coercing<URL, URL> coercing = new Coercing<>() {
+        Coercing<URI, URI> coercing = new Coercing<>() {
             @Override
-            public URL serialize(Object input, GraphQLContext graphQLContext, Locale locale) throws CoercingSerializeException {
-                Optional<URL> url;
+            public URI serialize(Object input, GraphQLContext graphQLContext, Locale locale) throws CoercingSerializeException {
+                Optional<URI> uri;
                 if (input instanceof String) {
-                    url = Optional.of(parseURL(input.toString(), CoercingSerializeException::new));
+                    uri = Optional.of(parseURI(input.toString(), CoercingSerializeException::new));
                 } else {
-                    url = toURL(input);
+                    uri = toURI(input);
                 }
-                if (url.isPresent()) {
-                    return url.get();
+                if (uri.isPresent()) {
+                    return uri.get();
                 }
                 throw new CoercingSerializeException(
-                        "Expected a 'URL' like object but was '" + typeName(input) + "'."
+                        "Expected a 'URI' like object but was '" + typeName(input) + "'."
                 );
             }
 
             @Override
-            public URL parseValue(Object input, GraphQLContext graphQLContext, Locale locale) throws CoercingParseValueException {
-                String urlStr;
+            public URI parseValue(Object input, GraphQLContext graphQLContext, Locale locale) throws CoercingParseValueException {
+                String uriStr;
                 if (input instanceof String) {
-                    urlStr = String.valueOf(input);
+                    uriStr = String.valueOf(input);
                 } else {
-                    Optional<URL> url = toURL(input);
-                    if (url.isEmpty()) {
+                    Optional<URI> uri = toURI(input);
+                    if (uri.isEmpty()) {
                         throw new CoercingParseValueException(
-                                "Expected a 'URL' like object but was '" + typeName(input) + "'."
+                                "Expected a 'URI' like object but was '" + typeName(input) + "'."
                         );
                     }
-                    return url.get();
+                    return uri.get();
                 }
-                return parseURL(urlStr, CoercingParseValueException::new);
+                return parseURI(uriStr, CoercingParseValueException::new);
             }
 
             @Override
-            public URL parseLiteral(Value<?> input, CoercedVariables variables, GraphQLContext graphQLContext, Locale locale) throws CoercingParseLiteralException {
+            public URI parseLiteral(Value<?> input, CoercedVariables variables, GraphQLContext graphQLContext, Locale locale) throws CoercingParseLiteralException {
                 if (!(input instanceof StringValue)) {
                     throw new CoercingParseLiteralException(
                             "Expected AST type 'StringValue' but was '" + typeName(input) + "'."
                     );
                 }
-                return parseURL(((StringValue) input).getValue(), CoercingParseLiteralException::new);
+                return parseURI(((StringValue) input).getValue(), CoercingParseLiteralException::new);
             }
 
             @Override
             public Value<?> valueToLiteral(Object input, GraphQLContext graphQLContext, Locale locale) {
-                URL url = serialize(input, graphQLContext, locale);
-                return StringValue.newStringValue(url.toExternalForm()).build();
+                URI uri = serialize(input, graphQLContext, locale);
+                return StringValue.newStringValue(uri.toString()).build();
             }
 
 
-            private URL parseURL(String input, Function<String, RuntimeException> exceptionMaker) {
+            private URI parseURI(String input, Function<String, RuntimeException> exceptionMaker) {
                 try {
-                    return new URI(input).toURL();
-                } catch (URISyntaxException | IllegalArgumentException | MalformedURLException e) {
-                    throw exceptionMaker.apply("Invalid URL value : '" + input + "'.");
+                    return new URI(input);
+                } catch (URISyntaxException e) {
+                    throw exceptionMaker.apply("Invalid URI value : '" + input + "'.");
                 }
             }
         };
 
         INSTANCE = GraphQLScalarType.newScalar()
-                .name("Url")
-                .description("A Url scalar")
+                .name("Uri")
+                .description("A Uri scalar")
                 .coercing(coercing)
                 .build();
     }
 
-    private static Optional<URL> toURL(Object input) {
-        if (input instanceof URL) {
-            return Optional.of((URL) input);
-        } else if (input instanceof URI) {
+    private static Optional<URI> toURI(Object input) {
+        if (input instanceof URI) {
+            return Optional.of((URI) input);
+        } else if (input instanceof URL) {
             try {
-                return Optional.of(((URI) input).toURL());
-            } catch (MalformedURLException ignored) {
+                return Optional.of(((URL) input).toURI());
+            } catch (URISyntaxException ignored) {
             }
         } else if (input instanceof File) {
-            try {
-                return Optional.of(((File) input).toURI().toURL());
-            } catch (MalformedURLException ignored) {
-            }
+            return Optional.of(((File) input).toURI());
         }
         return Optional.empty();
     }
