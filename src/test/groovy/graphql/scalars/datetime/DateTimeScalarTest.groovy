@@ -69,7 +69,7 @@ class DateTimeScalarTest extends AbstractScalarTest {
         "2011-08-30T13:22:53.108"        | CoercingParseValueException // No offset provided
         "2011-08-30T24:22:53.108Z"       | CoercingParseValueException // 24 is not allowed as hour of the time
         "2010-02-30T21:22:53.108Z"       | CoercingParseValueException // 30th of February is not a valid date
-        "2010-02-11T21:22:53.108Z+25:11" | CoercingParseValueException // 25 is not a valid hour for offset
+        "2010-02-11T21:22:53.108+25:11"  | CoercingParseValueException // 25 is not a valid hour for offset
     }
 
     def "datetime AST literal"() {
@@ -114,7 +114,7 @@ class DateTimeScalarTest extends AbstractScalarTest {
         "2011-08-30T13:22:53.108"        | CoercingSerializeException // No offset provided
         "2011-08-30T24:22:53.108Z"       | CoercingSerializeException // 24 is not allowed as hour of the time
         "2010-02-30T21:22:53.108Z"       | CoercingSerializeException // 30th of February is not a valid date
-        "2010-02-11T21:22:53.108Z+25:11" | CoercingSerializeException // 25 is not a valid hour for offset
+        "2010-02-11T21:22:53.108+25:11"  | CoercingSerializeException // 25 is not a valid hour for offset
     }
 
     @Unroll
@@ -133,7 +133,7 @@ class DateTimeScalarTest extends AbstractScalarTest {
         mkStringValue("2011-08-30T13:22:53.108")        | CoercingParseLiteralException // No offset provided
         mkStringValue("2011-08-30T24:22:53.108Z")       | CoercingParseLiteralException // 24 is not allowed as hour of the time
         mkStringValue("2010-02-30T21:22:53.108Z")       | CoercingParseLiteralException // 30th of February is not a valid date
-        mkStringValue("2010-02-11T21:22:53.108Z+25:11") | CoercingParseLiteralException // 25 is not a valid hour for offset
+        mkStringValue("2010-02-11T21:22:53.108+25:11")  | CoercingParseLiteralException // 25 is not a valid hour for offset
     }
 
 }
