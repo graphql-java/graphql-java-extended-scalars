@@ -41,7 +41,7 @@ repositories {
 }
 
 dependencies {
-    implementation "com.graphql-java:graphql-java:24.2"
+    implementation "com.graphql-java:graphql-java:24.3"
 
     testImplementation "org.spockframework:spock-core:2.3-groovy-3.0"
     testImplementation "org.codehaus.groovy:groovy:3.0.25"
