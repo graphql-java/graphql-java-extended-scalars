@@ -28,6 +28,7 @@ import graphql.scalars.numeric.PositiveIntScalar;
 import graphql.scalars.object.JsonScalar;
 import graphql.scalars.object.ObjectScalar;
 import graphql.scalars.regex.RegexScalar;
+import graphql.scalars.uri.UriScalar;
 import graphql.scalars.url.UrlScalar;
 import graphql.schema.GraphQLScalarType;
 
@@ -208,6 +209,11 @@ public class ExtendedScalars {
      * @see graphql.scalars.ExtendedScalars#Object
      */
     public static final GraphQLScalarType Json = JsonScalar.INSTANCE;
+
+    /**
+     * A URI scalar that accepts URI strings and produces {@link java.net.URI} objects at runtime
+     */
+    public static final GraphQLScalarType Uri = UriScalar.INSTANCE;
 
     /**
      * A URL scalar that accepts URL strings and produces {@link java.net.URL} objects at runtime
