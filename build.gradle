@@ -8,7 +8,7 @@ plugins {
     id 'maven-publish'
     id 'signing'
     id "io.github.gradle-nexus.publish-plugin" version "2.0.0"
-    id "biz.aQute.bnd.builder" version "6.4.0"
+    id "biz.aQute.bnd.builder" version "7.1.0"
 }
 
 java {
@@ -45,6 +45,7 @@ dependencies {
 
     testImplementation "org.spockframework:spock-core:2.3-groovy-3.0"
     testImplementation "org.codehaus.groovy:groovy:3.0.25"
+    testRuntimeOnly "org.junit.platform:junit-platform-launcher"
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
@@ -73,9 +74,9 @@ publishing {
     publications {
         maven(MavenPublication) {
             from components.java
-            groupId group
-            artifactId 'graphql-java-extended-scalars'
-            version version
+            groupId = group
+            artifactId = 'graphql-java-extended-scalars'
+            version = version
 
             artifact sourcesJar
             artifact javadocJar
