@@ -61,6 +61,9 @@ public final class ObjectScalar {
                         "Expected AST type 'Value' but was '" + typeName(input) + "'."
                 );
             }
+            if (input instanceof NullValue) {
+                return null;
+            }
             if (input instanceof FloatValue) {
                 return ((FloatValue) input).getValue();
             }
@@ -91,12 +94,7 @@ public final class ObjectScalar {
                 List<ObjectField> values = ((ObjectValue) input).getObjectFields();
                 Map<String, Object> parsedValues = new LinkedHashMap<>();
                 values.forEach(fld -> {
-                    Object parsedValue;
-                    if (fld.getValue() instanceof NullValue) { // Nested NullValue inside ObjectValue
-                        parsedValue = null;
-                    } else {
-                        parsedValue = parseLiteral(fld.getValue(), variables, graphQLContext, locale);
-                    }
+                    Object parsedValue = parseLiteral(fld.getValue(), variables, graphQLContext, locale);
                     parsedValues.put(fld.getName(), parsedValue);
                 });
                 return parsedValues;
