@@ -37,6 +37,7 @@ class ObjectScalarTest extends AbstractScalarTest {
         result == expectedResult
         where:
         input                                       | expectedResult
+        mkNullValue()                               | null
         mkStringValue("s")                          | "s"
         mkFloatValue("99.9")                        | new BigDecimal("99.9")
         mkIntValue(666)                             | 666
@@ -46,6 +47,12 @@ class ObjectScalarTest extends AbstractScalarTest {
         mkArrayValue([
                 mkStringValue("s"), mkIntValue(666)
         ] as List<Value>)                           | ["s", 666]
+        mkArrayValue([
+                mkNullValue(), mkIntValue(1), mkNullValue()
+        ] as List<Value>)                           | [null, 1, null]
+        mkArrayValue([
+                mkArrayValue([mkNullValue()] as List<Value>)
+        ] as List<Value>)                           | [[null]]
     }
 
     @Unroll
@@ -69,6 +76,10 @@ class ObjectScalarTest extends AbstractScalarTest {
         mkObjectValue([
                 field1: mkNullValue()
         ] as Map<String, Value>)                            | [field1: null] // Nested NullValue inside ObjectValue
+
+        mkObjectValue([
+                items: mkArrayValue([mkIntValue(1), mkNullValue()] as List<Value>)
+        ] as Map<String, Value>)                            | [items: [1, null]]
     }
 
     @Unroll
