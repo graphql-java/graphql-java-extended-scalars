@@ -2,11 +2,12 @@ name: Pull Request Build
 # For pull requests: builds and test
 on:
   push:
-    branches:
-      - '!master'
+    branches-ignore:
+      - master
   pull_request:
     branches:
       - master
+      - 24.x
       - 20.x
       - 19.x
       - 18.x
